@@ -14,7 +14,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.orangeAccent,
+        // backgroundColor: Colors.white,
         title: const Text(
           "Srimad Bhagwad Gita",
           style: TextStyle(fontWeight: FontWeight.bold),
@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(15.0),
+        padding: const EdgeInsets.only(top: 15, left: 15, right: 15),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -100,6 +100,7 @@ class _HomePageState extends State<HomePage> {
             ),
             Expanded(
               child: ListView.builder(
+                shrinkWrap: true,
                   itemCount: 18,
                   itemBuilder: (context, position) {
                     return ChapterWidgetCard(

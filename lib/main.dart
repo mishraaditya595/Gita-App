@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sbg/ui/about_page.dart';
-import 'package:sbg/ui/home_page.dart';
-import 'package:sbg/ui/saved_page.dart';
+import 'package:sbg/ui/screens/about_page.dart';
+import 'package:sbg/ui/screens/home_page.dart';
+import 'package:sbg/ui/screens/saved_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -56,8 +56,9 @@ class _MyHomePageState extends State<MyHomePage> {
       bottomNavigationBar: BottomNavigationBar(
         elevation: 10,
         currentIndex: selectedIndex,
+        backgroundColor: Colors.white,
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-        selectedIconTheme: IconThemeData(color: Colors.orange[700], size: 30),
+        selectedIconTheme: IconThemeData(color: Colors.orange, size: 30),
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),

@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sbg/ui/screens/chapter_screen.dart';
 
 class ChapterWidgetCard extends StatefulWidget {
   final int chapterNumber;
@@ -22,11 +25,12 @@ class ChapterWidgetCard extends StatefulWidget {
 class _ChapterWidgetCardState extends State<ChapterWidgetCard> {
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15.0),
-        ),
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+      ),
+      child: InkWell(
+        onTap: () => onCardTapped(widget.chapterNumber, widget.chapterName),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -53,14 +57,24 @@ class _ChapterWidgetCardState extends State<ChapterWidgetCard> {
                   )
                 ],
               ),
-              Align(
-                  alignment: Alignment.centerRight,
-                  child: IconButton(onPressed: () {}, icon: const Icon(Icons.navigate_next))
-              )
+              IconButton(
+                  onPressed: () {
+                    onCardTapped(widget.chapterNumber, widget.chapterName);
+                  },
+                  icon: const Icon(Icons.navigate_next))
             ],
           ),
         ),
       ),
     );
+  }
+
+  onCardTapped(int chapterNumber, String chapterName) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>
+        ChapterScreen(
+          chapterNumber: chapterNumber,
+          chapterName: chapterName,
+        )));
+    log("Card $chapterNumber tapped");
   }
 }
