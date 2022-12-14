@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
           icon: const Icon(Icons.sync),
         ),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.person))],
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(15.0),
