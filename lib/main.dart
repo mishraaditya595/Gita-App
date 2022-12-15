@@ -55,23 +55,15 @@ class _MyHomePageState extends State<MyHomePage> {
       body: pages[selectedIndex] ,
       bottomNavigationBar: BottomNavigationBar(
         elevation: 10,
-        // showElevation: true,
         currentIndex: selectedIndex,
-        // selectedIndex: selectedIndex,
         backgroundColor: Colors.white,
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
         selectedIconTheme: IconThemeData(color: Colors.orange, size: 30),
         onTap: _onItemTapped,
-        // onItemSelected: (index) => setState(() {
-        //   selectedIndex = index;
-        //   _pageController.animateToPage(index,
-        //       duration: Duration(milliseconds: 300), curve: Curves.ease);
-        // }),
-        // onItemSelected: _onItemTapped,
-        items:  const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label:"Home"),
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.save), label: "Saved"),
-          BottomNavigationBarItem(icon: Icon(Icons.question_mark), label: "About"),
+          BottomNavigationBarItem(icon: Icon(Icons.question_mark), label: "About")
         ],
       ),
     );
