@@ -38,9 +38,8 @@ class _ChapterScreenState extends State<ChapterScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // backgroundColor: Colors.white70,
-        // elevation: 0,
         title: Text("Chapter ${widget.chapterNumber}"),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 15, left: 25, right: 25),
@@ -52,7 +51,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                   alignment: Alignment.topCenter,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 12.0),
-                    child:Text(widget.chapterName.toUpperCase(), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                    child:Text(widget.chapterName.toUpperCase(), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.orange),),
                     ),
                   ),
                 const SizedBox(height: 20,),
