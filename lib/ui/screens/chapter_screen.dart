@@ -51,7 +51,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                   alignment: Alignment.topCenter,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 12.0),
-                    child:Text(widget.chapterName.toUpperCase(), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.orange),),
+                    child:Text(widget.chapterName.toUpperCase(), style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.deepOrange),),
                     ),
                   ),
                 const SizedBox(height: 20,),
