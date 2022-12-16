@@ -97,7 +97,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(3, 7618862879632358247),
       name: 'ChapterDetailedModel',
-      lastPropertyId: const IdUid(8, 2489769599131382820),
+      lastPropertyId: const IdUid(9, 3481225164697122688),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -139,6 +139,11 @@ final _entities = <ModelEntity>[
             id: const IdUid(8, 2489769599131382820),
             name: 'commentary',
             type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(9, 3481225164697122688),
+            name: 'verseNumberInt',
+            type: 6,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -272,7 +277,7 @@ ModelDefinition getObjectBoxModel() {
           final wordMeaningsOffset = fbb.writeString(object.wordMeanings);
           final translationOffset = fbb.writeString(object.translation);
           final commentaryOffset = fbb.writeString(object.commentary);
-          fbb.startTable(9);
+          fbb.startTable(10);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, verseNumberOffset);
           fbb.addOffset(2, chapterNumberOffset);
@@ -281,6 +286,7 @@ ModelDefinition getObjectBoxModel() {
           fbb.addOffset(5, wordMeaningsOffset);
           fbb.addOffset(6, translationOffset);
           fbb.addOffset(7, commentaryOffset);
+          fbb.addInt64(8, object.verseNumberInt);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -303,7 +309,9 @@ ModelDefinition getObjectBoxModel() {
               translation: const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 16, ''),
               commentary: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 18, ''));
+                  .vTableGet(buffer, rootOffset, 18, ''),
+              verseNumberInt:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 20, 0));
 
           return object;
         })
@@ -395,4 +403,8 @@ class ChapterDetailedModel_ {
   /// see [ChapterDetailedModel.commentary]
   static final commentary =
       QueryStringProperty<ChapterDetailedModel>(_entities[2].properties[7]);
+
+  /// see [ChapterDetailedModel.verseNumberInt]
+  static final verseNumberInt =
+      QueryIntegerProperty<ChapterDetailedModel>(_entities[2].properties[8]);
 }

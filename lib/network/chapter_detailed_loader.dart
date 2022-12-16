@@ -51,6 +51,7 @@ class ChapterDetailedLoader {
         wordMeanings: chapterDetailed['word_meanings'].toString() ?? '',
         translation: chapterDetailed['translation'].toString() ?? '',
         commentary: chapterDetailed['commentary'].toString() ?? '',
+        verseNumberInt: chapterDetailed['verse_number'].toInt() ?? -1,
     );
     return chapterDetailedModel;
   }

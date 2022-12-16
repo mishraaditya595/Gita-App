@@ -78,7 +78,7 @@
     },
     {
       "id": "3:7618862879632358247",
-      "lastPropertyId": "8:2489769599131382820",
+      "lastPropertyId": "9:3481225164697122688",
       "name": "ChapterDetailedModel",
       "properties": [
         {
@@ -121,6 +121,11 @@
           "id": "8:2489769599131382820",
           "name": "commentary",
           "type": 9
+        },
+        {
+          "id": "9:3481225164697122688",
+          "name": "verseNumberInt",
+          "type": 6
         }
       ],
       "relations": []

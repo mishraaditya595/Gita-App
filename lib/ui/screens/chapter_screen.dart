@@ -24,18 +24,10 @@ class ChapterScreen extends StatefulWidget {
 class _ChapterScreenState extends State<ChapterScreen> {
 
   int? chapterSummaryLines = 4;
-  Store? store = null;
   bool isNotExpanded = true;
   String expandSummaryText = "READ MORE";
   ScrollController? _controller;
   List<ChapterDetailedModel> chapterDetailedList = [];
-  ChapterDetailedModel verse = ChapterDetailedModel(verseNumber: "",
-      chapterNumber: "",
-      text: "",
-      transliteration: "",
-      wordMeanings: "",
-      translation: "",
-      commentary: "");
 
   @override
   void initState() {
@@ -44,16 +36,9 @@ class _ChapterScreenState extends State<ChapterScreen> {
       expandSummaryText = "READ MORE";
     });
     fetchChapterDetails();
-    getStore();
     _controller = ScrollController();
     _controller?.addListener(scrollListener);
     super.initState();
-  }
-
-  getStore() async {
-    setState(() async {
-      store = await ObjectBox().getStore();
-    });
   }
 
   @override
@@ -74,9 +59,13 @@ class _ChapterScreenState extends State<ChapterScreen> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 12.0),
                     child: Text(widget.chapterName.toUpperCase(),
-                      style: const TextStyle(fontSize: 20,
+                      style: const TextStyle(
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.deepOrange),),
+                          color: Colors.deepOrange
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 20,),
@@ -124,6 +113,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                             wordMeanings: chapterDetailedList[position].wordMeanings,
                             translation: chapterDetailedList[position].translation,
                             commentary: chapterDetailedList[position].commentary,
+                            verseNumberInt: chapterDetailedList[position].verseNumberInt,
                         ),
 
                       );
@@ -157,47 +147,18 @@ class _ChapterScreenState extends State<ChapterScreen> {
 
   Future<void> fetchChapterDetails() async {
     Store store = await ObjectBox().getStore();
-    // List<ChapterDetailedModel> _chapterDetailedList = store.box<ChapterDetailedModel>().getAll();
     Box<ChapterDetailedModel> chapterDetailedModelBox = store.box<
         ChapterDetailedModel>();
     QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
         .query(
         ChapterDetailedModel_.chapterNumber.equals("${widget.chapterNumber}"))
-      ..order(ChapterDetailedModel_.verseNumber);
+      ..order(ChapterDetailedModel_.verseNumberInt);
     Query<ChapterDetailedModel> query = queryBuilder.build();
     List<ChapterDetailedModel>? _chapterDetailedList = query.find();
-
 
     setState(() {
       chapterDetailedList.addAll(_chapterDetailedList);
     });
     store.close();
-  }
-
-  getVerseDetails(int chapterNumber, int position)  {
-    Box<ChapterDetailedModel>? chapterDetailedModelBox = store?.box<
-        ChapterDetailedModel>();
-    QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
-        !.query(
-        ChapterDetailedModel_.chapterNumber.equals("$chapterNumber") &
-        ChapterDetailedModel_.verseNumber.equals("${position + 1}"))
-      ..order(ChapterDetailedModel_.verseNumber);
-    Query<ChapterDetailedModel> query = queryBuilder.build();
-    List<ChapterDetailedModel>? _chapterDetailedList = query.find();
-
-    setState(() {
-    });
-    ChapterDetailedModel _verse = ChapterDetailedModel(
-        verseNumber: _chapterDetailedList[0].verseNumber,
-        chapterNumber: _chapterDetailedList[0].chapterNumber,
-        text: _chapterDetailedList[0].text,
-        transliteration: _chapterDetailedList[0].transliteration,
-        wordMeanings: _chapterDetailedList[0].wordMeanings,
-        translation: _chapterDetailedList[0].translation,
-        commentary: _chapterDetailedList[0].commentary
-    );
-
-    store?.close();
-    return _verse;
   }
 }

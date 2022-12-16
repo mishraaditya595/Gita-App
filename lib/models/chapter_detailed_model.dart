@@ -11,6 +11,7 @@ class ChapterDetailedModel {
   String wordMeanings;
   String translation;
   String commentary;
+  int verseNumberInt;
 
   ChapterDetailedModel({
     this.id = 0,
@@ -21,5 +22,6 @@ class ChapterDetailedModel {
     required this.wordMeanings,
     required this.translation,
     required this.commentary,
+    required this.verseNumberInt,
   });
 }
