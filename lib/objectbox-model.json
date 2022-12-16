@@ -75,9 +75,58 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "3:7618862879632358247",
+      "lastPropertyId": "8:2489769599131382820",
+      "name": "ChapterDetailedModel",
+      "properties": [
+        {
+          "id": "1:7814200177994787930",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:507314777544254679",
+          "name": "verseNumber",
+          "type": 9
+        },
+        {
+          "id": "3:253621234745480539",
+          "name": "chapterNumber",
+          "type": 9
+        },
+        {
+          "id": "4:2846043642733761091",
+          "name": "text",
+          "type": 9
+        },
+        {
+          "id": "5:8540478124424824320",
+          "name": "transliteration",
+          "type": 9
+        },
+        {
+          "id": "6:7803530936679913570",
+          "name": "wordMeanings",
+          "type": 9
+        },
+        {
+          "id": "7:1843835183797925484",
+          "name": "translation",
+          "type": 9
+        },
+        {
+          "id": "8:2489769599131382820",
+          "name": "commentary",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "2:2350201788602494012",
+  "lastEntityId": "3:7618862879632358247",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:sbg/models/chapter_detailed_model.dart';
+import 'package:sbg/network/chapter_detailed_loader.dart';
 import 'package:sbg/network/chapter_summary_loader.dart';
 import 'package:sbg/ui/screens/about_page.dart';
 import 'package:sbg/ui/screens/home_page.dart';
@@ -89,6 +91,7 @@ class _MyAppState extends State<MyApp> {
     });
     if(shouldMakeApiCall == "true") {
       ChapterSummaryLoader().getDataFromDB();
+      ChapterDetailedLoader().getDataFromDB();
     }
   }
 }

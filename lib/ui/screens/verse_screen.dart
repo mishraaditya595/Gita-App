@@ -1,12 +1,19 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:objectbox/objectbox.dart';
+
+import '../../models/chapter_detailed_model.dart';
+import '../../objectbox.dart';
+import '../../objectbox.g.dart';
 
 class VerseScreen extends StatefulWidget {
   final int chapterNumber;
   final int verseNumber;
+  final ChapterDetailedModel verseDetails;
 
-  const VerseScreen(
-      {Key? key, required this.chapterNumber, required this.verseNumber})
+  const VerseScreen({Key? key, required this.chapterNumber, required this.verseNumber, required this.verseDetails})
       : super(key: key);
 
   @override
@@ -14,6 +21,15 @@ class VerseScreen extends StatefulWidget {
 }
 
 class _VerseScreenState extends State<VerseScreen> {
+
+  List<ChapterDetailedModel> verseList = [];
+
+  @override
+  void initState() {
+    // fetchVerseDetails();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,18 +46,18 @@ class _VerseScreenState extends State<VerseScreen> {
               Align(
                 alignment: Alignment.center,
                 child: Padding(
-                  padding: EdgeInsets.only(top: 12.0),
+                  padding: const EdgeInsets.only(top: 12.0),
                   child: Column(
                     children: [
                       Card(
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
-                        child: const Padding(
-                          padding: EdgeInsets.all(8.0),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            "धृतराष्ट्र उवाचधर्मक्षेत्रे कुरुक्षेत्रे समवेता युयुत्सवः।मामकाः पाण्डवाश्चैव किमकुर्वत सञ्जय।।1.1।।",
-                            style: TextStyle(
+                            widget.verseDetails.text ?? '',
+                            style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 20,
                               color: Colors.deepOrange,
@@ -56,85 +72,85 @@ class _VerseScreenState extends State<VerseScreen> {
                       const Divider(
                         color: Colors.orangeAccent,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Text(
+                      const Text(
                         "TRANSLITERATION",
                         style: TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 16),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       Text(
-                        "dhṛitarāśhtra uvāchadharma-kṣhetre kuru-kṣhetre samavetā yuyutsavaḥmāmakāḥ pāṇḍavāśhchaiva kimakurvata sañjaya",
+                        widget.verseDetails.transliteration ?? '',
                         textAlign: TextAlign.center,
-                        style: TextStyle(fontWeight: FontWeight.w600),
+                        style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.orangeAccent,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Text(
+                      const Text(
                         "WORD MEANING",
                         style: TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 16),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       Text(
-                        "dhṛitarāśhtraḥ uvācha—Dhritarashtra said; dharma-kṣhetre—the land of dharma; kuru-kṣhetre—at Kurukshetra; samavetāḥ—having gathered; yuyutsavaḥ—desiring to fight; māmakāḥ—my sons; pāṇḍavāḥ—the sons of Pandu; cha—and; eva—certainly; kim—what; akurvata—did they do; sañjaya—Sanjay",
+                        widget.verseDetails.wordMeanings ?? '',
                         textAlign: TextAlign.justify,
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.orangeAccent,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Text(
+                      const Text(
                         "TRANSLATION",
                         style: TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 16),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       Text(
-                        "1.1 Dhritarashtra said  What did my people and the sons of Pandu do when they had assembledtogether eager for battle on the holy plain of Kurukshetra, O Sanjaya.",
+                        widget.verseDetails.translation ?? '',
                         textAlign: TextAlign.justify,
-                        style: TextStyle(fontWeight: FontWeight.w600),
+                        style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Divider(
+                      const Divider(
                         color: Colors.orangeAccent,
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 20,
                       ),
-                      Text(
+                      const Text(
                         "COMMENTARY",
                         style: TextStyle(
                             fontWeight: FontWeight.w700, fontSize: 16),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 15,
                       ),
                       Text(
-                        "1.1 धर्मक्षेत्रे on the holy plain? कुरुक्षेत्रे in Kurukshetra? समवेताः assembled together? युयुत्सवः desirous to fight? मामकाः my people? पाण्डवाः the sons of Pandu? च and? एव also? किम् what? अकुर्वत did do? सञ्जय O Sanjaya. \n \n Commentary \n \n Dharmakshetra -- that place which protects Dharma is Dharmakshetra. Because it was in the land of the Kurus? it was called Kurukshetra.Sanjaya is one who has conered likes and dislikes and who is impartial.",
+                        widget.verseDetails.commentary ?? '',
                         textAlign: TextAlign.justify,
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
@@ -147,5 +163,23 @@ class _VerseScreenState extends State<VerseScreen> {
         ]),
       ),
     );
+  }
+
+  Future<void> fetchVerseDetails() async {
+    Store store = await ObjectBox().getStore();
+    // List<ChapterDetailedModel> _chapterDetailedList = store.box<ChapterDetailedModel>().getAll();
+    Box<ChapterDetailedModel> chapterDetailedModelBox = store.box<ChapterDetailedModel>();
+    QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
+        .query(
+        ChapterDetailedModel_.chapterNumber.equals("${widget.chapterNumber}") &
+        ChapterDetailedModel_.verseNumber.equals("${widget.verseNumber}")
+    )
+      ..order(ChapterDetailedModel_.verseNumber);
+    Query<ChapterDetailedModel> query = queryBuilder.build();
+    List<ChapterDetailedModel>? _chapterDetailedList = query.find();
+    setState(() {
+      verseList.addAll(_chapterDetailedList);
+    });
+    store.close();
   }
 }

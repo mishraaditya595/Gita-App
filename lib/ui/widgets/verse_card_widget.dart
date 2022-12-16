@@ -4,12 +4,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sbg/ui/screens/verse_screen.dart';
 
+import '../../models/chapter_detailed_model.dart';
+
 class VerseCardWidget extends StatefulWidget {
 
   final int chapterNumber;
   final int verseNumber;
+  final String verseText;
+  final ChapterDetailedModel verseDetails;
 
-  const VerseCardWidget({Key? key, required this.chapterNumber, required this.verseNumber}) : super(key: key);
+  const VerseCardWidget({
+    Key? key,
+    required this.chapterNumber,
+    required this.verseNumber,
+    required this.verseText,
+    required this.verseDetails,
+  }) : super(key: key);
 
   @override
   State<VerseCardWidget> createState() => _VerseCardWidgetState();
@@ -39,12 +49,12 @@ class _VerseCardWidgetState extends State<VerseCardWidget> {
                 ],
               ),
               // const SizedBox(height: 10,),
-              const Align(
+               Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Text(
-                      "1.7. Know also, O best among the twice-born! the names of thosewho are the most distinguished amongst ourselves, the leaders of my army;these I name to thee for thy information."
+                      widget.verseText
                   ),
                 ),
               )
@@ -59,7 +69,8 @@ class _VerseCardWidgetState extends State<VerseCardWidget> {
     Navigator.push(context, MaterialPageRoute(builder: (context) =>
         VerseScreen(
           chapterNumber: chapterNumber,
-          verseNumber: verseNumber ,
+          verseNumber: verseNumber,
+          verseDetails: widget.verseDetails ,
         )));
     log("Card $verseNumber tapped");
   }

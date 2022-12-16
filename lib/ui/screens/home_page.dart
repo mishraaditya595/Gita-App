@@ -7,7 +7,9 @@ import 'package:sbg/objectbox.dart';
 import 'package:sbg/ui/screens/verse_screen.dart';
 import 'package:sbg/ui/widgets/chapter_card_widget.dart';
 
+import '../../models/chapter_detailed_model.dart';
 import '../../models/chapter_summary_model.dart';
+import '../../objectbox.g.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -20,11 +22,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   List<ChapterSummaryModel> chapterSummaryList = [];
+  List<ChapterDetailedModel> chapterDetailedList = [];
 
   @override
   void initState() {
     fetchChapterSummary();
-
     super.initState();
   }
 
@@ -145,7 +147,16 @@ class _HomePageState extends State<HomePage> {
     Navigator.push(context, MaterialPageRoute(builder: (context) =>
         VerseScreen(
           chapterNumber: chapterNumber,
-          verseNumber: verseNumber ,
+          verseNumber: verseNumber,
+          verseDetails: ChapterDetailedModel(
+        verseNumber: chapterDetailedList[verseNumber].verseNumber,
+          chapterNumber: chapterDetailedList[verseNumber].chapterNumber,
+          text: chapterDetailedList[verseNumber].text,
+          transliteration: chapterDetailedList[verseNumber].transliteration,
+          wordMeanings: chapterDetailedList[verseNumber].wordMeanings,
+          translation: chapterDetailedList[verseNumber].translation,
+          commentary: chapterDetailedList[verseNumber].commentary,
+        ),
         )));
     // log("Card $verseNumber tapped");
   }
@@ -156,6 +167,25 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       chapterSummaryList.addAll(_chapterSummaryList);
     });
+    store.close();
+  }
+
+  Future<void> fetchChapterDetails() async {
+    Store store = await ObjectBox().getStore();
+    // List<ChapterDetailedModel> _chapterDetailedList = store.box<ChapterDetailedModel>().getAll();
+    Box<ChapterDetailedModel> chapterDetailedModelBox = store.box<
+        ChapterDetailedModel>();
+    QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
+        .query(
+        ChapterDetailedModel_.chapterNumber.equals("1"))
+      ..order(ChapterDetailedModel_.verseNumber);
+    Query<ChapterDetailedModel> query = queryBuilder.build();
+    List<ChapterDetailedModel>? _chapterDetailedList = query.find();
+
+    setState(() {
+      chapterDetailedList.addAll(_chapterDetailedList);
+    });
+    store.close();
   }
 
 }
