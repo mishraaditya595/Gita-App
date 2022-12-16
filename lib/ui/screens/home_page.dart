@@ -1,7 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:objectbox/objectbox.dart';
+import 'package:sbg/objectbox.dart';
 import 'package:sbg/ui/screens/verse_screen.dart';
 import 'package:sbg/ui/widgets/chapter_card_widget.dart';
+
+import '../../models/chapter_summary_model.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -11,6 +18,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+
+  List<ChapterSummaryModel> chapterSummaryList = [];
+
+  @override
+  void initState() {
+    fetchChapterSummary();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +45,7 @@ class _HomePageState extends State<HomePage> {
         centerTitle: true,
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 15),
+        padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 0),
         child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -108,13 +125,13 @@ class _HomePageState extends State<HomePage> {
           Expanded(
             child: ListView.builder(
               shrinkWrap: true,
-                itemCount: 18,
+                itemCount: chapterSummaryList.length,
                 itemBuilder: (context, position) {
                   return ChapterWidgetCard(
                     chapterNumber: position + 1,
-                    chapterName: 'Karma Yoga',
-                    verseCount: 43,
-                    chapterSummary: 'The third chapter of the Bhagavad Gita is Karma Yoga or the Path of Selfless Service. Here Lord Krishna emphasizes the importance of karma in life. He reveals that it is important for every human being to engage in some sort of activity in this material world. Further, he describes the kinds of actions that lead to bondage and the kinds that lead to liberation. Those persons who continue to perform their respective duties externally for the pleasure of the Supreme, without attachment to its rewards get liberation at the end.',
+                    chapterName: chapterSummaryList[position].nameTranslated,
+                    verseCount: chapterSummaryList[position].verseCount,
+                    chapterSummary: chapterSummaryList[position].summary,
                   );
                 }),
           )
@@ -132,4 +149,13 @@ class _HomePageState extends State<HomePage> {
         )));
     // log("Card $verseNumber tapped");
   }
+
+  Future<void> fetchChapterSummary() async {
+    Store store = await ObjectBox().getStore();
+    List<ChapterSummaryModel> _chapterSummaryList = store.box<ChapterSummaryModel>().getAll();
+    setState(() {
+      chapterSummaryList.addAll(_chapterSummaryList);
+    });
+  }
+
 }

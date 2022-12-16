@@ -7,8 +7,9 @@ class ChapterScreen extends StatefulWidget {
 
   final int chapterNumber;
   final String chapterName;
+  final String chapterSummary;
 
-  const ChapterScreen({Key? key, required this.chapterNumber, required this.chapterName}) : super(key: key);
+  const ChapterScreen({Key? key, required this.chapterNumber, required this.chapterName, required this.chapterSummary}) : super(key: key);
 
 
   @override
@@ -57,8 +58,8 @@ class _ChapterScreenState extends State<ChapterScreen> {
                 const SizedBox(height: 20,),
                 Visibility(
                   visible: isNotExpanded,
-                  child: const Text(
-                    "The eighth chapter of the Bhagavad Gita is Akshara Brahma Yoga. In this chapter, Krishna reveals the importance of the last thought before death. If we can remember Krishna at the time of death, we will certainly attain him. Thus, it is very important to be in constant awareness of the Lord at all times, thinking of Him and chanting His names at all times. By perfectly absorbing their mind in Him through constant devotion, one can go beyond this material existence to Lord's Supreme abode.",
+                  child: Text(
+                    widget.chapterSummary,
                     softWrap: true,
                     maxLines: 4,
                     overflow: TextOverflow.ellipsis,
@@ -66,8 +67,8 @@ class _ChapterScreenState extends State<ChapterScreen> {
                 ),
                 Visibility(
                   visible: !isNotExpanded,
-                  child: const Text(
-                    "The eighth chapter of the Bhagavad Gita is Akshara Brahma Yoga. In this chapter, Krishna reveals the importance of the last thought before death. If we can remember Krishna at the time of death, we will certainly attain him. Thus, it is very important to be in constant awareness of the Lord at all times, thinking of Him and chanting His names at all times. By perfectly absorbing their mind in Him through constant devotion, one can go beyond this material existence to Lord's Supreme abode.",),
+                  child: Text(
+                      widget.chapterSummary,),
                 ),
                 const SizedBox(height: 10,),
                 Align(

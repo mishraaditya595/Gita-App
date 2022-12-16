@@ -26,9 +26,58 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "2:2350201788602494012",
+      "lastPropertyId": "8:6103684077434242666",
+      "name": "ChapterSummaryModel",
+      "properties": [
+        {
+          "id": "1:182760544844671507",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:1802463272824079836",
+          "name": "chapterNumber",
+          "type": 9
+        },
+        {
+          "id": "3:7871431140520090221",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "4:6722033517699587566",
+          "name": "nameTranslated",
+          "type": 9
+        },
+        {
+          "id": "5:2985087891785445337",
+          "name": "verseCount",
+          "type": 6
+        },
+        {
+          "id": "6:4467316685528866174",
+          "name": "nameMeaning",
+          "type": 9
+        },
+        {
+          "id": "7:4041535331279969723",
+          "name": "summary",
+          "type": 9
+        },
+        {
+          "id": "8:6103684077434242666",
+          "name": "summaryHindi",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "1:4605464640859024041",
+  "lastEntityId": "2:2350201788602494012",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
