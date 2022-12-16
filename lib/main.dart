@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/network/chapter_detailed_loader.dart';
 import 'package:sbg/network/chapter_summary_loader.dart';
@@ -47,23 +48,25 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.orange,
-      ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-      home: SplashScreen(
-          seconds: splashScreenLoaderTime,
-          navigateAfterSeconds: MyHomePage(title: '',),
-          title: const Text('Welcome In SplashScreen'),
-          image: Image.asset("assets/images/temp_radha_krishna.jpeg"),
-          backgroundColor: Colors.white,
-          styleTextUnderTheLoader: const TextStyle(),
-          photoSize: 100.0,
-          loadingText: const Text("Loading..."),
-          loaderColor: Colors.orange
+    return Phoenix(
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primarySwatch: Colors.orange,
+        ),
+        // home: const MyHomePage(title: 'Flutter Demo Home Page'),
+        home: SplashScreen(
+            seconds: splashScreenLoaderTime,
+            navigateAfterSeconds: MyHomePage(title: '',),
+            title: const Text('Welcome In SplashScreen'),
+            image: Image.asset("assets/images/temp_radha_krishna.jpeg"),
+            backgroundColor: Colors.white,
+            styleTextUnderTheLoader: const TextStyle(),
+            photoSize: 100.0,
+            loadingText: const Text("Loading..."),
+            loaderColor: Colors.orange
+        ),
       ),
     );
   }

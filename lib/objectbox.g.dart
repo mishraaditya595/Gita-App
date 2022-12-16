@@ -17,6 +17,7 @@ import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 import 'models/change_data_model.dart';
 import 'models/chapter_detailed_model.dart';
 import 'models/chapter_summary_model.dart';
+import 'models/last_read_model.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -147,6 +148,30 @@ final _entities = <ModelEntity>[
             flags: 0)
       ],
       relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(4, 2916574112982275347),
+      name: 'LastReadModel',
+      lastPropertyId: const IdUid(3, 3489676501494633631),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 3544216668367809788),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 3237198461996679234),
+            name: 'lastReadVerseText',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 3489676501494633631),
+            name: 'lastReadVerseNum',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
 ];
 
@@ -170,7 +195,7 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(3, 7618862879632358247),
+      lastEntityId: const IdUid(4, 2916574112982275347),
       lastIndexId: const IdUid(0, 0),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
@@ -314,6 +339,39 @@ ModelDefinition getObjectBoxModel() {
                   const fb.Int64Reader().vTableGet(buffer, rootOffset, 20, 0));
 
           return object;
+        }),
+    LastReadModel: EntityDefinition<LastReadModel>(
+        model: _entities[3],
+        toOneRelations: (LastReadModel object) => [],
+        toManyRelations: (LastReadModel object) => {},
+        getId: (LastReadModel object) => object.id,
+        setId: (LastReadModel object, int id) {
+          object.id = id;
+        },
+        objectToFB: (LastReadModel object, fb.Builder fbb) {
+          final lastReadVerseTextOffset =
+              fbb.writeString(object.lastReadVerseText);
+          final lastReadVerseNumOffset =
+              fbb.writeString(object.lastReadVerseNum);
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, lastReadVerseTextOffset);
+          fbb.addOffset(2, lastReadVerseNumOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = LastReadModel(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              lastReadVerseText: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              lastReadVerseNum: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, ''));
+
+          return object;
         })
   };
 
@@ -407,4 +465,19 @@ class ChapterDetailedModel_ {
   /// see [ChapterDetailedModel.verseNumberInt]
   static final verseNumberInt =
       QueryIntegerProperty<ChapterDetailedModel>(_entities[2].properties[8]);
+}
+
+/// [LastReadModel] entity fields to define ObjectBox queries.
+class LastReadModel_ {
+  /// see [LastReadModel.id]
+  static final id =
+      QueryIntegerProperty<LastReadModel>(_entities[3].properties[0]);
+
+  /// see [LastReadModel.lastReadVerseText]
+  static final lastReadVerseText =
+      QueryStringProperty<LastReadModel>(_entities[3].properties[1]);
+
+  /// see [LastReadModel.lastReadVerseNum]
+  static final lastReadVerseNum =
+      QueryStringProperty<LastReadModel>(_entities[3].properties[2]);
 }

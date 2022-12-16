@@ -3,6 +3,8 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:objectbox/objectbox.dart';
+import 'package:sbg/models/last_read_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/chapter_detailed_model.dart';
 import '../../objectbox.dart';
@@ -26,7 +28,7 @@ class _VerseScreenState extends State<VerseScreen> {
 
   @override
   void initState() {
-    // fetchVerseDetails();
+    addVerseToLastRead(widget.verseDetails);
     super.initState();
   }
 
@@ -180,6 +182,22 @@ class _VerseScreenState extends State<VerseScreen> {
     setState(() {
       verseList.addAll(_chapterDetailedList);
     });
+    store.close();
+  }
+
+  Future<void> addVerseToLastRead(ChapterDetailedModel verseDetails) async {
+    Store store = await ObjectBox().getStore();
+    Box<LastReadModel> lastReadModelBox = store.box<LastReadModel>();
+    lastReadModelBox.removeAll();
+    lastReadModelBox.put(
+        LastReadModel(
+            lastReadVerseText: verseDetails.translation,
+            lastReadVerseNum: "${verseDetails.chapterNumber}.${verseDetails.verseNumber}",
+        )
+    );
+
+    debugPrint("Verse added to last read: ${verseDetails.translation}");
+
     store.close();
   }
 }

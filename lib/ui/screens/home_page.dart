@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:sbg/objectbox.dart';
 import 'package:sbg/ui/screens/verse_screen.dart';
@@ -10,6 +11,7 @@ import 'package:sbg/ui/widgets/chapter_card_widget.dart';
 
 import '../../models/chapter_detailed_model.dart';
 import '../../models/chapter_summary_model.dart';
+import '../../models/last_read_model.dart';
 import '../../objectbox.g.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,11 +25,15 @@ class _HomePageState extends State<HomePage> {
   List<ChapterSummaryModel> chapterSummaryList = [];
   List<ChapterDetailedModel> chapterDetailedList = [];
   String verseOfTheDay = "";
+  String lastReadVerseText = "";
+  String lastReadVerseNum = "";
+  bool isLastReadAvailable = false;
 
   @override
   void initState() {
-    fetchChapterSummary();
-    fetchVerseOfTheDay();
+    // fetchChapterSummary();
+    // fetchVerseOfTheDayAndLastRead();
+    fetchData();
     super.initState();
   }
 
@@ -41,7 +47,7 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         leading: IconButton(
-          onPressed: () {},
+          onPressed: () {Phoenix.rebirth(context);},
           icon: const Icon(Icons.sync),
         ),
         actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.person))],
@@ -112,27 +118,34 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(
               height: 20,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                Text(
-                  "LAST READ",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                Text(
-                  "Verse 1.11",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            const Text(
-              "1.6. The strong Yodhamanyu and the brave Uttamaujas, the sonof Subhadra (Abhimanyu, the son of Subhadra and Arjuna), and the sons ofDraupadi, all of great chariots (great heroes).",
-              style: TextStyle(color: Colors.black),
-              overflow: TextOverflow.fade,
-              maxLines: 2,
+            Visibility(
+              visible: isLastReadAvailable,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children:  [
+                      const Text(
+                        "LAST READ",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "Verse: ${lastReadVerseNum}",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    lastReadVerseText,
+                    style: const TextStyle(color: Colors.black),
+                    overflow: TextOverflow.fade,
+                    maxLines: 2,
+                  )
+                ],
+              ),
             ),
             // const SizedBox(
             //   height: 10,
@@ -221,7 +234,7 @@ class _HomePageState extends State<HomePage> {
     store.close();
   }
 
-  Future<void> fetchVerseOfTheDay() async {
+  Future<void> fetchVerseOfTheDayAndLastRead() async {
     Random random = Random();
     int randomChapterNumber = random.nextInt(18) + 1;
     // int verseCount = chapterSummaryList[randomChapterNumber - 1].verseCount;
@@ -238,9 +251,69 @@ class _HomePageState extends State<HomePage> {
     Query<ChapterDetailedModel> query = queryBuilder.build();
     List<ChapterDetailedModel>? queryList = query.find();
 
+    Box<LastReadModel> lastReadModelBox =
+    store.box<LastReadModel>();
+    List<LastReadModel> lastReadList = lastReadModelBox.getAll();
+
     debugPrint("Random: $randomChapterNumber $randomVerseNumber ${queryList[0].text}");
+
     setState(() {
       verseOfTheDay = queryList[0].translation;
+      if(lastReadList.isNotEmpty) {
+        debugPrint("Last Read Found: ${lastReadList[0].lastReadVerseText}");
+        lastReadVerseText = lastReadList[0].lastReadVerseText;
+        lastReadVerseNum = lastReadList[0].lastReadVerseNum;
+        isLastReadAvailable = true;
+      }
+    });
+    store.close();
+  }
+
+  Future<void> fetchData() async {
+    Store store = await ObjectBox().getStore();
+
+    List<ChapterSummaryModel> _chapterSummaryList =
+    store.box<ChapterSummaryModel>().getAll();
+
+    Box<ChapterDetailedModel> chapterDetailedModelBox =
+    store.box<ChapterDetailedModel>();
+    QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
+        .query(ChapterDetailedModel_.chapterNumber.equals("1"))
+      ..order(ChapterDetailedModel_.verseNumberInt);
+    Query<ChapterDetailedModel> query = queryBuilder.build();
+    List<ChapterDetailedModel>? _chapterDetailedList = query.find();
+
+    Random random = Random();
+    int randomChapterNumber = random.nextInt(18) + 1;
+    // int verseCount = chapterSummaryList[randomChapterNumber - 1].verseCount;
+    int randomVerseNumber = random.nextInt(20) + 1;
+
+    queryBuilder = chapterDetailedModelBox
+        .query(
+        ChapterDetailedModel_.chapterNumber.equals("$randomChapterNumber") &
+        ChapterDetailedModel_.verseNumber.equals("$randomVerseNumber")
+    )..order(ChapterDetailedModel_.verseNumberInt);
+    query = queryBuilder.build();
+    List<ChapterDetailedModel>? queryList = query.find();
+
+    Box<LastReadModel> lastReadModelBox =
+    store.box<LastReadModel>();
+    List<LastReadModel> lastReadList = lastReadModelBox.getAll();
+
+    debugPrint("Random: $randomChapterNumber $randomVerseNumber ${queryList[0].text}");
+
+    setState(() {
+      chapterSummaryList.addAll(_chapterSummaryList);
+
+      chapterDetailedList.addAll(_chapterDetailedList);
+
+      verseOfTheDay = queryList[0].translation;
+      if(lastReadList.isNotEmpty) {
+        debugPrint("Last Read Found: ${lastReadList[0].lastReadVerseText}");
+        lastReadVerseText = lastReadList[0].lastReadVerseText;
+        lastReadVerseNum = lastReadList[0].lastReadVerseNum;
+        isLastReadAvailable = true;
+      }
     });
     store.close();
   }
