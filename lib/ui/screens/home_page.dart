@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,10 +22,12 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<ChapterSummaryModel> chapterSummaryList = [];
   List<ChapterDetailedModel> chapterDetailedList = [];
+  String verseOfTheDay = "";
 
   @override
   void initState() {
     fetchChapterSummary();
+    fetchVerseOfTheDay();
     super.initState();
   }
 
@@ -79,10 +82,10 @@ class _HomePageState extends State<HomePage> {
                         const SizedBox(
                           height: 10,
                         ),
-                        const Expanded(
+                        Expanded(
                           child: Text(
-                            "1.6. The strong Yodhamanyu and the brave Uttamaujas, the sonof Subhadra (Abhimanyu, the son of Subhadra and Arjuna), and the sons ofDraupadi, all of great chariots (great heroes).",
-                            style: TextStyle(color: Colors.white),
+                            verseOfTheDay,
+                            style: const TextStyle(color: Colors.white),
                             overflow: TextOverflow.fade,
                             // softWrap: true,
                             maxLines: 4,
@@ -129,14 +132,14 @@ class _HomePageState extends State<HomePage> {
               "1.6. The strong Yodhamanyu and the brave Uttamaujas, the sonof Subhadra (Abhimanyu, the son of Subhadra and Arjuna), and the sons ofDraupadi, all of great chariots (great heroes).",
               style: TextStyle(color: Colors.black),
               overflow: TextOverflow.fade,
-              maxLines: 4,
+              maxLines: 2,
             ),
-            const SizedBox(
-              height: 10,
-            ),
-            InkWell(
-                onTap: () => onCardTapped(1, 1),
-                child: const Text("CONTINUE READING")),
+            // const SizedBox(
+            //   height: 10,
+            // ),
+            // InkWell(
+            //     onTap: () => onCardTapped(1, 1),
+            //     child: const Text("CONTINUE READING")),
             const SizedBox(
               height: 20,
             ),
@@ -204,7 +207,6 @@ class _HomePageState extends State<HomePage> {
 
   Future<void> fetchChapterDetails() async {
     Store store = await ObjectBox().getStore();
-    // List<ChapterDetailedModel> _chapterDetailedList = store.box<ChapterDetailedModel>().getAll();
     Box<ChapterDetailedModel> chapterDetailedModelBox =
         store.box<ChapterDetailedModel>();
     QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
@@ -215,6 +217,30 @@ class _HomePageState extends State<HomePage> {
 
     setState(() {
       chapterDetailedList.addAll(_chapterDetailedList);
+    });
+    store.close();
+  }
+
+  Future<void> fetchVerseOfTheDay() async {
+    Random random = Random();
+    int randomChapterNumber = random.nextInt(18) + 1;
+    // int verseCount = chapterSummaryList[randomChapterNumber - 1].verseCount;
+    int randomVerseNumber = random.nextInt(20) + 1;
+
+    Store store = await ObjectBox().getStore();
+    Box<ChapterDetailedModel> chapterDetailedModelBox =
+    store.box<ChapterDetailedModel>();
+    QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
+        .query(
+        ChapterDetailedModel_.chapterNumber.equals("$randomChapterNumber") &
+        ChapterDetailedModel_.verseNumber.equals("$randomVerseNumber")
+    )..order(ChapterDetailedModel_.verseNumberInt);
+    Query<ChapterDetailedModel> query = queryBuilder.build();
+    List<ChapterDetailedModel>? queryList = query.find();
+
+    debugPrint("Random: $randomChapterNumber $randomVerseNumber ${queryList[0].text}");
+    setState(() {
+      verseOfTheDay = queryList[0].translation;
     });
     store.close();
   }

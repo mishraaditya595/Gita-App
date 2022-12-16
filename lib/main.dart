@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     checkForBackendChanges();
     setState(() {
-      splashScreenLoaderTime = 10;
+      splashScreenLoaderTime = 6;
     });
     super.initState();
     log(shouldMakeApiCall);
