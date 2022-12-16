@@ -24,7 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<ChapterSummaryModel> chapterSummaryList = [];
   List<ChapterDetailedModel> chapterDetailedList = [];
-  String verseOfTheDay = "";
+  List<String> verseOfTheDay = [];
   String lastReadVerseText = "";
   String lastReadVerseNum = "";
   bool isLastReadAvailable = false;
@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         Expanded(
                           child: Text(
-                            verseOfTheDay,
+                            verseOfTheDay[0],
                             style: const TextStyle(color: Colors.white),
                             overflow: TextOverflow.fade,
                             // softWrap: true,
@@ -102,7 +102,7 @@ class _HomePageState extends State<HomePage> {
                           height: 10,
                         ),
                         InkWell(
-                            onTap: () => onCardTapped(1, 1),
+                            onTap: () => onCardTapped(int.parse(verseOfTheDay[1]), int.parse(verseOfTheDay[2])),
                             child: const Text(
                               "READ MORE",
                               style: TextStyle(
@@ -258,7 +258,9 @@ class _HomePageState extends State<HomePage> {
     debugPrint("Random: $randomChapterNumber $randomVerseNumber ${queryList[0].text}");
 
     setState(() {
-      verseOfTheDay = queryList[0].translation;
+      verseOfTheDay.add(queryList[0].translation);
+      verseOfTheDay.add(randomChapterNumber.toString());
+      verseOfTheDay.add(randomVerseNumber.toString());
       if(lastReadList.isNotEmpty) {
         debugPrint("Last Read Found: ${lastReadList[0].lastReadVerseText}");
         lastReadVerseText = lastReadList[0].lastReadVerseText;
@@ -307,7 +309,9 @@ class _HomePageState extends State<HomePage> {
 
       chapterDetailedList.addAll(_chapterDetailedList);
 
-      verseOfTheDay = queryList[0].translation;
+      verseOfTheDay.add(queryList[0].translation);
+      verseOfTheDay.add(randomChapterNumber.toString());
+      verseOfTheDay.add(randomVerseNumber.toString());
       if(lastReadList.isNotEmpty) {
         debugPrint("Last Read Found: ${lastReadList[0].lastReadVerseText}");
         lastReadVerseText = lastReadList[0].lastReadVerseText;

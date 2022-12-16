@@ -34,10 +34,18 @@ class _VerseScreenState extends State<VerseScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Verse ${widget.chapterNumber}.${widget.verseNumber}"),
         centerTitle: true,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        backgroundColor: Colors.white70,
+        splashColor: Colors.orange,
+        elevation: 3,
+        child: const Icon(Icons.save),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 15, left: 25, right: 25, bottom: 15),
