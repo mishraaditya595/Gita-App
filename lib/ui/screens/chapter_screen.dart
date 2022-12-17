@@ -102,9 +102,6 @@ class _ChapterScreenState extends State<ChapterScreen> {
                     itemCount: chapterDetailedList.length,
                     itemBuilder: (context, position) {
                       return VerseCardWidget(
-                        chapterNumber: widget.chapterNumber,
-                        verseNumber: position + 1,
-                        verseText: chapterDetailedList[position].translation,
                         verseDetails: ChapterDetailedModel(
                             verseNumber: chapterDetailedList[position].verseNumber,
                             chapterNumber: chapterDetailedList[position].chapterNumber,

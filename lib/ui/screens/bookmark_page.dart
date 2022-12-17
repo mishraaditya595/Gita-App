@@ -47,14 +47,12 @@ class _BookmarkPageState extends State<BookmarkPage> {
                 ),
               ),
             ),
+            const SizedBox(height: 30,),
             Expanded(
               child: ListView.builder(
                   itemCount: verseBookmarkModelList.length,
                   itemBuilder: (context, position) {
                     return VerseCardWidget(
-                        chapterNumber: 1,
-                        verseNumber: 1,
-                        verseText: verseBookmarkModelList[position].translation,
                         verseDetails: ChapterDetailedModel(
                             verseNumber: verseBookmarkModelList[position].verseNumber,
                             chapterNumber: verseBookmarkModelList[position].chapterNumber,

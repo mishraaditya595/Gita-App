@@ -8,16 +8,11 @@ import '../../models/chapter_detailed_model.dart';
 
 class VerseCardWidget extends StatefulWidget {
 
-  final int chapterNumber;
-  final int verseNumber;
-  final String verseText;
   final ChapterDetailedModel verseDetails;
 
   const VerseCardWidget({
     Key? key,
-    required this.chapterNumber,
-    required this.verseNumber,
-    required this.verseText,
+
     required this.verseDetails,
   }) : super(key: key);
 
@@ -33,7 +28,7 @@ class _VerseCardWidgetState extends State<VerseCardWidget> {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: InkWell(
-        onTap: () => onCardTapped(widget.chapterNumber, widget.verseNumber),
+        onTap: () => onCardTapped(int.parse(widget.verseDetails.chapterNumber), int.parse(widget.verseDetails.verseNumber)),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -45,7 +40,7 @@ class _VerseCardWidgetState extends State<VerseCardWidget> {
                 children: [
                   const Icon(Icons.book),
                   const SizedBox(width: 15,),
-                  Text("Verse ${widget.chapterNumber}.${widget.verseNumber}", style: const TextStyle(fontWeight: FontWeight.bold),),
+                  Text("Verse ${widget.verseDetails.chapterNumber}.${widget.verseDetails.verseNumber}", style: const TextStyle(fontWeight: FontWeight.bold),),
                 ],
               ),
               // const SizedBox(height: 10,),
@@ -54,7 +49,7 @@ class _VerseCardWidgetState extends State<VerseCardWidget> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                      widget.verseText
+                      widget.verseDetails.translation
                   ),
                 ),
               )
