@@ -223,6 +223,10 @@ class _HomePageState extends State<HomePage> {
     List<LastReadModel> lastReadList = lastReadModelBox.getAll();
 
     setState(() {
+      verseOfTheDay.add(queryList[0].translation);
+      verseOfTheDay.add(randomChapterNumber.toString());
+      verseOfTheDay.add(randomVerseNumber.toString());
+
       chapterSummaryList.addAll(_chapterSummaryList);
 
       chapterDetailedList.addAll(queryList);
@@ -232,9 +236,7 @@ class _HomePageState extends State<HomePage> {
       // debugPrint("VerseOfTheDay: ${queryList[0].verseNumber}");
       debugPrint("Random verse num: $randomChapterNumber.$randomVerseNumber");
 
-      verseOfTheDay.add(queryList[0].translation);
-      verseOfTheDay.add(randomChapterNumber.toString());
-      verseOfTheDay.add(randomVerseNumber.toString());
+
       if (lastReadList.isNotEmpty) {
         debugPrint("Last Read Found: ${lastReadList[0].lastReadVerseText}");
         lastReadVerseText = lastReadList[0].lastReadVerseText;

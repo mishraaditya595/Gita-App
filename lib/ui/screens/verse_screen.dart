@@ -26,10 +26,12 @@ class VerseScreen extends StatefulWidget {
 class _VerseScreenState extends State<VerseScreen> {
 
   List<ChapterDetailedModel> verseList = [];
+  bool isBookmarked = false;
+  IconData fabIcon = Icons.bookmark_add;
 
   @override
   void initState() {
-    addVerseToLastRead(widget.verseDetails);
+    fetchBookmarkData();
     super.initState();
   }
 
@@ -42,11 +44,11 @@ class _VerseScreenState extends State<VerseScreen> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () { addVerseToBookmark(widget.verseDetails); },
+        onPressed: () { addOrRemoveBookmark(widget.verseDetails); },
         backgroundColor: Colors.white70,
         splashColor: Colors.orange,
         elevation: 3,
-        child: const Icon(Icons.bookmark_add),
+        child: Icon(fabIcon),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 15, left: 25, right: 25, bottom: 15),
@@ -176,59 +178,83 @@ class _VerseScreenState extends State<VerseScreen> {
     );
   }
 
-  Future<void> fetchVerseDetails() async {
-    Store store = await ObjectBox().getStore();
-    // List<ChapterDetailedModel> _chapterDetailedList = store.box<ChapterDetailedModel>().getAll();
-    Box<ChapterDetailedModel> chapterDetailedModelBox = store.box<ChapterDetailedModel>();
-    QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
-        .query(
-        ChapterDetailedModel_.chapterNumber.equals("${widget.chapterNumber}") &
-        ChapterDetailedModel_.verseNumber.equals("${widget.verseNumber}")
-    )
-      ..order(ChapterDetailedModel_.verseNumber);
-    Query<ChapterDetailedModel> query = queryBuilder.build();
-    List<ChapterDetailedModel>? _chapterDetailedList = query.find();
-    setState(() {
-      verseList.addAll(_chapterDetailedList);
-    });
-    store.close();
-  }
-
-  Future<void> addVerseToLastRead(ChapterDetailedModel verseDetails) async {
-    Store store = await ObjectBox().getStore();
-    Box<LastReadModel> lastReadModelBox = store.box<LastReadModel>();
-    lastReadModelBox.removeAll();
-    lastReadModelBox.put(
-        LastReadModel(
-            lastReadVerseText: verseDetails.translation,
-            lastReadVerseNum: "${verseDetails.chapterNumber}.${verseDetails.verseNumber}",
-        )
-    );
-
-    debugPrint("Verse added to last read: ${verseDetails.translation}");
-
-    store.close();
-  }
-
-  Future<void> addVerseToBookmark(ChapterDetailedModel verseDetails) async {
+  Future<void> addOrRemoveBookmark(ChapterDetailedModel verseDetails) async {
     Store store = await ObjectBox().getStore();
     DateTime currentDateTime = DateTime.now();
     Box<VerseBookmarkModel> VerseBookmarkModelBox = store.box<VerseBookmarkModel>();
-    VerseBookmarkModelBox.put(
-        VerseBookmarkModel(
-            verseNumber: verseDetails.verseNumber,
-            chapterNumber: verseDetails.chapterNumber,
-            text: verseDetails.text,
-            transliteration: verseDetails.transliteration,
-            wordMeanings: verseDetails.wordMeanings,
-            translation: verseDetails.translation,
-            commentary: verseDetails.commentary,
-            verseNumberInt: verseDetails.verseNumberInt,
-            creationTime: currentDateTime.microsecondsSinceEpoch)
+
+    if(fabIcon == Icons.bookmark_add) {
+      // <--- Bookmark to be added --->
+      setState(() {
+        fabIcon = Icons.bookmark_remove;
+      });
+
+      Box<VerseBookmarkModel> verseBookmarkModelBox = store.box<VerseBookmarkModel>();
+      QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
+          VerseBookmarkModel_.verseNumber.equals(verseDetails.verseNumber) &
+          VerseBookmarkModel_.chapterNumber.equals(verseDetails.chapterNumber)
+      );
+      Query<VerseBookmarkModel> query = queryBuilder.build();
+      List<VerseBookmarkModel>? bookmarkList = query.find();
+      debugPrint("Bookmark List length: ${bookmarkList.length}");
+      if(bookmarkList.isEmpty) {
+        // <--- add bookmark to the table as it is not present already --->
+        VerseBookmarkModelBox.put(
+            VerseBookmarkModel(
+                verseNumber: verseDetails.verseNumber,
+                chapterNumber: verseDetails.chapterNumber,
+                text: verseDetails.text,
+                transliteration: verseDetails.transliteration,
+                wordMeanings: verseDetails.wordMeanings,
+                translation: verseDetails.translation,
+                commentary: verseDetails.commentary,
+                verseNumberInt: verseDetails.verseNumberInt,
+                creationTime: currentDateTime.microsecondsSinceEpoch)
+        );
+      }
+    } else {
+      // <--- bookmark to be removed --->
+      Box<VerseBookmarkModel> verseBookmarkModelBox = store.box<VerseBookmarkModel>();
+      QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
+          VerseBookmarkModel_.verseNumber.equals(verseDetails.verseNumber) &
+          VerseBookmarkModel_.chapterNumber.equals(verseDetails.chapterNumber)
+      );
+      Query<VerseBookmarkModel> query = queryBuilder.build();
+      List<VerseBookmarkModel>? bookmarkList = query.find();
+
+      debugPrint("Bookmark to be removed: ${bookmarkList[0].id}");
+      debugPrint("Bookmark length before removal: ${verseBookmarkModelBox.count()}");
+
+      verseBookmarkModelBox.remove(bookmarkList[0].id);
+      debugPrint("Bookmark length after removal: ${verseBookmarkModelBox.count()}");
+
+      setState(() {
+        fabIcon = Icons.bookmark_add;
+      });
+
+    }
+    store.close();
+  }
+
+  Future<void> fetchBookmarkData() async {
+    Store store = await ObjectBox().getStore();
+    Box<VerseBookmarkModel> verseBookmarkModelBox = store.box<VerseBookmarkModel>();
+    QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
+        VerseBookmarkModel_.verseNumber.equals(widget.verseDetails.verseNumber) &
+        VerseBookmarkModel_.chapterNumber.equals(widget.verseDetails.chapterNumber)
     );
+    Query<VerseBookmarkModel> query = queryBuilder.build();
+    List<VerseBookmarkModel>? bookmarkList = query.find();
 
-    debugPrint("Added to bookmark: ${verseDetails.translation} at ${currentDateTime.microsecondsSinceEpoch}");
-
+    if(bookmarkList.isNotEmpty) {
+      setState(() {
+        fabIcon = Icons.bookmark_remove;
+      });
+    } else {
+      setState(() {
+        fabIcon = Icons.bookmark_add;
+      });
+    }
     store.close();
   }
 }

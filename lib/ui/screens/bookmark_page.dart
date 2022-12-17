@@ -37,7 +37,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
               alignment: Alignment.topCenter,
               child: Padding(
                 padding: const EdgeInsets.only(top: 12.0),
-                child: Text( "My bookmarks",
+                child: Text( "My Bookmarks",
                   style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
