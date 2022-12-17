@@ -46,7 +46,8 @@ class _HomePageState extends State<HomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SizedBox(
-              height: 170,
+              height: MediaQuery.of(context).size.height/5,
+              width: double.maxFinite,
               child: Card(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(12.0),
@@ -57,50 +58,10 @@ class _HomePageState extends State<HomePage> {
                       borderRadius: BorderRadius.circular(12),
                       image: const DecorationImage(
                         image:
-                            AssetImage("assets/images/temp_radha_krishna.jpeg"),
+                            AssetImage("assets/images/krishna.jpg"),
                         fit: BoxFit.fill,
                         alignment: Alignment.topCenter,
                       )),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const Text(
-                          "VERSE OF THE DAY",
-                          style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Expanded(
-                          child: Text(
-                            verseOfTheDay[0],
-                            style: const TextStyle(color: Colors.white),
-                            overflow: TextOverflow.fade,
-                            // softWrap: true,
-                            maxLines: 4,
-                            // textAlign: TextAlign.justify,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        InkWell(
-                            onTap: () => onCardTapped(
-                                int.parse(verseOfTheDay[1]),
-                                int.parse(verseOfTheDay[2])),
-                            child: const Text(
-                              "READ MORE",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600),
-                            )),
-                      ],
-                    ),
-                  ),
                 ),
               ),
             ),
