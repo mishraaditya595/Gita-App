@@ -37,7 +37,7 @@ class _VerseScreenState extends State<VerseScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Verse ${widget.chapterNumber}.${widget.verseNumber}"),
+        title: Text("Verse ${widget.verseDetails.chapterNumber}.${widget.verseDetails.verseNumber}"),
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(

@@ -186,6 +186,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   onCardTapped(int chapterNumber, int verseNumber) {
+    debugPrint("$chapterNumber.$verseNumber");
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -193,84 +194,21 @@ class _HomePageState extends State<HomePage> {
                   chapterNumber: chapterNumber,
                   verseNumber: verseNumber,
                   verseDetails: ChapterDetailedModel(
-                    verseNumber: chapterDetailedList[verseNumber].verseNumber,
+                    verseNumber: chapterDetailedList[0].verseNumber,
                     chapterNumber:
-                        chapterDetailedList[verseNumber].chapterNumber,
-                    text: chapterDetailedList[verseNumber].text,
+                        chapterDetailedList[0].chapterNumber,
+                    text: chapterDetailedList[0].text,
                     transliteration:
-                        chapterDetailedList[verseNumber].transliteration,
-                    wordMeanings: chapterDetailedList[verseNumber].wordMeanings,
-                    translation: chapterDetailedList[verseNumber].translation,
-                    commentary: chapterDetailedList[verseNumber].commentary,
+                        chapterDetailedList[0].transliteration,
+                    wordMeanings: chapterDetailedList[0].wordMeanings,
+                    translation: chapterDetailedList[0].translation,
+                    commentary: chapterDetailedList[0].commentary,
                     verseNumberInt:
-                        chapterDetailedList[verseNumber].verseNumberInt,
+                        chapterDetailedList[0].verseNumberInt,
                   ),
                 )));
   }
-
-  Future<void> fetchChapterSummary() async {
-    Store store = await ObjectBox().getStore();
-    List<ChapterSummaryModel> _chapterSummaryList =
-        store.box<ChapterSummaryModel>().getAll();
-    setState(() {
-      chapterSummaryList.addAll(_chapterSummaryList);
-    });
-    store.close();
-  }
-
-  Future<void> fetchChapterDetails() async {
-    Store store = await ObjectBox().getStore();
-    Box<ChapterDetailedModel> chapterDetailedModelBox =
-        store.box<ChapterDetailedModel>();
-    QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
-        .query(ChapterDetailedModel_.chapterNumber.equals("1"))
-      ..order(ChapterDetailedModel_.verseNumberInt);
-    Query<ChapterDetailedModel> query = queryBuilder.build();
-    List<ChapterDetailedModel>? _chapterDetailedList = query.find();
-
-    setState(() {
-      chapterDetailedList.addAll(_chapterDetailedList);
-    });
-    store.close();
-  }
-
-  Future<void> fetchVerseOfTheDayAndLastRead() async {
-    Random random = Random();
-    int randomChapterNumber = random.nextInt(18) + 1;
-    // int verseCount = chapterSummaryList[randomChapterNumber - 1].verseCount;
-    int randomVerseNumber = random.nextInt(20) + 1;
-
-    Store store = await ObjectBox().getStore();
-    Box<ChapterDetailedModel> chapterDetailedModelBox =
-    store.box<ChapterDetailedModel>();
-    QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
-        .query(
-        ChapterDetailedModel_.chapterNumber.equals("$randomChapterNumber") &
-        ChapterDetailedModel_.verseNumber.equals("$randomVerseNumber")
-    )..order(ChapterDetailedModel_.verseNumberInt);
-    Query<ChapterDetailedModel> query = queryBuilder.build();
-    List<ChapterDetailedModel>? queryList = query.find();
-
-    Box<LastReadModel> lastReadModelBox =
-    store.box<LastReadModel>();
-    List<LastReadModel> lastReadList = lastReadModelBox.getAll();
-
-    debugPrint("Random: $randomChapterNumber $randomVerseNumber ${queryList[0].text}");
-
-    setState(() {
-      verseOfTheDay.add(queryList[0].translation);
-      verseOfTheDay.add(randomChapterNumber.toString());
-      verseOfTheDay.add(randomVerseNumber.toString());
-      if(lastReadList.isNotEmpty) {
-        debugPrint("Last Read Found: ${lastReadList[0].lastReadVerseText}");
-        lastReadVerseText = lastReadList[0].lastReadVerseText;
-        lastReadVerseNum = lastReadList[0].lastReadVerseNum;
-        isLastReadAvailable = true;
-      }
-    });
-    store.close();
-  }
-
+  
   Future<void> fetchData() async {
     Store store = await ObjectBox().getStore();
 
@@ -279,35 +217,32 @@ class _HomePageState extends State<HomePage> {
 
     Box<ChapterDetailedModel> chapterDetailedModelBox =
     store.box<ChapterDetailedModel>();
-    QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
-        .query(ChapterDetailedModel_.chapterNumber.equals("1"))
-      ..order(ChapterDetailedModel_.verseNumberInt);
-    Query<ChapterDetailedModel> query = queryBuilder.build();
-    List<ChapterDetailedModel>? _chapterDetailedList = query.find();
 
     Random random = Random();
     int randomChapterNumber = random.nextInt(18) + 1;
-    // int verseCount = chapterSummaryList[randomChapterNumber - 1].verseCount;
     int randomVerseNumber = random.nextInt(20) + 1;
 
-    queryBuilder = chapterDetailedModelBox
+    QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
         .query(
         ChapterDetailedModel_.chapterNumber.equals("$randomChapterNumber") &
         ChapterDetailedModel_.verseNumber.equals("$randomVerseNumber")
     )..order(ChapterDetailedModel_.verseNumberInt);
-    query = queryBuilder.build();
+    Query<ChapterDetailedModel> query = queryBuilder.build();
     List<ChapterDetailedModel>? queryList = query.find();
 
     Box<LastReadModel> lastReadModelBox =
     store.box<LastReadModel>();
     List<LastReadModel> lastReadList = lastReadModelBox.getAll();
 
-    debugPrint("Random: $randomChapterNumber $randomVerseNumber ${queryList[0].text}");
-
     setState(() {
       chapterSummaryList.addAll(_chapterSummaryList);
 
-      chapterDetailedList.addAll(_chapterDetailedList);
+      chapterDetailedList.addAll(queryList);
+
+      debugPrint("VerseOfTheDay: ${queryList[0].translation}");
+      debugPrint("VerseOfTheDay: ${queryList[0].chapterNumber}");
+      debugPrint("VerseOfTheDay: ${queryList[0].verseNumber}");
+      debugPrint("Random verse num: $randomChapterNumber.$randomVerseNumber");
 
       verseOfTheDay.add(queryList[0].translation);
       verseOfTheDay.add(randomChapterNumber.toString());
