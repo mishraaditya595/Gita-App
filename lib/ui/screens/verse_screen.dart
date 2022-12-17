@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/last_read_model.dart';
+import 'package:sbg/models/verse_bookmark_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/chapter_detailed_model.dart';
@@ -41,11 +42,11 @@ class _VerseScreenState extends State<VerseScreen> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () { addVerseToBookmark(widget.verseDetails); },
         backgroundColor: Colors.white70,
         splashColor: Colors.orange,
         elevation: 3,
-        child: const Icon(Icons.save),
+        child: const Icon(Icons.bookmark_add),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 15, left: 25, right: 25, bottom: 15),
@@ -205,6 +206,28 @@ class _VerseScreenState extends State<VerseScreen> {
     );
 
     debugPrint("Verse added to last read: ${verseDetails.translation}");
+
+    store.close();
+  }
+
+  Future<void> addVerseToBookmark(ChapterDetailedModel verseDetails) async {
+    Store store = await ObjectBox().getStore();
+    DateTime currentDateTime = DateTime.now();
+    Box<VerseBookmarkModel> VerseBookmarkModelBox = store.box<VerseBookmarkModel>();
+    VerseBookmarkModelBox.put(
+        VerseBookmarkModel(
+            verseNumber: verseDetails.verseNumber,
+            chapterNumber: verseDetails.chapterNumber,
+            text: verseDetails.text,
+            transliteration: verseDetails.transliteration,
+            wordMeanings: verseDetails.wordMeanings,
+            translation: verseDetails.translation,
+            commentary: verseDetails.commentary,
+            verseNumberInt: verseDetails.verseNumberInt,
+            creationTime: currentDateTime.microsecondsSinceEpoch)
+    );
+
+    debugPrint("Added to bookmark: ${verseDetails.translation} at ${currentDateTime.microsecondsSinceEpoch}");
 
     store.close();
   }

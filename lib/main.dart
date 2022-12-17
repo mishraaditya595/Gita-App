@@ -8,7 +8,7 @@ import 'package:sbg/network/chapter_detailed_loader.dart';
 import 'package:sbg/network/chapter_summary_loader.dart';
 import 'package:sbg/ui/screens/about_page.dart';
 import 'package:sbg/ui/screens/home_page.dart';
-import 'package:sbg/ui/screens/saved_page.dart';
+import 'package:sbg/ui/screens/bookmark_page.dart';
 import 'package:sbg/utils/constants.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:http/http.dart' as http;
@@ -23,7 +23,6 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
-
   const MyApp({super.key});
 
   @override
@@ -58,22 +57,24 @@ class _MyAppState extends State<MyApp> {
         // home: const MyHomePage(title: 'Flutter Demo Home Page'),
         home: SplashScreen(
             seconds: splashScreenLoaderTime,
-            navigateAfterSeconds: MyHomePage(title: '',),
+            navigateAfterSeconds: MyHomePage(
+              title: '',
+            ),
             title: const Text('Welcome In SplashScreen'),
             image: Image.asset("assets/images/temp_radha_krishna.jpeg"),
             backgroundColor: Colors.white,
             styleTextUnderTheLoader: const TextStyle(),
             photoSize: 100.0,
             loadingText: const Text("Loading..."),
-            loaderColor: Colors.orange
-        ),
+            loaderColor: Colors.orange),
       ),
     );
   }
 
   Future<String> lookForBackendChanges() async {
     http.Response res = await http.get(
-        Uri.parse('https://iraapaycdfoslqefnvef.supabase.co/rest/v1/tbl_change_data?select=new_change'),
+        Uri.parse(
+            'https://iraapaycdfoslqefnvef.supabase.co/rest/v1/tbl_change_data?select=new_change'),
         headers: {
           'Authorization': Constants.AUTHORIZATION,
           'apikey': Constants.API_KEY
@@ -92,7 +93,7 @@ class _MyAppState extends State<MyApp> {
       shouldMakeApiCall = _lookForBackendChanges;
       log(shouldMakeApiCall);
     });
-    if(shouldMakeApiCall == "true") {
+    if (shouldMakeApiCall == "true") {
       ChapterSummaryLoader().getDataFromDB();
       ChapterDetailedLoader().getDataFromDB();
     }
@@ -119,15 +120,29 @@ class _MyHomePageState extends State<MyHomePage> {
 
   List<Widget> pages = [
     const HomePage(),
-    const SavedPage(),
+    const BookmarkPage(),
     const AboutPage()
   ];
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      body: pages[selectedIndex] ,
+      appBar: AppBar(
+        // backgroundColor: Colors.white,
+        title: const Text(
+          "Srimad Bhagwad Gita",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
+        leading: IconButton(
+          onPressed: () {
+            Phoenix.rebirth(context);
+          },
+          icon: const Icon(Icons.sync),
+        ),
+        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.person))],
+        centerTitle: true,
+      ),
+      body: pages[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         elevation: 10,
         currentIndex: selectedIndex,
@@ -138,10 +153,10 @@ class _MyHomePageState extends State<MyHomePage> {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.save), label: "Saved"),
-          BottomNavigationBarItem(icon: Icon(Icons.question_mark), label: "About")
+          BottomNavigationBarItem(
+              icon: Icon(Icons.question_mark), label: "About")
         ],
       ),
     );
   }
-
 }

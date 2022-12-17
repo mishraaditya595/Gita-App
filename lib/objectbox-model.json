@@ -153,9 +153,68 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "5:2303875853070288225",
+      "lastPropertyId": "10:5363619265490454849",
+      "name": "VerseBookmarkModel",
+      "properties": [
+        {
+          "id": "1:8616002714000695711",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5067409929002678191",
+          "name": "verseNumber",
+          "type": 9
+        },
+        {
+          "id": "3:1416763049142466848",
+          "name": "chapterNumber",
+          "type": 9
+        },
+        {
+          "id": "4:7867227269785875160",
+          "name": "text",
+          "type": 9
+        },
+        {
+          "id": "5:9116421646408792475",
+          "name": "transliteration",
+          "type": 9
+        },
+        {
+          "id": "6:7633684170623937090",
+          "name": "wordMeanings",
+          "type": 9
+        },
+        {
+          "id": "7:966871941693848138",
+          "name": "translation",
+          "type": 9
+        },
+        {
+          "id": "8:8931835728145728375",
+          "name": "commentary",
+          "type": 9
+        },
+        {
+          "id": "9:7889454695864864475",
+          "name": "verseNumberInt",
+          "type": 6
+        },
+        {
+          "id": "10:5363619265490454849",
+          "name": "creationTime",
+          "type": 6
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "4:2916574112982275347",
+  "lastEntityId": "5:2303875853070288225",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

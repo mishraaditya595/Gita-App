@@ -18,6 +18,7 @@ import 'models/change_data_model.dart';
 import 'models/chapter_detailed_model.dart';
 import 'models/chapter_summary_model.dart';
 import 'models/last_read_model.dart';
+import 'models/verse_bookmark_model.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
 
@@ -172,6 +173,65 @@ final _entities = <ModelEntity>[
             flags: 0)
       ],
       relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(5, 2303875853070288225),
+      name: 'VerseBookmarkModel',
+      lastPropertyId: const IdUid(10, 5363619265490454849),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 8616002714000695711),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 5067409929002678191),
+            name: 'verseNumber',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 1416763049142466848),
+            name: 'chapterNumber',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 7867227269785875160),
+            name: 'text',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 9116421646408792475),
+            name: 'transliteration',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 7633684170623937090),
+            name: 'wordMeanings',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(7, 966871941693848138),
+            name: 'translation',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(8, 8931835728145728375),
+            name: 'commentary',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(9, 7889454695864864475),
+            name: 'verseNumberInt',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(10, 5363619265490454849),
+            name: 'creationTime',
+            type: 6,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
 ];
 
@@ -195,7 +255,7 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(4, 2916574112982275347),
+      lastEntityId: const IdUid(5, 2303875853070288225),
       lastIndexId: const IdUid(0, 0),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
@@ -372,6 +432,62 @@ ModelDefinition getObjectBoxModel() {
                   .vTableGet(buffer, rootOffset, 8, ''));
 
           return object;
+        }),
+    VerseBookmarkModel: EntityDefinition<VerseBookmarkModel>(
+        model: _entities[4],
+        toOneRelations: (VerseBookmarkModel object) => [],
+        toManyRelations: (VerseBookmarkModel object) => {},
+        getId: (VerseBookmarkModel object) => object.id,
+        setId: (VerseBookmarkModel object, int id) {
+          object.id = id;
+        },
+        objectToFB: (VerseBookmarkModel object, fb.Builder fbb) {
+          final verseNumberOffset = fbb.writeString(object.verseNumber);
+          final chapterNumberOffset = fbb.writeString(object.chapterNumber);
+          final textOffset = fbb.writeString(object.text);
+          final transliterationOffset = fbb.writeString(object.transliteration);
+          final wordMeaningsOffset = fbb.writeString(object.wordMeanings);
+          final translationOffset = fbb.writeString(object.translation);
+          final commentaryOffset = fbb.writeString(object.commentary);
+          fbb.startTable(11);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, verseNumberOffset);
+          fbb.addOffset(2, chapterNumberOffset);
+          fbb.addOffset(3, textOffset);
+          fbb.addOffset(4, transliterationOffset);
+          fbb.addOffset(5, wordMeaningsOffset);
+          fbb.addOffset(6, translationOffset);
+          fbb.addOffset(7, commentaryOffset);
+          fbb.addInt64(8, object.verseNumberInt);
+          fbb.addInt64(9, object.creationTime);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = VerseBookmarkModel(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              verseNumber: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              chapterNumber: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, ''),
+              text: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 10, ''),
+              transliteration: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 12, ''),
+              wordMeanings: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 14, ''),
+              translation: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 16, ''),
+              commentary: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 18, ''),
+              verseNumberInt:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 20, 0),
+              creationTime: const fb.Int64Reader().vTableGet(buffer, rootOffset, 22, 0));
+
+          return object;
         })
   };
 
@@ -480,4 +596,47 @@ class LastReadModel_ {
   /// see [LastReadModel.lastReadVerseNum]
   static final lastReadVerseNum =
       QueryStringProperty<LastReadModel>(_entities[3].properties[2]);
+}
+
+/// [VerseBookmarkModel] entity fields to define ObjectBox queries.
+class VerseBookmarkModel_ {
+  /// see [VerseBookmarkModel.id]
+  static final id =
+      QueryIntegerProperty<VerseBookmarkModel>(_entities[4].properties[0]);
+
+  /// see [VerseBookmarkModel.verseNumber]
+  static final verseNumber =
+      QueryStringProperty<VerseBookmarkModel>(_entities[4].properties[1]);
+
+  /// see [VerseBookmarkModel.chapterNumber]
+  static final chapterNumber =
+      QueryStringProperty<VerseBookmarkModel>(_entities[4].properties[2]);
+
+  /// see [VerseBookmarkModel.text]
+  static final text =
+      QueryStringProperty<VerseBookmarkModel>(_entities[4].properties[3]);
+
+  /// see [VerseBookmarkModel.transliteration]
+  static final transliteration =
+      QueryStringProperty<VerseBookmarkModel>(_entities[4].properties[4]);
+
+  /// see [VerseBookmarkModel.wordMeanings]
+  static final wordMeanings =
+      QueryStringProperty<VerseBookmarkModel>(_entities[4].properties[5]);
+
+  /// see [VerseBookmarkModel.translation]
+  static final translation =
+      QueryStringProperty<VerseBookmarkModel>(_entities[4].properties[6]);
+
+  /// see [VerseBookmarkModel.commentary]
+  static final commentary =
+      QueryStringProperty<VerseBookmarkModel>(_entities[4].properties[7]);
+
+  /// see [VerseBookmarkModel.verseNumberInt]
+  static final verseNumberInt =
+      QueryIntegerProperty<VerseBookmarkModel>(_entities[4].properties[8]);
+
+  /// see [VerseBookmarkModel.creationTime]
+  static final creationTime =
+      QueryIntegerProperty<VerseBookmarkModel>(_entities[4].properties[9]);
 }

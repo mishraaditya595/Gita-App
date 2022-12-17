@@ -40,19 +40,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // backgroundColor: Colors.white,
-        title: const Text(
-          "Srimad Bhagwad Gita",
-          style: TextStyle(fontWeight: FontWeight.bold),
-        ),
-        leading: IconButton(
-          onPressed: () {Phoenix.rebirth(context);},
-          icon: const Icon(Icons.sync),
-        ),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.person))],
-        centerTitle: true,
-      ),
       body: Padding(
         padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 0),
         child: Column(
@@ -102,7 +89,9 @@ class _HomePageState extends State<HomePage> {
                           height: 10,
                         ),
                         InkWell(
-                            onTap: () => onCardTapped(int.parse(verseOfTheDay[1]), int.parse(verseOfTheDay[2])),
+                            onTap: () => onCardTapped(
+                                int.parse(verseOfTheDay[1]),
+                                int.parse(verseOfTheDay[2])),
                             child: const Text(
                               "READ MORE",
                               style: TextStyle(
@@ -124,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children:  [
+                    children: [
                       const Text(
                         "LAST READ",
                         style: TextStyle(fontWeight: FontWeight.bold),
@@ -195,28 +184,27 @@ class _HomePageState extends State<HomePage> {
                   verseNumber: verseNumber,
                   verseDetails: ChapterDetailedModel(
                     verseNumber: chapterDetailedList[0].verseNumber,
-                    chapterNumber:
-                        chapterDetailedList[0].chapterNumber,
+                    chapterNumber: chapterDetailedList[0].chapterNumber,
                     text: chapterDetailedList[0].text,
-                    transliteration:
-                        chapterDetailedList[0].transliteration,
+                    transliteration: chapterDetailedList[0].transliteration,
                     wordMeanings: chapterDetailedList[0].wordMeanings,
                     translation: chapterDetailedList[0].translation,
                     commentary: chapterDetailedList[0].commentary,
-                    verseNumberInt:
-                        chapterDetailedList[0].verseNumberInt,
+                    verseNumberInt: chapterDetailedList[0].verseNumberInt,
                   ),
                 )));
   }
-  
+
   Future<void> fetchData() async {
     Store store = await ObjectBox().getStore();
 
+    //<--- get all chapters summary --->
     List<ChapterSummaryModel> _chapterSummaryList =
-    store.box<ChapterSummaryModel>().getAll();
+        store.box<ChapterSummaryModel>().getAll();
 
+    //<--- get random verse --->
     Box<ChapterDetailedModel> chapterDetailedModelBox =
-    store.box<ChapterDetailedModel>();
+        store.box<ChapterDetailedModel>();
 
     Random random = Random();
     int randomChapterNumber = random.nextInt(18) + 1;
@@ -224,14 +212,14 @@ class _HomePageState extends State<HomePage> {
 
     QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
         .query(
-        ChapterDetailedModel_.chapterNumber.equals("$randomChapterNumber") &
-        ChapterDetailedModel_.verseNumber.equals("$randomVerseNumber")
-    )..order(ChapterDetailedModel_.verseNumberInt);
+            ChapterDetailedModel_.chapterNumber.equals("$randomChapterNumber") &
+                ChapterDetailedModel_.verseNumber.equals("$randomVerseNumber"))
+      ..order(ChapterDetailedModel_.verseNumberInt);
     Query<ChapterDetailedModel> query = queryBuilder.build();
     List<ChapterDetailedModel>? queryList = query.find();
 
-    Box<LastReadModel> lastReadModelBox =
-    store.box<LastReadModel>();
+    //<--- get last read verse --->
+    Box<LastReadModel> lastReadModelBox = store.box<LastReadModel>();
     List<LastReadModel> lastReadList = lastReadModelBox.getAll();
 
     setState(() {
@@ -239,15 +227,15 @@ class _HomePageState extends State<HomePage> {
 
       chapterDetailedList.addAll(queryList);
 
-      debugPrint("VerseOfTheDay: ${queryList[0].translation}");
-      debugPrint("VerseOfTheDay: ${queryList[0].chapterNumber}");
-      debugPrint("VerseOfTheDay: ${queryList[0].verseNumber}");
+      // debugPrint("VerseOfTheDay: ${queryList[0].translation}");
+      // debugPrint("VerseOfTheDay: ${queryList[0].chapterNumber}");
+      // debugPrint("VerseOfTheDay: ${queryList[0].verseNumber}");
       debugPrint("Random verse num: $randomChapterNumber.$randomVerseNumber");
 
       verseOfTheDay.add(queryList[0].translation);
       verseOfTheDay.add(randomChapterNumber.toString());
       verseOfTheDay.add(randomVerseNumber.toString());
-      if(lastReadList.isNotEmpty) {
+      if (lastReadList.isNotEmpty) {
         debugPrint("Last Read Found: ${lastReadList[0].lastReadVerseText}");
         lastReadVerseText = lastReadList[0].lastReadVerseText;
         lastReadVerseNum = lastReadList[0].lastReadVerseNum;
