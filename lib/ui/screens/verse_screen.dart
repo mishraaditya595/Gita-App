@@ -31,7 +31,7 @@ class _VerseScreenState extends State<VerseScreen> {
 
   @override
   void initState() {
-    fetchBookmarkData();
+    fetchBookmarkAndAddToLastRead();
     super.initState();
   }
 
@@ -236,7 +236,8 @@ class _VerseScreenState extends State<VerseScreen> {
     store.close();
   }
 
-  Future<void> fetchBookmarkData() async {
+  Future<void> fetchBookmarkAndAddToLastRead() async {
+    // <--- fetch bookmark details --->
     Store store = await ObjectBox().getStore();
     Box<VerseBookmarkModel> verseBookmarkModelBox = store.box<VerseBookmarkModel>();
     QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
@@ -255,6 +256,16 @@ class _VerseScreenState extends State<VerseScreen> {
         fabIcon = Icons.bookmark_add;
       });
     }
+
+    // <--- add to last read --->
+    Box<LastReadModel> lastReadModelBox = store.box<LastReadModel>();
+    lastReadModelBox.removeAll();
+    lastReadModelBox.put(
+        LastReadModel(
+          lastReadVerseText: widget.verseDetails.translation,
+          lastReadVerseNum: "${widget.verseDetails.chapterNumber}.${widget.verseDetails.verseNumber}",
+        )
+    );
     store.close();
   }
 }

@@ -57,9 +57,8 @@ class _MyAppState extends State<MyApp> {
         // home: const MyHomePage(title: 'Flutter Demo Home Page'),
         home: SplashScreen(
             seconds: splashScreenLoaderTime,
-            navigateAfterSeconds: MyHomePage(
-              title: '',
-            ),
+            navigateAfterSeconds: const MyHomePage(title: '',),
+            // navigateAfterFuture: checkForBackendChanges(),
             title: const Text('Welcome In SplashScreen'),
             image: Image.asset("assets/images/temp_radha_krishna.jpeg"),
             backgroundColor: Colors.white,
@@ -87,7 +86,7 @@ class _MyAppState extends State<MyApp> {
     return response;
   }
 
-  void checkForBackendChanges() async {
+  Future<MyHomePage> checkForBackendChanges() async {
     var _lookForBackendChanges = await lookForBackendChanges();
     setState(() {
       shouldMakeApiCall = _lookForBackendChanges;
@@ -97,6 +96,8 @@ class _MyAppState extends State<MyApp> {
       ChapterSummaryLoader().getDataFromDB();
       ChapterDetailedLoader().getDataFromDB();
     }
+
+    return const MyHomePage(title: '');
   }
 }
 

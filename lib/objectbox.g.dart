@@ -24,23 +24,23 @@ export 'package:objectbox/objectbox.dart'; // so that callers only have to impor
 
 final _entities = <ModelEntity>[
   ModelEntity(
-      id: const IdUid(1, 4605464640859024041),
+      id: const IdUid(1, 1198697470574800129),
       name: 'ChangeDataModel',
-      lastPropertyId: const IdUid(3, 611808996349731946),
+      lastPropertyId: const IdUid(3, 5317059640710298463),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 631598253746678777),
+            id: const IdUid(1, 7749246837034098723),
             name: 'id',
             type: 6,
             flags: 1),
         ModelProperty(
-            id: const IdUid(2, 2648657845332808553),
+            id: const IdUid(2, 8553695706707437080),
             name: 'time',
             type: 6,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 611808996349731946),
+            id: const IdUid(3, 5317059640710298463),
             name: 'newChanges',
             type: 1,
             flags: 0)
@@ -48,48 +48,102 @@ final _entities = <ModelEntity>[
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[]),
   ModelEntity(
-      id: const IdUid(2, 2350201788602494012),
-      name: 'ChapterSummaryModel',
-      lastPropertyId: const IdUid(8, 6103684077434242666),
+      id: const IdUid(2, 1262310592627167807),
+      name: 'ChapterDetailedModel',
+      lastPropertyId: const IdUid(9, 4736431515877668011),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 182760544844671507),
+            id: const IdUid(1, 2808923674302981353),
             name: 'id',
             type: 6,
             flags: 1),
         ModelProperty(
-            id: const IdUid(2, 1802463272824079836),
+            id: const IdUid(2, 5220173913573483400),
+            name: 'verseNumber',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 9125874749833152397),
             name: 'chapterNumber',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 7871431140520090221),
+            id: const IdUid(4, 727104373435629920),
+            name: 'text',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 7327900945731703093),
+            name: 'transliteration',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 7908339403025115415),
+            name: 'wordMeanings',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(7, 3238204551168316783),
+            name: 'translation',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(8, 7095085479036570893),
+            name: 'commentary',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(9, 4736431515877668011),
+            name: 'verseNumberInt',
+            type: 6,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(3, 530850479792594835),
+      name: 'ChapterSummaryModel',
+      lastPropertyId: const IdUid(8, 7327506249018949374),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 6275383497214268899),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 5487646581318158195),
+            name: 'chapterNumber',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 5229881031506028443),
             name: 'name',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(4, 6722033517699587566),
+            id: const IdUid(4, 9200329627649516901),
             name: 'nameTranslated',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(5, 2985087891785445337),
+            id: const IdUid(5, 6371884711031105720),
             name: 'verseCount',
             type: 6,
             flags: 0),
         ModelProperty(
-            id: const IdUid(6, 4467316685528866174),
+            id: const IdUid(6, 4870179339442194854),
             name: 'nameMeaning',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(7, 4041535331279969723),
+            id: const IdUid(7, 1773580820758063811),
             name: 'summary',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(8, 6103684077434242666),
+            id: const IdUid(8, 7327506249018949374),
             name: 'summaryHindi',
             type: 9,
             flags: 0)
@@ -97,77 +151,23 @@ final _entities = <ModelEntity>[
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[]),
   ModelEntity(
-      id: const IdUid(3, 7618862879632358247),
-      name: 'ChapterDetailedModel',
-      lastPropertyId: const IdUid(9, 3481225164697122688),
-      flags: 0,
-      properties: <ModelProperty>[
-        ModelProperty(
-            id: const IdUid(1, 7814200177994787930),
-            name: 'id',
-            type: 6,
-            flags: 1),
-        ModelProperty(
-            id: const IdUid(2, 507314777544254679),
-            name: 'verseNumber',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(3, 253621234745480539),
-            name: 'chapterNumber',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(4, 2846043642733761091),
-            name: 'text',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(5, 8540478124424824320),
-            name: 'transliteration',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(6, 7803530936679913570),
-            name: 'wordMeanings',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(7, 1843835183797925484),
-            name: 'translation',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(8, 2489769599131382820),
-            name: 'commentary',
-            type: 9,
-            flags: 0),
-        ModelProperty(
-            id: const IdUid(9, 3481225164697122688),
-            name: 'verseNumberInt',
-            type: 6,
-            flags: 0)
-      ],
-      relations: <ModelRelation>[],
-      backlinks: <ModelBacklink>[]),
-  ModelEntity(
-      id: const IdUid(4, 2916574112982275347),
+      id: const IdUid(4, 6817779574871388624),
       name: 'LastReadModel',
-      lastPropertyId: const IdUid(3, 3489676501494633631),
+      lastPropertyId: const IdUid(3, 7318519863334861339),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 3544216668367809788),
+            id: const IdUid(1, 521898702558106735),
             name: 'id',
             type: 6,
             flags: 1),
         ModelProperty(
-            id: const IdUid(2, 3237198461996679234),
+            id: const IdUid(2, 3508816465459199348),
             name: 'lastReadVerseText',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 3489676501494633631),
+            id: const IdUid(3, 7318519863334861339),
             name: 'lastReadVerseNum',
             type: 9,
             flags: 0)
@@ -175,58 +175,58 @@ final _entities = <ModelEntity>[
       relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[]),
   ModelEntity(
-      id: const IdUid(5, 2303875853070288225),
+      id: const IdUid(5, 1303902611909325809),
       name: 'VerseBookmarkModel',
-      lastPropertyId: const IdUid(10, 5363619265490454849),
+      lastPropertyId: const IdUid(10, 458364712437187152),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
-            id: const IdUid(1, 8616002714000695711),
+            id: const IdUid(1, 8097952472994113511),
             name: 'id',
             type: 6,
             flags: 1),
         ModelProperty(
-            id: const IdUid(2, 5067409929002678191),
+            id: const IdUid(2, 1378279774817286318),
             name: 'verseNumber',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(3, 1416763049142466848),
+            id: const IdUid(3, 5640136846374136135),
             name: 'chapterNumber',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(4, 7867227269785875160),
+            id: const IdUid(4, 3649289683932357168),
             name: 'text',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(5, 9116421646408792475),
+            id: const IdUid(5, 5462916464571876843),
             name: 'transliteration',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(6, 7633684170623937090),
+            id: const IdUid(6, 4158791229612417217),
             name: 'wordMeanings',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(7, 966871941693848138),
+            id: const IdUid(7, 1338885755647442367),
             name: 'translation',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(8, 8931835728145728375),
+            id: const IdUid(8, 551068684226943848),
             name: 'commentary',
             type: 9,
             flags: 0),
         ModelProperty(
-            id: const IdUid(9, 7889454695864864475),
+            id: const IdUid(9, 462972408194767474),
             name: 'verseNumberInt',
             type: 6,
             flags: 0),
         ModelProperty(
-            id: const IdUid(10, 5363619265490454849),
+            id: const IdUid(10, 458364712437187152),
             name: 'creationTime',
             type: 6,
             flags: 0)
@@ -255,7 +255,7 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(5, 2303875853070288225),
+      lastEntityId: const IdUid(5, 1303902611909325809),
       lastIndexId: const IdUid(0, 0),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
@@ -296,58 +296,8 @@ ModelDefinition getObjectBoxModel() {
 
           return object;
         }),
-    ChapterSummaryModel: EntityDefinition<ChapterSummaryModel>(
-        model: _entities[1],
-        toOneRelations: (ChapterSummaryModel object) => [],
-        toManyRelations: (ChapterSummaryModel object) => {},
-        getId: (ChapterSummaryModel object) => object.id,
-        setId: (ChapterSummaryModel object, int id) {
-          object.id = id;
-        },
-        objectToFB: (ChapterSummaryModel object, fb.Builder fbb) {
-          final chapterNumberOffset = fbb.writeString(object.chapterNumber);
-          final nameOffset = fbb.writeString(object.name);
-          final nameTranslatedOffset = fbb.writeString(object.nameTranslated);
-          final nameMeaningOffset = fbb.writeString(object.nameMeaning);
-          final summaryOffset = fbb.writeString(object.summary);
-          final summaryHindiOffset = fbb.writeString(object.summaryHindi);
-          fbb.startTable(9);
-          fbb.addInt64(0, object.id);
-          fbb.addOffset(1, chapterNumberOffset);
-          fbb.addOffset(2, nameOffset);
-          fbb.addOffset(3, nameTranslatedOffset);
-          fbb.addInt64(4, object.verseCount);
-          fbb.addOffset(5, nameMeaningOffset);
-          fbb.addOffset(6, summaryOffset);
-          fbb.addOffset(7, summaryHindiOffset);
-          fbb.finish(fbb.endTable());
-          return object.id;
-        },
-        objectFromFB: (Store store, ByteData fbData) {
-          final buffer = fb.BufferContext(fbData);
-          final rootOffset = buffer.derefObject(0);
-
-          final object = ChapterSummaryModel(
-              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
-              chapterNumber: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 6, ''),
-              name: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 8, ''),
-              nameTranslated: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 10, ''),
-              verseCount:
-                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0),
-              nameMeaning: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 14, ''),
-              summary: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 16, ''),
-              summaryHindi: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 18, ''));
-
-          return object;
-        }),
     ChapterDetailedModel: EntityDefinition<ChapterDetailedModel>(
-        model: _entities[2],
+        model: _entities[1],
         toOneRelations: (ChapterDetailedModel object) => [],
         toManyRelations: (ChapterDetailedModel object) => {},
         getId: (ChapterDetailedModel object) => object.id,
@@ -397,6 +347,56 @@ ModelDefinition getObjectBoxModel() {
                   .vTableGet(buffer, rootOffset, 18, ''),
               verseNumberInt:
                   const fb.Int64Reader().vTableGet(buffer, rootOffset, 20, 0));
+
+          return object;
+        }),
+    ChapterSummaryModel: EntityDefinition<ChapterSummaryModel>(
+        model: _entities[2],
+        toOneRelations: (ChapterSummaryModel object) => [],
+        toManyRelations: (ChapterSummaryModel object) => {},
+        getId: (ChapterSummaryModel object) => object.id,
+        setId: (ChapterSummaryModel object, int id) {
+          object.id = id;
+        },
+        objectToFB: (ChapterSummaryModel object, fb.Builder fbb) {
+          final chapterNumberOffset = fbb.writeString(object.chapterNumber);
+          final nameOffset = fbb.writeString(object.name);
+          final nameTranslatedOffset = fbb.writeString(object.nameTranslated);
+          final nameMeaningOffset = fbb.writeString(object.nameMeaning);
+          final summaryOffset = fbb.writeString(object.summary);
+          final summaryHindiOffset = fbb.writeString(object.summaryHindi);
+          fbb.startTable(9);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, chapterNumberOffset);
+          fbb.addOffset(2, nameOffset);
+          fbb.addOffset(3, nameTranslatedOffset);
+          fbb.addInt64(4, object.verseCount);
+          fbb.addOffset(5, nameMeaningOffset);
+          fbb.addOffset(6, summaryOffset);
+          fbb.addOffset(7, summaryHindiOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = ChapterSummaryModel(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              chapterNumber: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              name: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, ''),
+              nameTranslated: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 10, ''),
+              verseCount:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0),
+              nameMeaning: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 14, ''),
+              summary: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 16, ''),
+              summaryHindi: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 18, ''));
 
           return object;
         }),
@@ -509,78 +509,78 @@ class ChangeDataModel_ {
       QueryBooleanProperty<ChangeDataModel>(_entities[0].properties[2]);
 }
 
-/// [ChapterSummaryModel] entity fields to define ObjectBox queries.
-class ChapterSummaryModel_ {
-  /// see [ChapterSummaryModel.id]
-  static final id =
-      QueryIntegerProperty<ChapterSummaryModel>(_entities[1].properties[0]);
-
-  /// see [ChapterSummaryModel.chapterNumber]
-  static final chapterNumber =
-      QueryStringProperty<ChapterSummaryModel>(_entities[1].properties[1]);
-
-  /// see [ChapterSummaryModel.name]
-  static final name =
-      QueryStringProperty<ChapterSummaryModel>(_entities[1].properties[2]);
-
-  /// see [ChapterSummaryModel.nameTranslated]
-  static final nameTranslated =
-      QueryStringProperty<ChapterSummaryModel>(_entities[1].properties[3]);
-
-  /// see [ChapterSummaryModel.verseCount]
-  static final verseCount =
-      QueryIntegerProperty<ChapterSummaryModel>(_entities[1].properties[4]);
-
-  /// see [ChapterSummaryModel.nameMeaning]
-  static final nameMeaning =
-      QueryStringProperty<ChapterSummaryModel>(_entities[1].properties[5]);
-
-  /// see [ChapterSummaryModel.summary]
-  static final summary =
-      QueryStringProperty<ChapterSummaryModel>(_entities[1].properties[6]);
-
-  /// see [ChapterSummaryModel.summaryHindi]
-  static final summaryHindi =
-      QueryStringProperty<ChapterSummaryModel>(_entities[1].properties[7]);
-}
-
 /// [ChapterDetailedModel] entity fields to define ObjectBox queries.
 class ChapterDetailedModel_ {
   /// see [ChapterDetailedModel.id]
   static final id =
-      QueryIntegerProperty<ChapterDetailedModel>(_entities[2].properties[0]);
+      QueryIntegerProperty<ChapterDetailedModel>(_entities[1].properties[0]);
 
   /// see [ChapterDetailedModel.verseNumber]
   static final verseNumber =
-      QueryStringProperty<ChapterDetailedModel>(_entities[2].properties[1]);
+      QueryStringProperty<ChapterDetailedModel>(_entities[1].properties[1]);
 
   /// see [ChapterDetailedModel.chapterNumber]
   static final chapterNumber =
-      QueryStringProperty<ChapterDetailedModel>(_entities[2].properties[2]);
+      QueryStringProperty<ChapterDetailedModel>(_entities[1].properties[2]);
 
   /// see [ChapterDetailedModel.text]
   static final text =
-      QueryStringProperty<ChapterDetailedModel>(_entities[2].properties[3]);
+      QueryStringProperty<ChapterDetailedModel>(_entities[1].properties[3]);
 
   /// see [ChapterDetailedModel.transliteration]
   static final transliteration =
-      QueryStringProperty<ChapterDetailedModel>(_entities[2].properties[4]);
+      QueryStringProperty<ChapterDetailedModel>(_entities[1].properties[4]);
 
   /// see [ChapterDetailedModel.wordMeanings]
   static final wordMeanings =
-      QueryStringProperty<ChapterDetailedModel>(_entities[2].properties[5]);
+      QueryStringProperty<ChapterDetailedModel>(_entities[1].properties[5]);
 
   /// see [ChapterDetailedModel.translation]
   static final translation =
-      QueryStringProperty<ChapterDetailedModel>(_entities[2].properties[6]);
+      QueryStringProperty<ChapterDetailedModel>(_entities[1].properties[6]);
 
   /// see [ChapterDetailedModel.commentary]
   static final commentary =
-      QueryStringProperty<ChapterDetailedModel>(_entities[2].properties[7]);
+      QueryStringProperty<ChapterDetailedModel>(_entities[1].properties[7]);
 
   /// see [ChapterDetailedModel.verseNumberInt]
   static final verseNumberInt =
-      QueryIntegerProperty<ChapterDetailedModel>(_entities[2].properties[8]);
+      QueryIntegerProperty<ChapterDetailedModel>(_entities[1].properties[8]);
+}
+
+/// [ChapterSummaryModel] entity fields to define ObjectBox queries.
+class ChapterSummaryModel_ {
+  /// see [ChapterSummaryModel.id]
+  static final id =
+      QueryIntegerProperty<ChapterSummaryModel>(_entities[2].properties[0]);
+
+  /// see [ChapterSummaryModel.chapterNumber]
+  static final chapterNumber =
+      QueryStringProperty<ChapterSummaryModel>(_entities[2].properties[1]);
+
+  /// see [ChapterSummaryModel.name]
+  static final name =
+      QueryStringProperty<ChapterSummaryModel>(_entities[2].properties[2]);
+
+  /// see [ChapterSummaryModel.nameTranslated]
+  static final nameTranslated =
+      QueryStringProperty<ChapterSummaryModel>(_entities[2].properties[3]);
+
+  /// see [ChapterSummaryModel.verseCount]
+  static final verseCount =
+      QueryIntegerProperty<ChapterSummaryModel>(_entities[2].properties[4]);
+
+  /// see [ChapterSummaryModel.nameMeaning]
+  static final nameMeaning =
+      QueryStringProperty<ChapterSummaryModel>(_entities[2].properties[5]);
+
+  /// see [ChapterSummaryModel.summary]
+  static final summary =
+      QueryStringProperty<ChapterSummaryModel>(_entities[2].properties[6]);
+
+  /// see [ChapterSummaryModel.summaryHindi]
+  static final summaryHindi =
+      QueryStringProperty<ChapterSummaryModel>(_entities[2].properties[7]);
 }
 
 /// [LastReadModel] entity fields to define ObjectBox queries.

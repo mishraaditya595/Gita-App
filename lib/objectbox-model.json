@@ -4,23 +4,23 @@
   "_note3": "If you have VCS merge conflicts, you must resolve them according to ObjectBox docs.",
   "entities": [
     {
-      "id": "1:4605464640859024041",
-      "lastPropertyId": "3:611808996349731946",
+      "id": "1:1198697470574800129",
+      "lastPropertyId": "3:5317059640710298463",
       "name": "ChangeDataModel",
       "properties": [
         {
-          "id": "1:631598253746678777",
+          "id": "1:7749246837034098723",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:2648657845332808553",
+          "id": "2:8553695706707437080",
           "name": "time",
           "type": 6
         },
         {
-          "id": "3:611808996349731946",
+          "id": "3:5317059640710298463",
           "name": "newChanges",
           "type": 1
         }
@@ -28,48 +28,102 @@
       "relations": []
     },
     {
-      "id": "2:2350201788602494012",
-      "lastPropertyId": "8:6103684077434242666",
-      "name": "ChapterSummaryModel",
+      "id": "2:1262310592627167807",
+      "lastPropertyId": "9:4736431515877668011",
+      "name": "ChapterDetailedModel",
       "properties": [
         {
-          "id": "1:182760544844671507",
+          "id": "1:2808923674302981353",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:1802463272824079836",
+          "id": "2:5220173913573483400",
+          "name": "verseNumber",
+          "type": 9
+        },
+        {
+          "id": "3:9125874749833152397",
           "name": "chapterNumber",
           "type": 9
         },
         {
-          "id": "3:7871431140520090221",
+          "id": "4:727104373435629920",
+          "name": "text",
+          "type": 9
+        },
+        {
+          "id": "5:7327900945731703093",
+          "name": "transliteration",
+          "type": 9
+        },
+        {
+          "id": "6:7908339403025115415",
+          "name": "wordMeanings",
+          "type": 9
+        },
+        {
+          "id": "7:3238204551168316783",
+          "name": "translation",
+          "type": 9
+        },
+        {
+          "id": "8:7095085479036570893",
+          "name": "commentary",
+          "type": 9
+        },
+        {
+          "id": "9:4736431515877668011",
+          "name": "verseNumberInt",
+          "type": 6
+        }
+      ],
+      "relations": []
+    },
+    {
+      "id": "3:530850479792594835",
+      "lastPropertyId": "8:7327506249018949374",
+      "name": "ChapterSummaryModel",
+      "properties": [
+        {
+          "id": "1:6275383497214268899",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:5487646581318158195",
+          "name": "chapterNumber",
+          "type": 9
+        },
+        {
+          "id": "3:5229881031506028443",
           "name": "name",
           "type": 9
         },
         {
-          "id": "4:6722033517699587566",
+          "id": "4:9200329627649516901",
           "name": "nameTranslated",
           "type": 9
         },
         {
-          "id": "5:2985087891785445337",
+          "id": "5:6371884711031105720",
           "name": "verseCount",
           "type": 6
         },
         {
-          "id": "6:4467316685528866174",
+          "id": "6:4870179339442194854",
           "name": "nameMeaning",
           "type": 9
         },
         {
-          "id": "7:4041535331279969723",
+          "id": "7:1773580820758063811",
           "name": "summary",
           "type": 9
         },
         {
-          "id": "8:6103684077434242666",
+          "id": "8:7327506249018949374",
           "name": "summaryHindi",
           "type": 9
         }
@@ -77,77 +131,23 @@
       "relations": []
     },
     {
-      "id": "3:7618862879632358247",
-      "lastPropertyId": "9:3481225164697122688",
-      "name": "ChapterDetailedModel",
-      "properties": [
-        {
-          "id": "1:7814200177994787930",
-          "name": "id",
-          "type": 6,
-          "flags": 1
-        },
-        {
-          "id": "2:507314777544254679",
-          "name": "verseNumber",
-          "type": 9
-        },
-        {
-          "id": "3:253621234745480539",
-          "name": "chapterNumber",
-          "type": 9
-        },
-        {
-          "id": "4:2846043642733761091",
-          "name": "text",
-          "type": 9
-        },
-        {
-          "id": "5:8540478124424824320",
-          "name": "transliteration",
-          "type": 9
-        },
-        {
-          "id": "6:7803530936679913570",
-          "name": "wordMeanings",
-          "type": 9
-        },
-        {
-          "id": "7:1843835183797925484",
-          "name": "translation",
-          "type": 9
-        },
-        {
-          "id": "8:2489769599131382820",
-          "name": "commentary",
-          "type": 9
-        },
-        {
-          "id": "9:3481225164697122688",
-          "name": "verseNumberInt",
-          "type": 6
-        }
-      ],
-      "relations": []
-    },
-    {
-      "id": "4:2916574112982275347",
-      "lastPropertyId": "3:3489676501494633631",
+      "id": "4:6817779574871388624",
+      "lastPropertyId": "3:7318519863334861339",
       "name": "LastReadModel",
       "properties": [
         {
-          "id": "1:3544216668367809788",
+          "id": "1:521898702558106735",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:3237198461996679234",
+          "id": "2:3508816465459199348",
           "name": "lastReadVerseText",
           "type": 9
         },
         {
-          "id": "3:3489676501494633631",
+          "id": "3:7318519863334861339",
           "name": "lastReadVerseNum",
           "type": 9
         }
@@ -155,58 +155,58 @@
       "relations": []
     },
     {
-      "id": "5:2303875853070288225",
-      "lastPropertyId": "10:5363619265490454849",
+      "id": "5:1303902611909325809",
+      "lastPropertyId": "10:458364712437187152",
       "name": "VerseBookmarkModel",
       "properties": [
         {
-          "id": "1:8616002714000695711",
+          "id": "1:8097952472994113511",
           "name": "id",
           "type": 6,
           "flags": 1
         },
         {
-          "id": "2:5067409929002678191",
+          "id": "2:1378279774817286318",
           "name": "verseNumber",
           "type": 9
         },
         {
-          "id": "3:1416763049142466848",
+          "id": "3:5640136846374136135",
           "name": "chapterNumber",
           "type": 9
         },
         {
-          "id": "4:7867227269785875160",
+          "id": "4:3649289683932357168",
           "name": "text",
           "type": 9
         },
         {
-          "id": "5:9116421646408792475",
+          "id": "5:5462916464571876843",
           "name": "transliteration",
           "type": 9
         },
         {
-          "id": "6:7633684170623937090",
+          "id": "6:4158791229612417217",
           "name": "wordMeanings",
           "type": 9
         },
         {
-          "id": "7:966871941693848138",
+          "id": "7:1338885755647442367",
           "name": "translation",
           "type": 9
         },
         {
-          "id": "8:8931835728145728375",
+          "id": "8:551068684226943848",
           "name": "commentary",
           "type": 9
         },
         {
-          "id": "9:7889454695864864475",
+          "id": "9:462972408194767474",
           "name": "verseNumberInt",
           "type": 6
         },
         {
-          "id": "10:5363619265490454849",
+          "id": "10:458364712437187152",
           "name": "creationTime",
           "type": 6
         }
@@ -214,7 +214,7 @@
       "relations": []
     }
   ],
-  "lastEntityId": "5:2303875853070288225",
+  "lastEntityId": "5:1303902611909325809",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
