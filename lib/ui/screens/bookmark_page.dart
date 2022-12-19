@@ -8,6 +8,7 @@ import 'package:sbg/models/verse_bookmark_model.dart';
 import 'package:sbg/ui/widgets/verse_card_widget.dart';
 
 import '../../objectbox.dart';
+import '../../objectbox.g.dart';
 
 class BookmarkPage extends StatefulWidget {
   const BookmarkPage({Key? key}) : super(key: key);
@@ -52,17 +53,23 @@ class _BookmarkPageState extends State<BookmarkPage> {
               child: ListView.builder(
                   itemCount: verseBookmarkModelList.length,
                   itemBuilder: (context, position) {
-                    return VerseCardWidget(
-                        verseDetails: ChapterDetailedModel(
-                            verseNumber: verseBookmarkModelList[position].verseNumber,
-                            chapterNumber: verseBookmarkModelList[position].chapterNumber,
-                            text: verseBookmarkModelList[position].text,
-                            transliteration: verseBookmarkModelList[position].transliteration,
-                            wordMeanings: verseBookmarkModelList[position].wordMeanings,
-                            translation: verseBookmarkModelList[position].translation,
-                            commentary: verseBookmarkModelList[position].commentary,
-                            verseNumberInt: verseBookmarkModelList[position].verseNumberInt
-                        ));
+                    return Dismissible(
+                      key: UniqueKey(),
+                      child: VerseCardWidget(
+                          verseDetails: ChapterDetailedModel(
+                              verseNumber: verseBookmarkModelList[position].verseNumber,
+                              chapterNumber: verseBookmarkModelList[position].chapterNumber,
+                              text: verseBookmarkModelList[position].text,
+                              transliteration: verseBookmarkModelList[position].transliteration,
+                              wordMeanings: verseBookmarkModelList[position].wordMeanings,
+                              translation: verseBookmarkModelList[position].translation,
+                              commentary: verseBookmarkModelList[position].commentary,
+                              verseNumberInt: verseBookmarkModelList[position].verseNumberInt
+                          )),
+                      onDismissed: (_) {
+                        removeBookmark(verseBookmarkModelList[position].verseNumber, verseBookmarkModelList[position].chapterNumber);
+                      },
+                    );
               }),
             )
           ],
@@ -80,6 +87,26 @@ class _BookmarkPageState extends State<BookmarkPage> {
     setState(() {
       verseBookmarkModelList.addAll(_verseBookmarkModelList);
     });
+    store.close();
+  }
+
+  Future<void> removeBookmark(String verseNumber, String chapterNumber) async {
+    Store store = await ObjectBox().getStore();
+
+    Box<VerseBookmarkModel> verseBookmarkModelBox = store.box<VerseBookmarkModel>();
+    QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
+        VerseBookmarkModel_.verseNumber.equals(verseNumber) &
+        VerseBookmarkModel_.chapterNumber.equals(chapterNumber)
+    );
+    Query<VerseBookmarkModel> query = queryBuilder.build();
+    List<VerseBookmarkModel>? bookmarkList = query.find();
+
+    debugPrint("Bookmark to be removed: ${bookmarkList[0].id}");
+    debugPrint("Bookmark length before removal: ${verseBookmarkModelBox.count()}");
+
+    verseBookmarkModelBox.remove(bookmarkList[0].id);
+    debugPrint("Bookmark length after removal: ${verseBookmarkModelBox.count()}");
+
     store.close();
   }
 }

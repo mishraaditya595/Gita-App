@@ -184,9 +184,9 @@ class _HomePageState extends State<HomePage> {
     List<LastReadModel> lastReadList = lastReadModelBox.getAll();
 
     setState(() {
-      verseOfTheDay.add(queryList[0].translation);
-      verseOfTheDay.add(randomChapterNumber.toString());
-      verseOfTheDay.add(randomVerseNumber.toString());
+      // verseOfTheDay.add(queryList[0].translation);
+      // verseOfTheDay.add(randomChapterNumber.toString());
+      // verseOfTheDay.add(randomVerseNumber.toString());
 
       chapterSummaryList.addAll(_chapterSummaryList);
 

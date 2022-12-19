@@ -42,6 +42,7 @@ class _VerseScreenState extends State<VerseScreen> {
       appBar: AppBar(
         title: Text("Verse ${widget.verseDetails.chapterNumber}.${widget.verseDetails.verseNumber}"),
         centerTitle: true,
+        leading: IconButton(onPressed: (){Navigator.pop(context, true);}, icon: const Icon(Icons.arrow_back_ios_new)),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () { addOrRemoveBookmark(widget.verseDetails); },
