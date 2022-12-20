@@ -48,11 +48,11 @@ class _ChapterScreenState extends State<ChapterScreen> {
         title: Text("Chapter ${widget.chapterNumber}"),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 15, left: 25, right: 25),
-        child: Column(
-          children: [
-            Column(
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
               children: [
                 Align(
                   alignment: Alignment.topCenter,
@@ -91,34 +91,32 @@ class _ChapterScreenState extends State<ChapterScreen> {
                       child: Text(expandSummaryText)
                   ),
                 ),
-              ],
-            ),
-            const SizedBox(height: 30,),
-            Flexible(
-              child: GestureDetector(
-
-                child: ListView.builder(
+                const SizedBox(height: 30,),
+                ListView.builder(
+                    shrinkWrap: true,
                     controller: _controller,
                     itemCount: chapterDetailedList.length,
+                    physics: const ClampingScrollPhysics(),
                     itemBuilder: (context, position) {
                       return VerseCardWidget(
                         verseDetails: ChapterDetailedModel(
-                            verseNumber: chapterDetailedList[position].verseNumber,
-                            chapterNumber: chapterDetailedList[position].chapterNumber,
-                            text: chapterDetailedList[position].text,
-                            transliteration: chapterDetailedList[position].transliteration,
-                            wordMeanings: chapterDetailedList[position].wordMeanings,
-                            translation: chapterDetailedList[position].translation,
-                            commentary: chapterDetailedList[position].commentary,
-                            verseNumberInt: chapterDetailedList[position].verseNumberInt,
+                          verseNumber: chapterDetailedList[position].verseNumber,
+                          chapterNumber: chapterDetailedList[position].chapterNumber,
+                          text: chapterDetailedList[position].text,
+                          transliteration: chapterDetailedList[position].transliteration,
+                          wordMeanings: chapterDetailedList[position].wordMeanings,
+                          translation: chapterDetailedList[position].translation,
+                          commentary: chapterDetailedList[position].commentary,
+                          verseNumberInt: chapterDetailedList[position].verseNumberInt,
                         ),
 
                       );
-                    }),
-              ),
-            )
-          ],
-        ),
+                    })
+              ],
+            ),
+          )
+
+        ],
       ),
     );
   }

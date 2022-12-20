@@ -119,6 +119,7 @@ class _HomePageState extends State<HomePage> {
               ),
               ListView.builder(
                   shrinkWrap: true,
+                  physics: const ClampingScrollPhysics(),
                   itemCount: chapterSummaryList.length,
                   itemBuilder: (context, position) {
                     return ChapterWidgetCard(
