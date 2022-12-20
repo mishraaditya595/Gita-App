@@ -40,84 +40,84 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SizedBox(
-              height: MediaQuery.of(context).size.height/5,
-              width: double.maxFinite,
-              child: Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12.0),
-                ),
-                elevation: 3,
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      image: const DecorationImage(
-                        image:
-                            AssetImage("assets/images/krishna.jpg"),
-                        fit: BoxFit.fill,
-                        alignment: Alignment.topCenter,
-                      )),
+      body: ListView(
+        children: [Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(
+                height: MediaQuery.of(context).size.height/5,
+                width: double.maxFinite,
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  elevation: 3,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        image: const DecorationImage(
+                          image:
+                              AssetImage("assets/images/krishna.jpg"),
+                          fit: BoxFit.fill,
+                          alignment: Alignment.topCenter,
+                        )),
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            Visibility(
-              visible: isLastReadAvailable,
-              child: Column(
+              const SizedBox(
+                height: 20,
+              ),
+              Visibility(
+                visible: isLastReadAvailable,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          "LAST READ",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        Text(
+                          "Verse: ${lastReadVerseNum}",
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      lastReadVerseText,
+                      style: const TextStyle(color: Colors.black),
+                      overflow: TextOverflow.fade,
+                      maxLines: 2,
+                    )
+                  ],
+                ),
+              ),
+              // const SizedBox(
+              //   height: 10,
+              // ),
+              // InkWell(
+              //     onTap: () => onCardTapped(1, 1),
+              //     child: const Text("CONTINUE READING")),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        "LAST READ",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "Verse: ${lastReadVerseNum}",
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ],
+                  const Text(
+                    "CHAPTERS",
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    lastReadVerseText,
-                    style: const TextStyle(color: Colors.black),
-                    overflow: TextOverflow.fade,
-                    maxLines: 2,
-                  )
+                  IconButton(onPressed: () {}, icon: const Icon(Icons.sort_sharp))
                 ],
               ),
-            ),
-            // const SizedBox(
-            //   height: 10,
-            // ),
-            // InkWell(
-            //     onTap: () => onCardTapped(1, 1),
-            //     child: const Text("CONTINUE READING")),
-            const SizedBox(
-              height: 20,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  "CHAPTERS",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                IconButton(onPressed: () {}, icon: const Icon(Icons.sort_sharp))
-              ],
-            ),
-            Expanded(
-              child: ListView.builder(
+              ListView.builder(
                   shrinkWrap: true,
                   itemCount: chapterSummaryList.length,
                   itemBuilder: (context, position) {
@@ -127,11 +127,11 @@ class _HomePageState extends State<HomePage> {
                       verseCount: chapterSummaryList[position].verseCount,
                       chapterSummary: chapterSummaryList[position].summary,
                     );
-                  }),
-            )
-          ],
+                  })
+            ],
+          ),
         ),
-      ),
+      ]),
     );
   }
 
