@@ -55,21 +55,24 @@ class _MyAppState extends State<MyApp> {
           primarySwatch: Colors.orange,
         ),
         // home: const MyHomePage(title: 'Flutter Demo Home Page'),
-        home: SplashScreen(
-            seconds: splashScreenLoaderTime,
-            navigateAfterSeconds: const MyHomePage(title: '',),
-            // navigateAfterFuture: checkForBackendChanges(),
-            title: const Text(
-              'Hare Krishna Hare Krishna \nKrishna Krishna Hare Hare \nHare Rama Hare Rama \nRama Rama Hare Hare',
-              style: TextStyle(fontWeight: FontWeight.bold,),
-              textAlign: TextAlign.center,
-            ),
-            // image: Image.asset("assets/images/temp_radha_krishna.jpeg"),
-            backgroundColor: Colors.white,
-            styleTextUnderTheLoader: const TextStyle(),
-            photoSize: 100.0,
-            loadingText: const Text("Loading..."),
-            loaderColor: Colors.orange),
+        home: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SplashScreen(
+              seconds: splashScreenLoaderTime,
+              navigateAfterSeconds: const MyHomePage(title: '',),
+              // navigateAfterFuture: checkForBackendChanges(),
+              title: Text(
+                'Hare Krishna Hare Krishna \nKrishna Krishna Hare Hare \nHare Rama Hare Rama \nRama Rama Hare Hare',
+                style: Theme.of(context).textTheme.headlineSmall,
+                textAlign: TextAlign.center,
+              ),
+              // image: Image.asset("assets/images/temp_radha_krishna.jpeg"),
+              backgroundColor: Colors.white,
+              styleTextUnderTheLoader: const TextStyle(),
+              photoSize: 100.0,
+              loadingText: const Text("Loading..."),
+              loaderColor: Colors.orange),
+        ),
       ),
     );
   }
@@ -126,7 +129,8 @@ class _MyHomePageState extends State<MyHomePage> {
   List<Widget> pages = [
     const HomePage(),
     const BookmarkPage(),
-    const AboutPage()
+    const AboutPage(),
+    const AboutPage(),
   ];
 
   @override
@@ -153,13 +157,12 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: selectedIndex,
         backgroundColor: Colors.white,
         selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
-        selectedIconTheme: IconThemeData(color: Colors.orange, size: 30),
+        selectedIconTheme: const IconThemeData(color: Colors.deepOrange, size: 30),
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.save), label: "Saved"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.question_mark), label: "About")
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
+          BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: ""),
+          BottomNavigationBarItem(icon: Icon(Icons.question_mark), label: ""),
         ],
       ),
     );
