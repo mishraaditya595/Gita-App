@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:objectbox/objectbox.dart';
+import 'package:sbg/models/chapter_summary_model.dart';
 import 'package:sbg/models/last_read_model.dart';
 import 'package:sbg/models/verse_bookmark_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,11 +14,11 @@ import '../../objectbox.dart';
 import '../../objectbox.g.dart';
 
 class VerseScreen extends StatefulWidget {
-  final int chapterNumber;
-  final int verseNumber;
-  final ChapterDetailedModel verseDetails;
+  late int chapterNumber;
+  late int verseNumber;
+  late ChapterDetailedModel verseDetails;
 
-  const VerseScreen({Key? key, required this.chapterNumber, required this.verseNumber, required this.verseDetails})
+  VerseScreen({Key? key, required this.chapterNumber, required this.verseNumber, required this.verseDetails})
       : super(key: key);
 
   @override
@@ -52,7 +54,7 @@ class _VerseScreenState extends State<VerseScreen> {
         child: Icon(fabIcon),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(top: 15, left: 25, right: 25, bottom: 15),
+        padding: const EdgeInsets.only(top: 0, left: 25, right: 25, bottom: 0),
         child: ListView(children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -172,6 +174,36 @@ class _VerseScreenState extends State<VerseScreen> {
                   ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.orangeAccent,
+                            child: IconButton(
+                              onPressed: () { },
+                              icon: Icon(Icons.navigate_before),
+                              color: Colors.white,
+                            )),
+                        CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.orangeAccent,
+                            child: IconButton(
+                              onPressed: () { navigateToNextVerse(); },
+                              icon: Icon(Icons.navigate_next),
+                              color: Colors.white,
+                            )),
+                      ],
+                    ),
+                  ),
+                ),
+              )
             ],
           ),
         ]),
@@ -269,4 +301,59 @@ class _VerseScreenState extends State<VerseScreen> {
     );
     store.close();
   }
+
+  Future<void> navigateToNextVerse() async {
+    int currentChapter = widget.chapterNumber;
+    int currentVerse = widget.verseNumber;
+
+    int nextChapter = currentChapter;
+    int nextVerse = currentVerse + 1;
+
+    log("Tapped Next");
+
+    Store store = await ObjectBox().getStore();
+
+    Box<ChapterSummaryModel> chapterSummaryModelBox = store.box<ChapterSummaryModel>();
+    QueryBuilder<ChapterSummaryModel> queryBuilder = chapterSummaryModelBox.query(
+        ChapterSummaryModel_.chapterNumber.equals((currentChapter).toString())
+    );
+    Query<ChapterSummaryModel> query = queryBuilder.build();
+    List<ChapterSummaryModel>? chapterSummaryList = query.find();
+    var verseCount = chapterSummaryList.first.verseCount;
+
+    log(verseCount.toString());
+
+    if(verseCount == currentVerse) {
+      nextChapter = currentChapter + 1;
+      nextVerse = 1;
+    }
+
+    int totalChapter = store.box<ChapterSummaryModel>().getAll().length;
+
+    log("total chapters: $totalChapter");
+
+    if(nextChapter > totalChapter == false) {
+      Box<ChapterDetailedModel> chapterDetailedModelBox = store.box<ChapterDetailedModel>();
+      QueryBuilder<ChapterDetailedModel> queryBuilder2 = chapterDetailedModelBox.query(
+          ChapterDetailedModel_.verseNumber.equals((nextVerse).toString()) &
+          ChapterDetailedModel_.chapterNumber.equals((nextChapter).toString())
+      );
+      Query<ChapterDetailedModel> query2 = queryBuilder2.build();
+      List<ChapterDetailedModel>? chapterDetailedList = query2.find();
+      log("${chapterDetailedList.first.chapterNumber} ${chapterDetailedList.first.verseNumber}");
+      setState(() {
+        widget.verseDetails = chapterDetailedList[0];
+        widget.chapterNumber = int.parse(chapterDetailedList[0].chapterNumber);
+        widget.verseNumber = int.parse(chapterDetailedList[0].verseNumber);
+      });
+    } else {
+      showToast("The End! \nHare Krishna",context:context);
+    }
+
+    store.close();
+
+    fetchBookmarkAndAddToLastRead();
+  }
+
 }
+

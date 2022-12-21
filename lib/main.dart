@@ -9,6 +9,7 @@ import 'package:sbg/network/chapter_summary_loader.dart';
 import 'package:sbg/ui/screens/about_page.dart';
 import 'package:sbg/ui/screens/home_page.dart';
 import 'package:sbg/ui/screens/bookmark_page.dart';
+import 'package:sbg/ui/screens/profile_screen.dart';
 import 'package:sbg/utils/constants.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:http/http.dart' as http;
@@ -130,7 +131,7 @@ class _MyHomePageState extends State<MyHomePage> {
     const HomePage(),
     const BookmarkPage(),
     const AboutPage(),
-    const AboutPage(),
+    const ProfileScreen(),
   ];
 
   @override
@@ -156,13 +157,17 @@ class _MyHomePageState extends State<MyHomePage> {
         elevation: 10,
         currentIndex: selectedIndex,
         backgroundColor: Colors.white,
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
+        type: BottomNavigationBarType.fixed,
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.deepOrange),
+        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
         selectedIconTheme: const IconThemeData(color: Colors.deepOrange, size: 30),
+        unselectedIconTheme: const IconThemeData(color: Colors.grey, ),
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: ""),
-          BottomNavigationBarItem(icon: Icon(Icons.question_mark), label: ""),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "Bookmarks"),
+          BottomNavigationBarItem(icon: Icon(Icons.question_mark), label: "About"),
+          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
       ),
     );
