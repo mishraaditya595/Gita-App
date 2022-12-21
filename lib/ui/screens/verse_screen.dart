@@ -55,10 +55,18 @@ class _VerseScreenState extends State<VerseScreen> {
               Navigator.pop(context, true);
             },
             icon: const Icon(Icons.arrow_back_ios_new)),
+        actions: [
+          IconButton(
+              onPressed: (){
+              addOrRemoveBookmark(widget.verseDetails);
+              var toastText = fabIcon == Icons.bookmark_add ? "Verse added to bookmarks." : "Verse removed from bookmarks.";
+              showToast(toastText, context: context);
+              },
+              icon: Icon(fabIcon))],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          addOrRemoveBookmark(widget.verseDetails);
+
         },
         backgroundColor: Colors.white70,
         splashColor: Colors.orange,
@@ -351,7 +359,7 @@ class _VerseScreenState extends State<VerseScreen> {
           Query<ChapterSummaryModel> query = queryBuilder.build();
           List<ChapterSummaryModel>? chapterSummaryList = query.find();
           var verseCount = chapterSummaryList.first.verseCount;
-          
+
           if (verseCount == currentVerse) {
             nextChapter = currentChapter + 1;
             nextVerse = 1;
@@ -436,9 +444,5 @@ class _VerseScreenState extends State<VerseScreen> {
     store.close();
 
     fetchBookmarkAndAddToLastRead();
-
-    // ScrollController().animateTo(0,
-    //     duration: const Duration(milliseconds: 500),
-    //     curve: Curves.easeInBack);
   }
 }
