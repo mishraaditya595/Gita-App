@@ -42,6 +42,9 @@ class _VerseScreenState extends State<VerseScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    ScrollController listScrollController = ScrollController();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -64,7 +67,7 @@ class _VerseScreenState extends State<VerseScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 0, left: 25, right: 25, bottom: 0),
-        child: ListView(children: [
+        child: ListView(controller: listScrollController, children: [
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -198,6 +201,10 @@ class _VerseScreenState extends State<VerseScreen> {
                             child: IconButton(
                               onPressed: () {
                                 navigateVerse("PREVIOUS");
+                                if (listScrollController.hasClients) {
+                                  final position = listScrollController.position.minScrollExtent;
+                                  listScrollController.jumpTo(position);
+                                }
                               },
                               icon: Icon(Icons.navigate_before),
                               color: Colors.white,
@@ -208,6 +215,10 @@ class _VerseScreenState extends State<VerseScreen> {
                             child: IconButton(
                               onPressed: () {
                                 navigateVerse("NEXT");
+                                if (listScrollController.hasClients) {
+                                  final position = listScrollController.position.minScrollExtent;
+                                  listScrollController.jumpTo(position);
+                                }
                               },
                               icon: Icon(Icons.navigate_next),
                               color: Colors.white,
@@ -340,9 +351,7 @@ class _VerseScreenState extends State<VerseScreen> {
           Query<ChapterSummaryModel> query = queryBuilder.build();
           List<ChapterSummaryModel>? chapterSummaryList = query.find();
           var verseCount = chapterSummaryList.first.verseCount;
-
-          log(verseCount.toString());
-
+          
           if (verseCount == currentVerse) {
             nextChapter = currentChapter + 1;
             nextVerse = 1;
@@ -428,8 +437,8 @@ class _VerseScreenState extends State<VerseScreen> {
 
     fetchBookmarkAndAddToLastRead();
 
-    ScrollController().animateTo(0,
-        duration: const Duration(milliseconds: 500),
-        curve: Curves.fastOutSlowIn);
+    // ScrollController().animateTo(0,
+    //     duration: const Duration(milliseconds: 500),
+    //     curve: Curves.easeInBack);
   }
 }
