@@ -27,6 +27,8 @@ class _HomePageState extends State<HomePage> {
   List<String> verseOfTheDay = [];
   String lastReadVerseText = "";
   String lastReadVerseNum = "";
+  int lastReadChapterInt = 0;
+  int lastReadVerseInt = 0;
   bool isLastReadAvailable = false;
 
   @override
@@ -98,12 +100,12 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-              // const SizedBox(
-              //   height: 10,
-              // ),
-              // InkWell(
-              //     onTap: () => onCardTapped(1, 1),
-              //     child: const Text("CONTINUE READING")),
+              const SizedBox(
+                height: 10,
+              ),
+              InkWell(
+                  onTap: () => onCardTapped(lastReadChapterInt, lastReadVerseInt),
+                  child: const Text("CONTINUE READING")),
               const SizedBox(
                 height: 20,
               ),
@@ -191,7 +193,6 @@ class _HomePageState extends State<HomePage> {
 
       chapterSummaryList.addAll(_chapterSummaryList);
 
-      chapterDetailedList.addAll(queryList);
 
       // debugPrint("VerseOfTheDay: ${queryList[0].translation}");
       // debugPrint("VerseOfTheDay: ${queryList[0].chapterNumber}");
@@ -204,6 +205,17 @@ class _HomePageState extends State<HomePage> {
         lastReadVerseText = lastReadList[0].lastReadVerseText;
         lastReadVerseNum = lastReadList[0].lastReadVerseNum;
         isLastReadAvailable = true;
+        lastReadChapterInt = lastReadList.first.chapterNumber;
+        lastReadVerseInt = lastReadList.first.verseNumber;
+
+        QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
+            .query(
+            ChapterDetailedModel_.chapterNumber.equals("${lastReadList.first.chapterNumber}") &
+            ChapterDetailedModel_.verseNumber.equals("${lastReadList.first.verseNumber}"))
+          ..order(ChapterDetailedModel_.verseNumberInt);
+        Query<ChapterDetailedModel> query = queryBuilder.build();
+        List<ChapterDetailedModel>? queryList = query.find();
+        chapterDetailedList.addAll(queryList);
       }
     });
     store.close();

@@ -153,7 +153,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(4, 6817779574871388624),
       name: 'LastReadModel',
-      lastPropertyId: const IdUid(3, 7318519863334861339),
+      lastPropertyId: const IdUid(5, 5568076561294524678),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -170,6 +170,16 @@ final _entities = <ModelEntity>[
             id: const IdUid(3, 7318519863334861339),
             name: 'lastReadVerseNum',
             type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 6317986182718779938),
+            name: 'verseNumber',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 5568076561294524678),
+            name: 'chapterNumber',
+            type: 6,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -413,10 +423,12 @@ ModelDefinition getObjectBoxModel() {
               fbb.writeString(object.lastReadVerseText);
           final lastReadVerseNumOffset =
               fbb.writeString(object.lastReadVerseNum);
-          fbb.startTable(4);
+          fbb.startTable(6);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, lastReadVerseTextOffset);
           fbb.addOffset(2, lastReadVerseNumOffset);
+          fbb.addInt64(3, object.verseNumber);
+          fbb.addInt64(4, object.chapterNumber);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -429,7 +441,11 @@ ModelDefinition getObjectBoxModel() {
               lastReadVerseText: const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 6, ''),
               lastReadVerseNum: const fb.StringReader(asciiOptimization: true)
-                  .vTableGet(buffer, rootOffset, 8, ''));
+                  .vTableGet(buffer, rootOffset, 8, ''),
+              verseNumber:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0),
+              chapterNumber:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0));
 
           return object;
         }),
@@ -596,6 +612,14 @@ class LastReadModel_ {
   /// see [LastReadModel.lastReadVerseNum]
   static final lastReadVerseNum =
       QueryStringProperty<LastReadModel>(_entities[3].properties[2]);
+
+  /// see [LastReadModel.verseNumber]
+  static final verseNumber =
+      QueryIntegerProperty<LastReadModel>(_entities[3].properties[3]);
+
+  /// see [LastReadModel.chapterNumber]
+  static final chapterNumber =
+      QueryIntegerProperty<LastReadModel>(_entities[3].properties[4]);
 }
 
 /// [VerseBookmarkModel] entity fields to define ObjectBox queries.

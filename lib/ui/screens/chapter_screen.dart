@@ -47,6 +47,11 @@ class _ChapterScreenState extends State<ChapterScreen> {
       appBar: AppBar(
         title: Text("Chapter ${widget.chapterNumber}"),
         centerTitle: true,
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context, true);
+            },
+            icon: const Icon(Icons.arrow_back_ios_new)) ,
       ),
       body: ListView(
         children: [

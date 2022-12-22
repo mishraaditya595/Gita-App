@@ -64,19 +64,46 @@ class _VerseScreenState extends State<VerseScreen> {
               },
               icon: Icon(fabIcon))],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-
-        },
-        backgroundColor: Colors.white70,
-        splashColor: Colors.orange,
-        elevation: 3,
-        child: Icon(fabIcon),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.only(top: 0, left: 25, right: 25, bottom: 0),
-        child: ListView(controller: listScrollController, children: [
-          Column(
+      // floatingActionButton: Stack(
+      //   fit: StackFit.expand,
+      //   children: [
+      //     Positioned(
+      //       left: MediaQuery.of(context).size.width/15,
+      //       bottom: MediaQuery.of(context).size.height/10,
+      //       // bottom: 20,
+      //       child: FloatingActionButton(
+      //         heroTag: 'back',
+      //         onPressed: () {
+      //           navigateVerse("PREVIOUS");
+      //           },
+      //         backgroundColor: Colors.white,
+      //         child: const Icon(
+      //           Icons.arrow_left,
+      //           size: 40,
+      //           color: Colors.deepOrange,
+      //         ),
+      //       ),
+      //     ),
+      //     Positioned(
+      //       right: MediaQuery.of(context).size.width/15,
+      //       bottom: MediaQuery.of(context).size.height/10,
+      //       child: FloatingActionButton(
+      //         heroTag: 'next',
+      //         onPressed: () {/* Do something */},
+      //         backgroundColor: Colors.white,
+      //         child: const Icon(
+      //           Icons.arrow_right,
+      //           size: 40,
+      //           color: Colors.deepOrange,
+      //         ),
+      //       ),
+      //     ),
+      //   ],
+      // ),
+      body: ListView(controller: listScrollController, children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 0, left: 25, right: 25, bottom: 0),
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Align(
@@ -238,8 +265,8 @@ class _VerseScreenState extends State<VerseScreen> {
               )
             ],
           ),
-        ]),
-      ),
+        ),
+      ]),
     );
   }
 
@@ -333,8 +360,9 @@ class _VerseScreenState extends State<VerseScreen> {
     lastReadModelBox.removeAll();
     lastReadModelBox.put(LastReadModel(
       lastReadVerseText: widget.verseDetails.translation,
-      lastReadVerseNum:
-          "${widget.verseDetails.chapterNumber}.${widget.verseDetails.verseNumber}",
+      lastReadVerseNum: "${widget.verseDetails.chapterNumber}.${widget.verseDetails.verseNumber}",
+      verseNumber: widget.verseDetails.verseNumberInt,
+      chapterNumber: int.parse(widget.verseDetails.chapterNumber),
     ));
     store.close();
   }

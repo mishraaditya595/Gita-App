@@ -6,10 +6,14 @@ class LastReadModel {
   int id;
   String lastReadVerseText;
   String lastReadVerseNum;
+  int verseNumber;
+  int chapterNumber;
 
   LastReadModel({
     this.id = 0,
     required this.lastReadVerseText,
-    required this.lastReadVerseNum
+    required this.lastReadVerseNum,
+    required this.verseNumber,
+    required this.chapterNumber,
   });
 }

@@ -132,7 +132,7 @@
     },
     {
       "id": "4:6817779574871388624",
-      "lastPropertyId": "3:7318519863334861339",
+      "lastPropertyId": "5:5568076561294524678",
       "name": "LastReadModel",
       "properties": [
         {
@@ -150,6 +150,16 @@
           "id": "3:7318519863334861339",
           "name": "lastReadVerseNum",
           "type": 9
+        },
+        {
+          "id": "4:6317986182718779938",
+          "name": "verseNumber",
+          "type": 6
+        },
+        {
+          "id": "5:5568076561294524678",
+          "name": "chapterNumber",
+          "type": 6
         }
       ],
       "relations": []
