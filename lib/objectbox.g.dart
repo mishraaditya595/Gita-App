@@ -104,7 +104,7 @@ final _entities = <ModelEntity>[
   ModelEntity(
       id: const IdUid(3, 530850479792594835),
       name: 'ChapterSummaryModel',
-      lastPropertyId: const IdUid(8, 7327506249018949374),
+      lastPropertyId: const IdUid(9, 1634178494814739599),
       flags: 0,
       properties: <ModelProperty>[
         ModelProperty(
@@ -146,6 +146,11 @@ final _entities = <ModelEntity>[
             id: const IdUid(8, 7327506249018949374),
             name: 'summaryHindi',
             type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(9, 1634178494814739599),
+            name: 'chapterNumberInt',
+            type: 6,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -375,7 +380,7 @@ ModelDefinition getObjectBoxModel() {
           final nameMeaningOffset = fbb.writeString(object.nameMeaning);
           final summaryOffset = fbb.writeString(object.summary);
           final summaryHindiOffset = fbb.writeString(object.summaryHindi);
-          fbb.startTable(9);
+          fbb.startTable(10);
           fbb.addInt64(0, object.id);
           fbb.addOffset(1, chapterNumberOffset);
           fbb.addOffset(2, nameOffset);
@@ -384,6 +389,7 @@ ModelDefinition getObjectBoxModel() {
           fbb.addOffset(5, nameMeaningOffset);
           fbb.addOffset(6, summaryOffset);
           fbb.addOffset(7, summaryHindiOffset);
+          fbb.addInt64(8, object.chapterNumberInt);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -395,6 +401,8 @@ ModelDefinition getObjectBoxModel() {
               id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
               chapterNumber: const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 6, ''),
+              chapterNumberInt:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 20, 0),
               name: const fb.StringReader(asciiOptimization: true)
                   .vTableGet(buffer, rootOffset, 8, ''),
               nameTranslated: const fb.StringReader(asciiOptimization: true)
@@ -597,6 +605,10 @@ class ChapterSummaryModel_ {
   /// see [ChapterSummaryModel.summaryHindi]
   static final summaryHindi =
       QueryStringProperty<ChapterSummaryModel>(_entities[2].properties[7]);
+
+  /// see [ChapterSummaryModel.chapterNumberInt]
+  static final chapterNumberInt =
+      QueryIntegerProperty<ChapterSummaryModel>(_entities[2].properties[8]);
 }
 
 /// [LastReadModel] entity fields to define ObjectBox queries.

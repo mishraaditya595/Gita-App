@@ -163,8 +163,11 @@ class _HomePageState extends State<HomePage> {
     Store store = await ObjectBox().getStore();
 
     //<--- get all chapters summary --->
-    List<ChapterSummaryModel> _chapterSummaryList =
-        store.box<ChapterSummaryModel>().getAll();
+    Box<ChapterSummaryModel> chapterSummaryModelBox =
+    store.box<ChapterSummaryModel>();
+    QueryBuilder<ChapterSummaryModel> queryBuilder = chapterSummaryModelBox.query()..order(ChapterSummaryModel_.chapterNumberInt);
+    Query<ChapterSummaryModel> query = queryBuilder.build();
+    List<ChapterSummaryModel> _chapterSummaryList = query.find();
 
     //<--- get random verse --->
     Box<ChapterDetailedModel> chapterDetailedModelBox =
@@ -174,13 +177,13 @@ class _HomePageState extends State<HomePage> {
     int randomChapterNumber = random.nextInt(18) + 1;
     int randomVerseNumber = random.nextInt(20) + 1;
 
-    QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
+    QueryBuilder<ChapterDetailedModel> _queryBuilder = chapterDetailedModelBox
         .query(
             ChapterDetailedModel_.chapterNumber.equals("$randomChapterNumber") &
                 ChapterDetailedModel_.verseNumber.equals("$randomVerseNumber"))
       ..order(ChapterDetailedModel_.verseNumberInt);
-    Query<ChapterDetailedModel> query = queryBuilder.build();
-    List<ChapterDetailedModel>? queryList = query.find();
+    Query<ChapterDetailedModel> _query = _queryBuilder.build();
+    List<ChapterDetailedModel>? queryList = _query.find();
 
     //<--- get last read verse --->
     Box<LastReadModel> lastReadModelBox = store.box<LastReadModel>();

@@ -5,6 +5,7 @@ class ChapterSummaryModel {
   @Id()
   int id;
   String chapterNumber;
+  int chapterNumberInt;
   String name;
   String nameTranslated;
   int verseCount;
@@ -15,6 +16,7 @@ class ChapterSummaryModel {
   ChapterSummaryModel( {
     this.id = 0,
     required this.chapterNumber,
+    required this.chapterNumberInt,
     required this.name,
     required this.nameTranslated,
     required this.verseCount,

@@ -83,7 +83,7 @@
     },
     {
       "id": "3:530850479792594835",
-      "lastPropertyId": "8:7327506249018949374",
+      "lastPropertyId": "9:1634178494814739599",
       "name": "ChapterSummaryModel",
       "properties": [
         {
@@ -126,6 +126,11 @@
           "id": "8:7327506249018949374",
           "name": "summaryHindi",
           "type": 9
+        },
+        {
+          "id": "9:1634178494814739599",
+          "name": "chapterNumberInt",
+          "type": 6
         }
       ],
       "relations": []

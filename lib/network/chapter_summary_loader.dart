@@ -49,7 +49,8 @@ class ChapterSummaryLoader {
         verseCount: chapterSummary['verses_count'].toInt() ?? -1,
         nameMeaning: chapterSummary['name_meaning'].toString() ?? '',
         summary: chapterSummary['summary'].toString() ?? '',
-        summaryHindi: chapterSummary['summary_hindi'].toString() ?? ''
+        summaryHindi: chapterSummary['summary_hindi'].toString() ?? '',
+        chapterNumberInt: chapterSummary['chapter_number'] ?? 0
     );
     return chapterSummaryModel;
   }
