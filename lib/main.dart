@@ -6,10 +6,11 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/network/chapter_detailed_loader.dart';
 import 'package:sbg/network/chapter_summary_loader.dart';
+import 'package:sbg/services/notifications/notification_service.dart';
 import 'package:sbg/ui/screens/about_page.dart';
 import 'package:sbg/ui/screens/home_page.dart';
 import 'package:sbg/ui/screens/bookmark_page.dart';
-import 'package:sbg/ui/screens/profile_screen.dart';
+import 'package:sbg/ui/screens/more_screen.dart';
 import 'package:sbg/utils/constants.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:http/http.dart' as http;
@@ -20,6 +21,7 @@ late ObjectBox objectBox;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // await NotificationService().requestIOSPermissions(); //
   runApp(const MyApp());
 }
 
@@ -44,10 +46,18 @@ class _MyAppState extends State<MyApp> {
     });
     super.initState();
     log(shouldMakeApiCall);
+    launchNotificationsServices();
+  }
+
+  launchNotificationsServices() async {
+    await NotificationService().init(context);
+    NotificationService _notificationService = NotificationService();
+    await _notificationService.scheduleNotifications();
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Phoenix(
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -131,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
     const HomePage(),
     const BookmarkPage(),
     const AboutPage(),
-    const ProfileScreen(),
+    const MoreScreen(),
   ];
 
   @override
@@ -143,13 +153,13 @@ class _MyHomePageState extends State<MyHomePage> {
           "Srimad Bhagwad Gita",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        leading: IconButton(
-          onPressed: () {
-            Phoenix.rebirth(context);
-          },
-          icon: const Icon(Icons.sync),
-        ),
-        actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.person))],
+        // leading: IconButton(
+        //   onPressed: () {
+        //     Phoenix.rebirth(context);
+        //   },
+        //   icon: const Icon(Icons.sync),
+        // ),
+        // actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.person))],
         centerTitle: true,
       ),
       body: pages[selectedIndex],
@@ -167,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "Bookmarks"),
           BottomNavigationBarItem(icon: Icon(Icons.question_mark), label: "About"),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+          BottomNavigationBarItem(icon: Icon(Icons.more), label: "More"),
         ],
       ),
     );

@@ -13,6 +13,7 @@ import '../../models/chapter_detailed_model.dart';
 import '../../models/chapter_summary_model.dart';
 import '../../models/last_read_model.dart';
 import '../../objectbox.g.dart';
+import '../../services/notifications/notification_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -33,8 +34,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    // fetchChapterSummary();
-    // fetchVerseOfTheDayAndLastRead();
     fetchData();
     super.initState();
   }
@@ -51,20 +50,23 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: MediaQuery.of(context).size.height/5,
                 width: double.maxFinite,
-                child: Card(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
-                  ),
-                  elevation: 3,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        image: const DecorationImage(
-                          image:
-                              AssetImage("assets/images/krishna.jpg"),
-                          fit: BoxFit.fill,
-                          alignment: Alignment.topCenter,
-                        )),
+                child: InkWell(
+                  onTap: () async => { },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                    ),
+                    elevation: 3,
+                    child: Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          image: const DecorationImage(
+                            image:
+                                AssetImage("assets/images/krishna.jpg"),
+                            fit: BoxFit.fill,
+                            alignment: Alignment.topCenter,
+                          )),
+                    ),
                   ),
                 ),
               ),
