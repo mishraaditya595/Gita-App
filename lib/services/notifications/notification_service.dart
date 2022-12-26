@@ -143,22 +143,12 @@ class NotificationService {
   }
 
   Future<void> scheduleNotifications() async {
-    // await flutterLocalNotificationsPlugin.zonedSchedule(
-    //     0,
-    //     "Notification Title",
-    //     "This is the Notification Body!",
-    //     tz.TZDateTime.now(tz.local).add(const Duration(minutes: 1)),
-    //     NotificationDetails(android: _androidNotificationDetails, iOS: _iosNotificationDetails),
-    //     androidAllowWhileIdle: true,
-    //     uiLocalNotificationDateInterpretation:
-    //     UILocalNotificationDateInterpretation.absoluteTime);
-
     await flutterLocalNotificationsPlugin.periodicallyShow
       (
         0,
         'Hare Krishna',
-        "Your daily of Godfidence is missing",
-        RepeatInterval.daily,
+        "Your daily of Godfidence is missing. Tap here to align yourself in Krishna Consciousness",
+        RepeatInterval.hourly,
         NotificationDetails(
             android: _androidNotificationDetails,
             iOS: _iosNotificationDetails),

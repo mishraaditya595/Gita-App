@@ -141,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
     const HomePage(),
     const BookmarkPage(),
     const AboutPage(),
-    const MoreScreen(),
+    // const MoreScreen(),
   ];
 
   @override
@@ -177,7 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "Bookmarks"),
           BottomNavigationBarItem(icon: Icon(Icons.question_mark), label: "About"),
-          BottomNavigationBarItem(icon: Icon(Icons.more), label: "More"),
+          // BottomNavigationBarItem(icon: Icon(Icons.more), label: "More"),
         ],
       ),
     );
