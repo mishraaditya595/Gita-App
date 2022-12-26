@@ -5,7 +5,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
-import '../../main.dart';
+import '../../../main.dart';
 
 
 class NotificationService {
@@ -125,11 +125,11 @@ class NotificationService {
     );
   }
 
-  Future<void> showNotifications() async {
+  Future<void> showNotifications(String notificationTitle, String? notificationBody) async {
     await flutterLocalNotificationsPlugin.show(
       0,
-      "Notification Title",
-      "This is the Notification Body!",
+      notificationTitle,
+      notificationBody ?? 'Hi',
       NotificationDetails(android: _androidNotificationDetails, iOS: _iosNotificationDetails),
     );
   }
@@ -148,7 +148,7 @@ class NotificationService {
         0,
         'Hare Krishna',
         "Your daily of Godfidence is missing. Tap here to align yourself in Krishna Consciousness",
-        RepeatInterval.hourly,
+        RepeatInterval.daily,
         NotificationDetails(
             android: _androidNotificationDetails,
             iOS: _iosNotificationDetails),

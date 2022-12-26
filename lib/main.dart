@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/network/chapter_detailed_loader.dart';
 import 'package:sbg/network/chapter_summary_loader.dart';
-import 'package:sbg/services/notifications/notification_service.dart';
+import 'package:sbg/services/notifications/firebase/firebase_notification_service.dart';
+import 'package:sbg/services/notifications/local/notification_service.dart';
 import 'package:sbg/ui/screens/about_page.dart';
 import 'package:sbg/ui/screens/home_page.dart';
 import 'package:sbg/ui/screens/bookmark_page.dart';
@@ -21,7 +24,8 @@ late ObjectBox objectBox;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // await NotificationService().requestIOSPermissions(); //
+  await Firebase.initializeApp();
+  await FirebaseMessaging.instance.getInitialMessage();
   runApp(const MyApp());
 }
 
@@ -37,6 +41,9 @@ class _MyAppState extends State<MyApp> {
 
   int splashScreenLoaderTime = 10;
   String shouldMakeApiCall = "false";
+  String? notificationTitle;
+  String? notificationBody;
+  String? notificationData;
 
   @override
   void initState() {
@@ -44,10 +51,31 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       splashScreenLoaderTime = 6;
     });
+
+    final firebaseMessaging = FCM();
+    firebaseMessaging.setNotifications();
+
+    firebaseMessaging.streamCtlr.stream.listen(_changeData);
+    firebaseMessaging.bodyCtlr.stream.listen(_changeBody);
+    firebaseMessaging.titleCtlr.stream.listen(_changeTitle);
+
+    getFcmToken();
+
     super.initState();
     log(shouldMakeApiCall);
     launchNotificationsServices();
   }
+
+  _changeData(String msg) => setState(() => notificationData = msg);
+  _changeBody(String msg) => setState(() => notificationBody = msg);
+  _changeTitle(String msg) {
+    setState(() => notificationTitle = msg);
+    if(notificationTitle != null ) {
+      log('not null');
+      NotificationService().showNotifications(notificationTitle!, notificationBody );
+    }
+  }
+
 
   launchNotificationsServices() async {
     await NotificationService().init(context);
@@ -117,6 +145,11 @@ class _MyAppState extends State<MyApp> {
 
     return const MyHomePage(title: '');
   }
+
+  Future<void> getFcmToken() async {
+    String? token = await FirebaseMessaging.instance.getToken();
+    log("Token: $token");
+  }
 }
 
 class MyHomePage extends StatefulWidget {
@@ -153,13 +186,6 @@ class _MyHomePageState extends State<MyHomePage> {
           "Srimad Bhagwad Gita",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        // leading: IconButton(
-        //   onPressed: () {
-        //     Phoenix.rebirth(context);
-        //   },
-        //   icon: const Icon(Icons.sync),
-        // ),
-        // actions: [IconButton(onPressed: () {}, icon: const Icon(Icons.person))],
         centerTitle: true,
       ),
       body: pages[selectedIndex],
