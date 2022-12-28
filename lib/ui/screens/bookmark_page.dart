@@ -29,53 +29,94 @@ class _BookmarkPageState extends State<BookmarkPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 0),
-        child: Column (
-          children: [
-            const Align(
-              alignment: Alignment.topCenter,
-              child: Padding(
-                padding: const EdgeInsets.only(top: 12.0),
-                child: Text( "My Bookmarks",
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepOrange
+
+    if(verseBookmarkModelList.isEmpty) {
+      return Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 0),
+          child: Column(
+            children: [
+              const Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: EdgeInsets.only(top: 12.0),
+                  child: Text( "My Bookmarks",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepOrange
+                    ),
+                    textAlign: TextAlign.center,
                   ),
+                ),
+              ),
+              SizedBox(height: MediaQuery.of(context).size.height / 3,),
+              Center(
+                child: Text(
+                  "No bookmarks found.",
+                  style: Theme.of(context).textTheme.bodyLarge,
                   textAlign: TextAlign.center,
                 ),
               ),
-            ),
-            const SizedBox(height: 30,),
-            Expanded(
-              child: ListView.builder(
-                  itemCount: verseBookmarkModelList.length,
-                  itemBuilder: (context, position) {
-                    return Dismissible(
-                      key: UniqueKey(),
-                      child: VerseCardWidget(
-                          verseDetails: ChapterDetailedModel(
-                              verseNumber: verseBookmarkModelList[position].verseNumber,
-                              chapterNumber: verseBookmarkModelList[position].chapterNumber,
-                              text: verseBookmarkModelList[position].text,
-                              transliteration: verseBookmarkModelList[position].transliteration,
-                              wordMeanings: verseBookmarkModelList[position].wordMeanings,
-                              translation: verseBookmarkModelList[position].translation,
-                              commentary: verseBookmarkModelList[position].commentary,
-                              verseNumberInt: verseBookmarkModelList[position].verseNumberInt
-                          )),
-                      onDismissed: (_) {
-                        removeBookmark(verseBookmarkModelList[position].verseNumber, verseBookmarkModelList[position].chapterNumber);
-                      },
-                    );
-              }),
-            )
-          ],
+              const SizedBox(height: 10,),
+              Text(
+                "Add a verse to bookmarks to find them here.",
+                style: Theme.of(context).textTheme.bodyMedium,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      return Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 0),
+          child: Column (
+            children: [
+              const Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 12.0),
+                  child: Text( "My Bookmarks",
+                    style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.deepOrange
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 30,),
+              Expanded(
+                child: ListView.builder(
+                    itemCount: verseBookmarkModelList.length,
+                    itemBuilder: (context, position) {
+                      return Dismissible(
+                        key: UniqueKey(),
+                        child: VerseCardWidget(
+                            verseDetails: ChapterDetailedModel(
+                                verseNumber: verseBookmarkModelList[position].verseNumber,
+                                chapterNumber: verseBookmarkModelList[position].chapterNumber,
+                                text: verseBookmarkModelList[position].text,
+                                transliteration: verseBookmarkModelList[position].transliteration,
+                                wordMeanings: verseBookmarkModelList[position].wordMeanings,
+                                translation: verseBookmarkModelList[position].translation,
+                                commentary: verseBookmarkModelList[position].commentary,
+                                verseNumberInt: verseBookmarkModelList[position].verseNumberInt
+                            )),
+                        onDismissed: (_) {
+                          removeBookmark(verseBookmarkModelList[position].verseNumber, verseBookmarkModelList[position].chapterNumber);
+                        },
+                      );
+                    }),
+              )
+            ],
+          ),
+        ),
+      );
+    }
   }
 
   Future<void> fetchAllBookmarks() async {
@@ -105,8 +146,14 @@ class _BookmarkPageState extends State<BookmarkPage> {
     debugPrint("Bookmark length before removal: ${verseBookmarkModelBox.count()}");
 
     verseBookmarkModelBox.remove(bookmarkList[0].id);
+
+    bookmarkList = verseBookmarkModelBox.getAll();
     debugPrint("Bookmark length after removal: ${verseBookmarkModelBox.count()}");
 
     store.close();
+
+    setState(() {
+      verseBookmarkModelList = bookmarkList!;
+    });
   }
 }

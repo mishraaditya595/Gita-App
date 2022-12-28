@@ -192,7 +192,7 @@ class _VerseScreenState extends State<VerseScreen> {
                       ),
                       Text(
                         widget.verseDetails.translation ?? '',
-                        textAlign: TextAlign.justify,
+                        textAlign: TextAlign.start,
                         style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
                       const SizedBox(
@@ -214,7 +214,7 @@ class _VerseScreenState extends State<VerseScreen> {
                       ),
                       Text(
                         widget.verseDetails.commentary ?? '',
-                        textAlign: TextAlign.justify,
+                        textAlign: TextAlign.start,
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                     ],

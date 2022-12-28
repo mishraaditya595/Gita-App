@@ -69,7 +69,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     elevation: 3,
                     child: InkWell(
-                      onTap: () => NotificationService().showNotifications("Hi", "Test"),
+                      onTap: () {},
                       child: Container(
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
@@ -90,6 +90,7 @@ class _HomePageState extends State<HomePage> {
               Visibility(
                 visible: isLastReadAvailable,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -44,13 +44,13 @@ class ChapterDetailedLoader {
 
   ChapterDetailedModel toChapterDetailedModel(chapterDetailed) {
     ChapterDetailedModel chapterDetailedModel = ChapterDetailedModel(
-        verseNumber: chapterDetailed['verse_number'].toString() ?? '',
-        chapterNumber: chapterDetailed['chapter_number'].toString() ?? '',
-        text: chapterDetailed['text'].toString() ?? '',
-        transliteration: chapterDetailed['transliteration'].toString() ?? '',
-        wordMeanings: chapterDetailed['word_meanings'].toString() ?? '',
-        translation: chapterDetailed['translation'].toString() ?? '',
-        commentary: chapterDetailed['commentary'].toString() ?? '',
+        verseNumber: chapterDetailed['verse_number'].toString().trim() ?? '',
+        chapterNumber: chapterDetailed['chapter_number'].toString().trim() ?? '',
+        text: chapterDetailed['text'].toString().trim() ?? '',
+        transliteration: chapterDetailed['transliteration'].toString().trim() ?? '',
+        wordMeanings: chapterDetailed['word_meanings'].toString().trim() ?? '',
+        translation: chapterDetailed['translation'].toString().trim() ?? '',
+        commentary: chapterDetailed['commentary'].toString().trim() ?? '',
         verseNumberInt: chapterDetailed['verse_number'].toInt() ?? -1,
     );
     return chapterDetailedModel;

@@ -43,13 +43,13 @@ class ChapterSummaryLoader {
 
   ChapterSummaryModel toChapterSummaryModel(chapterSummary) {
     ChapterSummaryModel chapterSummaryModel = ChapterSummaryModel(
-        chapterNumber: chapterSummary['chapter_number'].toString() ?? '',
-        name: chapterSummary['name'].toString() ??'',
-        nameTranslated: chapterSummary['name_translated'].toString() ??'',
+        chapterNumber: chapterSummary['chapter_number'].toString().trim() ?? '',
+        name: chapterSummary['name'].toString().trim() ??'',
+        nameTranslated: chapterSummary['name_translated'].toString().trim() ??'',
         verseCount: chapterSummary['verses_count'].toInt() ?? -1,
-        nameMeaning: chapterSummary['name_meaning'].toString() ?? '',
-        summary: chapterSummary['summary'].toString() ?? '',
-        summaryHindi: chapterSummary['summary_hindi'].toString() ?? '',
+        nameMeaning: chapterSummary['name_meaning'].toString().trim() ?? '',
+        summary: chapterSummary['summary'].toString().trim() ?? '',
+        summaryHindi: chapterSummary['summary_hindi'].toString().trim() ?? '',
         chapterNumberInt: chapterSummary['chapter_number'] ?? 0
     );
     return chapterSummaryModel;

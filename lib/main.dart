@@ -88,7 +88,7 @@ class _MyAppState extends State<MyApp> {
 
     return Phoenix(
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: '',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.orange,
@@ -101,16 +101,16 @@ class _MyAppState extends State<MyApp> {
               navigateAfterSeconds: const MyHomePage(title: '',),
               // navigateAfterFuture: checkForBackendChanges(),
               title: Text(
-                'Hare Krishna Hare Krishna \nKrishna Krishna Hare Hare \nHare Rama Hare Rama \nRama Rama Hare Hare',
+                '',
                 style: Theme.of(context).textTheme.headlineSmall,
                 textAlign: TextAlign.center,
               ),
-              // image: Image.asset("assets/images/temp_radha_krishna.jpeg"),
+              image: Image.asset("assets/images/gita.jpg"),
               backgroundColor: Colors.white,
               styleTextUnderTheLoader: const TextStyle(),
               photoSize: 100.0,
               loadingText: const Text("Loading..."),
-              loaderColor: Colors.orange),
+              loaderColor: Colors.deepOrangeAccent),
         ),
       ),
     );
