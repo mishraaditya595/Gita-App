@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     checkForBackendChanges();
     setState(() {
-      splashScreenLoaderTime = 6;
+      splashScreenLoaderTime = 4;
     });
 
     final firebaseMessaging = FCM();
@@ -101,15 +101,16 @@ class _MyAppState extends State<MyApp> {
               navigateAfterSeconds: const MyHomePage(title: '',),
               // navigateAfterFuture: checkForBackendChanges(),
               title: Text(
-                '',
+                'Srimad Bhagwad Gita',
                 style: Theme.of(context).textTheme.headlineSmall,
                 textAlign: TextAlign.center,
+                overflow: TextOverflow.ellipsis,
               ),
               image: Image.asset("assets/images/gita.jpg"),
               backgroundColor: Colors.white,
               styleTextUnderTheLoader: const TextStyle(),
               photoSize: 100.0,
-              loadingText: const Text("Loading..."),
+              loadingText: const Text("Loading data..."),
               loaderColor: Colors.deepOrangeAccent),
         ),
       ),
@@ -128,6 +129,10 @@ class _MyAppState extends State<MyApp> {
     var jsonResp = jsonDecode(res.body) as List;
     var response = jsonResp[0]['new_change'].toString();
     log("Backend Changes: $response");
+
+    setState(() {
+      splashScreenLoaderTime = 1;
+    });
 
     return response;
   }
@@ -148,7 +153,6 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> getFcmToken() async {
     String? token = await FirebaseMessaging.instance.getToken();
-    log("Token: $token");
   }
 }
 

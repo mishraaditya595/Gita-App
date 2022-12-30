@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    getImei();
+    // getImei();
     fetchData();
     super.initState();
   }
@@ -191,17 +191,17 @@ class _HomePageState extends State<HomePage> {
     Box<ChapterDetailedModel> chapterDetailedModelBox =
         store.box<ChapterDetailedModel>();
 
-    Random random = Random();
-    int randomChapterNumber = random.nextInt(18) + 1;
-    int randomVerseNumber = random.nextInt(20) + 1;
-
-    QueryBuilder<ChapterDetailedModel> _queryBuilder = chapterDetailedModelBox
-        .query(
-            ChapterDetailedModel_.chapterNumber.equals("$randomChapterNumber") &
-                ChapterDetailedModel_.verseNumber.equals("$randomVerseNumber"))
-      ..order(ChapterDetailedModel_.verseNumberInt);
-    Query<ChapterDetailedModel> _query = _queryBuilder.build();
-    List<ChapterDetailedModel>? queryList = _query.find();
+    // Random random = Random();
+    // int randomChapterNumber = random.nextInt(18) + 1;
+    // int randomVerseNumber = random.nextInt(20) + 1;
+    //
+    // QueryBuilder<ChapterDetailedModel> _queryBuilder = chapterDetailedModelBox
+    //     .query(
+    //         ChapterDetailedModel_.chapterNumber.equals("$randomChapterNumber") &
+    //             ChapterDetailedModel_.verseNumber.equals("$randomVerseNumber"))
+    //   ..order(ChapterDetailedModel_.verseNumberInt);
+    // Query<ChapterDetailedModel> _query = _queryBuilder.build();
+    // List<ChapterDetailedModel>? queryList = _query.find();
 
     //<--- get last read verse --->
     Box<LastReadModel> lastReadModelBox = store.box<LastReadModel>();
@@ -218,7 +218,7 @@ class _HomePageState extends State<HomePage> {
       // debugPrint("VerseOfTheDay: ${queryList[0].translation}");
       // debugPrint("VerseOfTheDay: ${queryList[0].chapterNumber}");
       // debugPrint("VerseOfTheDay: ${queryList[0].verseNumber}");
-      debugPrint("Random verse num: $randomChapterNumber.$randomVerseNumber");
+      // debugPrint("Random verse num: $randomChapterNumber.$randomVerseNumber");
 
 
       if (lastReadList.isNotEmpty) {

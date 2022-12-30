@@ -32,11 +32,17 @@ class VerseScreen extends StatefulWidget {
 class _VerseScreenState extends State<VerseScreen> {
   List<ChapterDetailedModel> verseList = [];
   bool isBookmarked = false;
+  bool isCommentaryAvailable = true;
   IconData fabIcon = Icons.bookmark_add;
 
   @override
   void initState() {
     fetchBookmarkAndAddToLastRead();
+    if(widget.verseDetails.commentary == null || widget.verseDetails.commentary.isEmpty) {
+      setState(() {
+        isCommentaryAvailable = false;
+      });
+    }
     super.initState();
   }
 
@@ -195,27 +201,34 @@ class _VerseScreenState extends State<VerseScreen> {
                         textAlign: TextAlign.start,
                         style: const TextStyle(fontWeight: FontWeight.w600),
                       ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Divider(
-                        color: Colors.orangeAccent,
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      const Text(
-                        "COMMENTARY",
-                        style: TextStyle(
-                            fontWeight: FontWeight.w700, fontSize: 16),
-                      ),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        widget.verseDetails.commentary ?? '',
-                        textAlign: TextAlign.start,
-                        style: TextStyle(fontWeight: FontWeight.w600),
+                      Visibility(
+                        visible: isCommentaryAvailable,
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            const Divider(
+                              color: Colors.orangeAccent,
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            const Text(
+                              "COMMENTARY",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.w700, fontSize: 16),
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              widget.verseDetails.commentary ?? '',
+                              textAlign: TextAlign.start,
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -468,6 +481,17 @@ class _VerseScreenState extends State<VerseScreen> {
           }
         }
     }
+
+    if(widget.verseDetails.commentary == null || widget.verseDetails.commentary.isEmpty) {
+      setState(() {
+        isCommentaryAvailable = false;
+      });
+    } else {
+      setState(() {
+        isCommentaryAvailable = true;
+      });
+    }
+
 
     store.close();
 
