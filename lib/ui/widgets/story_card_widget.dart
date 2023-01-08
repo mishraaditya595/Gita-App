@@ -1,8 +1,22 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sbg/ui/screens/story_screen.dart';
 
 class StoryCardWidget extends StatefulWidget {
-  const StoryCardWidget({Key? key}) : super(key: key);
+  String desc;
+  String date;
+  String address;
+  String imgeAssetPath;
+
+  /// later can be changed with imgUrl
+  StoryCardWidget(
+      {super.key, required this.address,
+      required this.date,
+      this.imgeAssetPath =
+          "https://cdn-images-1.medium.com/max/1024/1*lyCsaroUWxpwlqBCodmQ1w.png",
+      required this.desc});
 
   @override
   State<StoryCardWidget> createState() => _StoryCardWidgetState();
@@ -11,70 +25,65 @@ class StoryCardWidget extends StatefulWidget {
 class _StoryCardWidgetState extends State<StoryCardWidget> {
   @override
   Widget build(BuildContext context) {
-
-    double height = MediaQuery.of(context).size.height * 0.09;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-      child: Column(
-        children: [
-          Container(
-            height: height,
-            child: Row(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.15,
-                  height: height,
-                  decoration: const BoxDecoration(
-                      // borderRadius: BorderRadius.circular(12),
-                      image: DecorationImage(
-                        image:
-                        AssetImage("assets/images/krishna.jpg"),
-                        fit: BoxFit.fill,
-                        alignment: Alignment.topCenter,
-                      )),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.72,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 8.0, bottom: 5),
-                        child: Text (
-                            "Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 ",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                          style: Theme.of(context).textTheme.titleLarge,
-                        ),
+    return Container(
+      height: 100,
+      margin: EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+          // color: Color(0xff29404E),
+          borderRadius: BorderRadius.circular(8)),
+      child: Card(
+        elevation: 10,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: InkWell(
+                onTap: () => onStoryCardTapped(),
+                child: Container(
+                  padding: EdgeInsets.only(left: 16),
+                  width: MediaQuery.of(context).size.width - 100,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Text(
+                        widget.desc,
+                        style: const TextStyle(
+                            // color: Colors.white,
+                            fontSize: 18),
                       ),
-                    ),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.72,
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 8.0,),
-                        child: Text (
-                            "Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 ",
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
+                      const SizedBox(
+                        height: 8,
                       ),
-                    ),
-                  ],
+                      const Text("12 Jan, 2022"),
+                    ],
+                  ),
                 ),
-              ],
+              ),
             ),
-          ),
-          Container(
-              margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.2,),
-              child: const Divider(color: Colors.orangeAccent, thickness: 1,)
-          )
-        ],
+            ClipRRect(
+              borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(8),
+                  bottomRight: Radius.circular(8)),
+              child: Image.network(
+                'https://picsum.photos/250?image=9',
+                height: 100,
+                width: 120,
+                fit: BoxFit.cover,
+              ),
+            )
+            // Image.asset(imgeAssetPath, height: 100,width: 120, fit: BoxFit.cover,)),
+          ],
+        ),
       ),
     );
+  }
+  onStoryCardTapped() {
+    Navigator.push(context, MaterialPageRoute(builder: (context) =>
+        StoryScreen()
+        ));
+    log("Story Card Tapped");
   }
 }

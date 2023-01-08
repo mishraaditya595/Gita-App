@@ -26,9 +26,9 @@ class _MoreScreenState extends State<MoreScreen> {
             child: ListView.builder(
                 shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),
-                itemCount: 3,
+                itemCount: 16,
                 itemBuilder: (context, position) {
-                  return StoryCardWidget();
+                  return StoryCardWidget(address: 'Faridabad', date: 'Jan 12 2019', desc: 'Sports meet scheduled at Galaxy Field in Faridabad',);
             }),
           )
         ],
