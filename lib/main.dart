@@ -8,6 +8,7 @@ import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/network/chapter_detailed_loader.dart';
 import 'package:sbg/network/chapter_summary_loader.dart';
+import 'package:sbg/network/stories_loader.dart';
 import 'package:sbg/services/notifications/firebase/firebase_notification_service.dart';
 import 'package:sbg/services/notifications/local/notification_service.dart';
 import 'package:sbg/ui/screens/about_page.dart';
@@ -122,8 +123,8 @@ class _MyAppState extends State<MyApp> {
         Uri.parse(
             'https://iraapaycdfoslqefnvef.supabase.co/rest/v1/tbl_change_data?select=new_change'),
         headers: {
-          'Authorization': Constants.AUTHORIZATION,
-          'apikey': Constants.API_KEY
+          'Authorization': Constants.SUPABASE_AUTHORIZATION,
+          'apikey': Constants.SUPABASE_API_KEY
         });
 
     var jsonResp = jsonDecode(res.body) as List;
@@ -146,6 +147,7 @@ class _MyAppState extends State<MyApp> {
     if (shouldMakeApiCall == "true") {
       ChapterSummaryLoader().getDataFromDB();
       ChapterDetailedLoader().getDataFromDB();
+      StoriesLoader().getDataFromDB();
     }
 
     return const MyHomePage(title: '');

@@ -18,6 +18,7 @@ import 'models/change_data_model.dart';
 import 'models/chapter_detailed_model.dart';
 import 'models/chapter_summary_model.dart';
 import 'models/last_read_model.dart';
+import 'models/stories_model.dart';
 import 'models/verse_bookmark_model.dart';
 
 export 'package:objectbox/objectbox.dart'; // so that callers only have to import this file
@@ -247,6 +248,50 @@ final _entities = <ModelEntity>[
             flags: 0)
       ],
       relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(6, 2026905150890170209),
+      name: 'StoriesModel',
+      lastPropertyId: const IdUid(7, 2787156902068348175),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 984111274425241363),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 3130967215297207893),
+            name: 'title',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 1048619886897784842),
+            name: 'pubDate',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 5328098179794879504),
+            name: 'link',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 4571504482422780176),
+            name: 'author',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(6, 487258216628626507),
+            name: 'thumbnail',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(7, 2787156902068348175),
+            name: 'content',
+            type: 9,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
 ];
 
@@ -270,7 +315,7 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(5, 1303902611909325809),
+      lastEntityId: const IdUid(6, 2026905150890170209),
       lastIndexId: const IdUid(0, 0),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
@@ -512,6 +557,53 @@ ModelDefinition getObjectBoxModel() {
               creationTime: const fb.Int64Reader().vTableGet(buffer, rootOffset, 22, 0));
 
           return object;
+        }),
+    StoriesModel: EntityDefinition<StoriesModel>(
+        model: _entities[5],
+        toOneRelations: (StoriesModel object) => [],
+        toManyRelations: (StoriesModel object) => {},
+        getId: (StoriesModel object) => object.id,
+        setId: (StoriesModel object, int id) {
+          object.id = id;
+        },
+        objectToFB: (StoriesModel object, fb.Builder fbb) {
+          final titleOffset = fbb.writeString(object.title);
+          final pubDateOffset = fbb.writeString(object.pubDate);
+          final linkOffset = fbb.writeString(object.link);
+          final authorOffset = fbb.writeString(object.author);
+          final thumbnailOffset = fbb.writeString(object.thumbnail);
+          final contentOffset = fbb.writeString(object.content);
+          fbb.startTable(8);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, titleOffset);
+          fbb.addOffset(2, pubDateOffset);
+          fbb.addOffset(3, linkOffset);
+          fbb.addOffset(4, authorOffset);
+          fbb.addOffset(5, thumbnailOffset);
+          fbb.addOffset(6, contentOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = StoriesModel(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              title: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              pubDate: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, ''),
+              link: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 10, ''),
+              author: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 12, ''),
+              thumbnail: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 14, ''),
+              content: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 16, ''));
+
+          return object;
         })
   };
 
@@ -675,4 +767,35 @@ class VerseBookmarkModel_ {
   /// see [VerseBookmarkModel.creationTime]
   static final creationTime =
       QueryIntegerProperty<VerseBookmarkModel>(_entities[4].properties[9]);
+}
+
+/// [StoriesModel] entity fields to define ObjectBox queries.
+class StoriesModel_ {
+  /// see [StoriesModel.id]
+  static final id =
+      QueryIntegerProperty<StoriesModel>(_entities[5].properties[0]);
+
+  /// see [StoriesModel.title]
+  static final title =
+      QueryStringProperty<StoriesModel>(_entities[5].properties[1]);
+
+  /// see [StoriesModel.pubDate]
+  static final pubDate =
+      QueryStringProperty<StoriesModel>(_entities[5].properties[2]);
+
+  /// see [StoriesModel.link]
+  static final link =
+      QueryStringProperty<StoriesModel>(_entities[5].properties[3]);
+
+  /// see [StoriesModel.author]
+  static final author =
+      QueryStringProperty<StoriesModel>(_entities[5].properties[4]);
+
+  /// see [StoriesModel.thumbnail]
+  static final thumbnail =
+      QueryStringProperty<StoriesModel>(_entities[5].properties[5]);
+
+  /// see [StoriesModel.content]
+  static final content =
+      QueryStringProperty<StoriesModel>(_entities[5].properties[6]);
 }

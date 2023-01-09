@@ -227,9 +227,53 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "6:2026905150890170209",
+      "lastPropertyId": "7:2787156902068348175",
+      "name": "StoriesModel",
+      "properties": [
+        {
+          "id": "1:984111274425241363",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3130967215297207893",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:1048619886897784842",
+          "name": "pubDate",
+          "type": 9
+        },
+        {
+          "id": "4:5328098179794879504",
+          "name": "link",
+          "type": 9
+        },
+        {
+          "id": "5:4571504482422780176",
+          "name": "author",
+          "type": 9
+        },
+        {
+          "id": "6:487258216628626507",
+          "name": "thumbnail",
+          "type": 9
+        },
+        {
+          "id": "7:2787156902068348175",
+          "name": "content",
+          "type": 9
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "5:1303902611909325809",
+  "lastEntityId": "6:2026905150890170209",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

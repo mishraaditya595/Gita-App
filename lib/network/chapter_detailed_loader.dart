@@ -17,10 +17,10 @@ class ChapterDetailedLoader {
   getDataFromDB() async {
 
     http.Response res = await http.get(
-        Uri.parse('${Constants.URI}rest/v1/$tableName?select=*'),
+        Uri.parse('${Constants.SUPABASE_URI}rest/v1/$tableName?select=*'),
         headers: {
-          'Authorization': Constants.AUTHORIZATION,
-          'apikey': Constants.API_KEY
+          'Authorization': Constants.SUPABASE_AUTHORIZATION,
+          'apikey': Constants.SUPABASE_API_KEY
         });
 
     addDataToLocalDb(res);
