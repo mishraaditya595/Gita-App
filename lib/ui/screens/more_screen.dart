@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:sbg/ui/widgets/story_card_widget.dart';
 
+import '../../models/chapter_detailed_model.dart';
+import '../../models/stories_model.dart';
+import '../../objectbox.dart';
+import '../../objectbox.g.dart';
+
 class MoreScreen extends StatefulWidget {
   const MoreScreen({Key? key}) : super(key: key);
 
@@ -9,6 +14,17 @@ class MoreScreen extends StatefulWidget {
 }
 
 class _MoreScreenState extends State<MoreScreen> {
+
+  List<StoriesModel> storiesList = [];
+
+  @override
+  void initState() {
+
+    getStories();
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,12 +42,35 @@ class _MoreScreenState extends State<MoreScreen> {
             child: ListView.builder(
                 shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),
-                itemCount: 16,
+                itemCount: storiesList.length,
                 itemBuilder: (context, position) {
-                  return StoryCardWidget(address: 'Faridabad', date: 'Jan 12 2019', desc: 'Sports meet scheduled at Galaxy Field in Faridabad',);
+                  return StoryCardWidget(
+                    address: '',
+                    date: storiesList[position].pubDate,
+                    desc: storiesList[position].title,
+                    imgeAssetPath: storiesList[position].thumbnail,
+                    content: storiesList[position].content,
+                    title: storiesList[position].title,
+                  );
             }),
           )
         ],
       ));
+  }
+
+  Future<void> getStories() async {
+    Store store = await ObjectBox().getStore();
+    Box<StoriesModel> storyModelBox = store.box<StoriesModel>();
+    // QueryBuilder<StoriesModel> queryBuilder = storyModelBox.query(
+    //
+    // )..order(StoriesModel_.pubDate);
+    // Query<StoriesModel> query = queryBuilder.build();
+    // List<StoriesModel>? _storiesList = query.find();
+    List<StoriesModel>? _storiesList = storyModelBox.getAll();
+
+    setState(() {
+      storiesList.addAll(_storiesList);
+    });
+    store.close();
   }
 }

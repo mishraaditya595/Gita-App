@@ -4,9 +4,14 @@ import 'package:flutter_html/flutter_html.dart';
 
 
 class StoryScreen extends StatefulWidget {
-  // final Blog blog;
+  String story;
+  String title;
 
-  const StoryScreen({Key? key}) : super(key: key);
+  StoryScreen({
+    Key? key,
+    required this.story,
+    required this.title,
+  }) : super(key: key);
 
   @override
   State<StoryScreen> createState() => _StoryScreenState();
@@ -19,15 +24,20 @@ class _StoryScreenState extends State<StoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Colors.black,
-      //   title: Text("widget.blog.titleB"),
-      // ),
+      appBar: AppBar(
+        centerTitle: true,
+        title: Text(widget.title, style: const TextStyle(overflow: TextOverflow.ellipsis), maxLines: 1,),
+          leading: IconButton(
+              onPressed: () {
+                Navigator.pop(context, true);
+              },
+              icon: const Icon(Icons.arrow_back_ios_new))
+      ),
       body: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(15.0),
         child: SingleChildScrollView(
             child: Html(
-              data: sample,
+              data: widget.story,
             )),
       ),
     );

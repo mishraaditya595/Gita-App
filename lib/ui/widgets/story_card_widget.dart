@@ -9,14 +9,19 @@ class StoryCardWidget extends StatefulWidget {
   String date;
   String address;
   String imgeAssetPath;
+  String content;
+  String title;
 
   /// later can be changed with imgUrl
-  StoryCardWidget(
-      {super.key, required this.address,
-      required this.date,
-      this.imgeAssetPath =
-          "https://cdn-images-1.medium.com/max/1024/1*lyCsaroUWxpwlqBCodmQ1w.png",
-      required this.desc});
+  StoryCardWidget({
+    super.key,
+    required this.address,
+    required this.date,
+    required this.imgeAssetPath,
+    required this.desc,
+    required this.content,
+    required this.title,
+  });
 
   @override
   State<StoryCardWidget> createState() => _StoryCardWidgetState();
@@ -68,10 +73,10 @@ class _StoryCardWidgetState extends State<StoryCardWidget> {
                   topRight: Radius.circular(8),
                   bottomRight: Radius.circular(8)),
               child: Image.network(
-                'https://picsum.photos/250?image=9',
+                widget.imgeAssetPath,
                 height: 100,
                 width: 120,
-                fit: BoxFit.cover,
+                fit: BoxFit.fitWidth,
               ),
             )
             // Image.asset(imgeAssetPath, height: 100,width: 120, fit: BoxFit.cover,)),
@@ -82,7 +87,9 @@ class _StoryCardWidgetState extends State<StoryCardWidget> {
   }
   onStoryCardTapped() {
     Navigator.push(context, MaterialPageRoute(builder: (context) =>
-        StoryScreen()
+        StoryScreen(
+          story: widget.content, title: widget.title,
+        )
         ));
     log("Story Card Tapped");
   }
