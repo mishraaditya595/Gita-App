@@ -11,6 +11,7 @@ class StoryCardWidget extends StatefulWidget {
   String imgeAssetPath;
   String content;
   String title;
+  String author;
 
   /// later can be changed with imgUrl
   StoryCardWidget({
@@ -21,6 +22,7 @@ class StoryCardWidget extends StatefulWidget {
     required this.desc,
     required this.content,
     required this.title,
+    required this.author,
   });
 
   @override
@@ -28,16 +30,23 @@ class StoryCardWidget extends StatefulWidget {
 }
 
 class _StoryCardWidgetState extends State<StoryCardWidget> {
+
+  double getContainerHeight(String title) {
+    if(title.length > 60) {
+      return 130;
+    } else if (title.length > 30 && title.length < 59) {
+      return 110;
+    }
+    return 100;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
-      margin: EdgeInsets.only(bottom: 16),
+      height: getContainerHeight(widget.desc),
       decoration: BoxDecoration(
-          // color: Color(0xff29404E),
           borderRadius: BorderRadius.circular(8)),
       child: Card(
-        elevation: 10,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15.0),
         ),
@@ -59,10 +68,10 @@ class _StoryCardWidgetState extends State<StoryCardWidget> {
                             // color: Colors.white,
                             fontSize: 18),
                       ),
-                      const SizedBox(
-                        height: 8,
-                      ),
-                      const Text("12 Jan, 2022"),
+                      const SizedBox(height: 8,),
+                      Text("By ${widget.author.toUpperCase()}", style: const TextStyle(fontSize: 12),),
+                      const SizedBox(height: 8,),
+                      Text(widget.date),
                     ],
                   ),
                 ),
@@ -73,13 +82,13 @@ class _StoryCardWidgetState extends State<StoryCardWidget> {
                   topRight: Radius.circular(8),
                   bottomRight: Radius.circular(8)),
               child: Image.network(
-                widget.imgeAssetPath,
-                height: 100,
+                //widget.imgeAssetPath,
+                "https://firebasestorage.googleapis.com/v0/b/opinionpoll-cb453.appspot.com/o/WhatsApp%20Image%202023-01-14%20at%2009.14.13.jpeg?alt=media&token=2ff29db6-4f59-4a72-a37d-e1728f0f5310",
+                height: getContainerHeight(widget.desc),
                 width: 120,
-                fit: BoxFit.fitWidth,
+                fit: BoxFit.fill,
               ),
             )
-            // Image.asset(imgeAssetPath, height: 100,width: 120, fit: BoxFit.cover,)),
           ],
         ),
       ),

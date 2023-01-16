@@ -50,6 +50,8 @@ dependencies:
   firebase_auth: ^4.2.3
   google_sign_in: ^5.4.2
   flutter_html:
+  connectivity_plus: ^3.0.2
+  internet_connection_checker: ^1.0.0+1
 
 
 dev_dependencies:

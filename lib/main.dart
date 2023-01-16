@@ -14,6 +14,7 @@ import 'package:sbg/services/notifications/local/notification_service.dart';
 import 'package:sbg/ui/screens/about_page.dart';
 import 'package:sbg/ui/screens/home_page.dart';
 import 'package:sbg/ui/screens/bookmark_page.dart';
+import 'package:sbg/ui/screens/login_screen.dart';
 import 'package:sbg/ui/screens/more_screen.dart';
 import 'package:sbg/utils/constants.dart';
 import 'package:splashscreen/splashscreen.dart';
@@ -72,7 +73,7 @@ class _MyAppState extends State<MyApp> {
   _changeTitle(String msg) {
     setState(() => notificationTitle = msg);
     if(notificationTitle != null ) {
-      log('not null');
+      log(notificationBody != null? notificationBody! : "no body");
       NotificationService().showNotifications(notificationTitle!, notificationBody );
     }
   }
@@ -87,6 +88,8 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
 
+    bool flag = true;
+
     return Phoenix(
       child: MaterialApp(
         title: '',
@@ -99,7 +102,7 @@ class _MyAppState extends State<MyApp> {
           padding: const EdgeInsets.all(8.0),
           child: SplashScreen(
               seconds: splashScreenLoaderTime,
-              navigateAfterSeconds: const MyHomePage(title: '',),
+              navigateAfterSeconds: flag? const MyHomePage(title: '',) : const LoginScreen(),
               // navigateAfterFuture: checkForBackendChanges(),
               title: Text(
                 'Srimad Bhagwad Gita',
@@ -209,7 +212,7 @@ class _MyHomePageState extends State<MyHomePage> {
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
           BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "Bookmarks"),
           BottomNavigationBarItem(icon: Icon(Icons.question_mark), label: "About"),
-          BottomNavigationBarItem(icon: Icon(Icons.more), label: "More"),
+          BottomNavigationBarItem(icon: Icon(Icons.feed), label: "Stories"),
         ],
       ),
     );

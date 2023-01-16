@@ -51,6 +51,7 @@ class _MoreScreenState extends State<MoreScreen> {
                     imgeAssetPath: storiesList[position].thumbnail,
                     content: storiesList[position].content,
                     title: storiesList[position].title,
+                    author: storiesList[position].author,
                   );
             }),
           )
