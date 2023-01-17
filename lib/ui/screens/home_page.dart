@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'dart:math';
 
+import 'package:carousel_pro/carousel_pro.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +16,6 @@ import '../../models/chapter_detailed_model.dart';
 import '../../models/chapter_summary_model.dart';
 import '../../models/last_read_model.dart';
 import '../../objectbox.g.dart';
-import '../../services/network_connectivity.dart';
-import '../../services/notifications/local/notification_service.dart';
 import 'package:device_information/device_information.dart';
 
 class HomePage extends StatefulWidget {
@@ -91,14 +90,37 @@ class _HomePageState extends State<HomePage> {
                       onTap: () {},
                       child: ClipRRect(
                         borderRadius: const BorderRadius.all(Radius.circular(8)),
-                            // topRight: Radius.circular(8),
-                            // bottomRight: Radius.circular(8)),
-                        child: isInternetAvailable? Image.network(
-                          "https://firebasestorage.googleapis.com/v0/b/opinionpoll-cb453.appspot.com/o/WhatsApp%20Image%202023-01-14%20at%2009.14.13.jpeg?alt=media&token=2ff29db6-4f59-4a72-a37d-e1728f0f5310",
-                          height: MediaQuery.of(context).size.height/4,
-                          width: double.maxFinite,
-                          fit: BoxFit.cover,
-                          alignment: Alignment.topCenter,
+                        child: isInternetAvailable?
+                        Carousel(
+                          dotSize: 4.0,
+                          dotSpacing: 15.0,
+                          indicatorBgPadding: 5.0,
+                          borderRadius: true,
+                          overlayShadow: true,
+                          animationDuration: const Duration(milliseconds: 500),
+                          autoplayDuration: const Duration(seconds: 5),
+                          images: [
+                            Image.network(
+                              "https://firebasestorage.googleapis.com/v0/b/opinionpoll-cb453.appspot.com/o/WhatsApp%20Image%202023-01-14%20at%2009.14.13.jpeg?alt=media&token=2ff29db6-4f59-4a72-a37d-e1728f0f5310",
+                              fit: BoxFit.cover,
+                              alignment: Alignment.topCenter,
+                            ),
+                            Image.network(
+                              "https://firebasestorage.googleapis.com/v0/b/gita-237e4.appspot.com/o/files%2Fdaily_darshan%2FWhatsApp%20Image%202023-01-14%20at%2009.14.13.jpeg?alt=media&token=6f658e58-4b5f-400c-a7a6-ff860f378ac0",
+                              fit: BoxFit.cover,
+                              alignment: Alignment.topCenter,
+                            ),
+                            Image.network(
+                              "https://firebasestorage.googleapis.com/v0/b/gita-237e4.appspot.com/o/files%2Fdaily_darshan%2FWhatsApp%20Image%202023-01-17%20at%2011.40.20.jpeg?alt=media&token=6eae2c85-915e-48bf-9189-f8c746b017db",
+                              fit: BoxFit.cover,
+                              alignment: Alignment.topCenter,
+                            ),
+                            Image.network(
+                              "https://firebasestorage.googleapis.com/v0/b/gita-237e4.appspot.com/o/files%2Fdaily_darshan%2FWhatsApp%20Image%202023-01-13%20at%2009.31.59.jpeg?alt=media&token=bbdee1da-e8b0-499a-ac8b-a1c2c00ff0f5",
+                              fit: BoxFit.cover,
+                              alignment: Alignment.topCenter,
+                            ),
+                          ],
                         ) :
                         Container(
                           decoration: BoxDecoration(
