@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
 
   checkNetworkConnectivity() async {
     bool result = await InternetConnectionChecker().hasConnection;
-    if(result == true) {
+    if (result == true) {
       setState(() {
         isInternetAvailable = true;
       });
@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   getImei() async {
-    try{
+    try {
       String imeiNo = await DeviceInformation.deviceIMEINumber;
       debugPrint("Imei: $imeiNo");
     } catch (e) {
@@ -70,17 +70,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [Padding(
+      body: ListView(children: [
+        Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(
-                height: MediaQuery.of(context).size.height/4,
+                height: MediaQuery.of(context).size.height / 4,
                 width: double.maxFinite,
                 child: InkWell(
-                  onTap: () async => { },
+                  onTap: () async => {},
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),
@@ -89,49 +89,51 @@ class _HomePageState extends State<HomePage> {
                     child: InkWell(
                       onTap: () {},
                       child: ClipRRect(
-                        borderRadius: const BorderRadius.all(Radius.circular(8)),
-                        child: isInternetAvailable?
-                        Carousel(
-                          dotSize: 4.0,
-                          dotSpacing: 15.0,
-                          indicatorBgPadding: 5.0,
-                          borderRadius: true,
-                          overlayShadow: true,
-                          animationDuration: const Duration(milliseconds: 500),
-                          autoplayDuration: const Duration(seconds: 5),
-                          images: [
-                            Image.network(
-                              "https://firebasestorage.googleapis.com/v0/b/opinionpoll-cb453.appspot.com/o/WhatsApp%20Image%202023-01-14%20at%2009.14.13.jpeg?alt=media&token=2ff29db6-4f59-4a72-a37d-e1728f0f5310",
-                              fit: BoxFit.cover,
-                              alignment: Alignment.topCenter,
-                            ),
-                            Image.network(
-                              "https://firebasestorage.googleapis.com/v0/b/gita-237e4.appspot.com/o/files%2Fdaily_darshan%2FWhatsApp%20Image%202023-01-14%20at%2009.14.13.jpeg?alt=media&token=6f658e58-4b5f-400c-a7a6-ff860f378ac0",
-                              fit: BoxFit.cover,
-                              alignment: Alignment.topCenter,
-                            ),
-                            Image.network(
-                              "https://firebasestorage.googleapis.com/v0/b/gita-237e4.appspot.com/o/files%2Fdaily_darshan%2FWhatsApp%20Image%202023-01-17%20at%2011.40.20.jpeg?alt=media&token=6eae2c85-915e-48bf-9189-f8c746b017db",
-                              fit: BoxFit.cover,
-                              alignment: Alignment.topCenter,
-                            ),
-                            Image.network(
-                              "https://firebasestorage.googleapis.com/v0/b/gita-237e4.appspot.com/o/files%2Fdaily_darshan%2FWhatsApp%20Image%202023-01-13%20at%2009.31.59.jpeg?alt=media&token=bbdee1da-e8b0-499a-ac8b-a1c2c00ff0f5",
-                              fit: BoxFit.cover,
-                              alignment: Alignment.topCenter,
-                            ),
-                          ],
-                        ) :
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(12),
-                              image: const DecorationImage(
-                                image:
-                                    AssetImage("assets/images/krishna.jpg"),
-                                fit: BoxFit.fill,
-                                alignment: Alignment.topCenter,
-                              )),
-                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(8)),
+                        child: isInternetAvailable
+                            ? Carousel(
+                                dotSize: 4.0,
+                                dotSpacing: 15.0,
+                                indicatorBgPadding: 5.0,
+                                borderRadius: true,
+                                overlayShadow: true,
+                                animationDuration:
+                                    const Duration(milliseconds: 500),
+                                autoplayDuration: const Duration(seconds: 5),
+                                images: [
+                                  Image.network(
+                                    "https://firebasestorage.googleapis.com/v0/b/opinionpoll-cb453.appspot.com/o/WhatsApp%20Image%202023-01-14%20at%2009.14.13.jpeg?alt=media&token=2ff29db6-4f59-4a72-a37d-e1728f0f5310",
+                                    fit: BoxFit.cover,
+                                    alignment: Alignment.topCenter,
+                                  ),
+                                  Image.network(
+                                    "https://firebasestorage.googleapis.com/v0/b/gita-237e4.appspot.com/o/files%2Fdaily_darshan%2FWhatsApp%20Image%202023-01-14%20at%2009.14.13.jpeg?alt=media&token=6f658e58-4b5f-400c-a7a6-ff860f378ac0",
+                                    fit: BoxFit.cover,
+                                    alignment: Alignment.topCenter,
+                                  ),
+                                  Image.network(
+                                    "https://firebasestorage.googleapis.com/v0/b/gita-237e4.appspot.com/o/files%2Fdaily_darshan%2FWhatsApp%20Image%202023-01-17%20at%2011.40.20.jpeg?alt=media&token=6eae2c85-915e-48bf-9189-f8c746b017db",
+                                    fit: BoxFit.cover,
+                                    alignment: Alignment.topCenter,
+                                  ),
+                                  Image.network(
+                                    "https://firebasestorage.googleapis.com/v0/b/gita-237e4.appspot.com/o/files%2Fdaily_darshan%2FWhatsApp%20Image%202023-01-13%20at%2009.31.59.jpeg?alt=media&token=bbdee1da-e8b0-499a-ac8b-a1c2c00ff0f5",
+                                    fit: BoxFit.cover,
+                                    alignment: Alignment.topCenter,
+                                  ),
+                                ],
+                              )
+                            : Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(12),
+                                    image: const DecorationImage(
+                                      image: AssetImage(
+                                          "assets/images/krishna.jpg"),
+                                      fit: BoxFit.fill,
+                                      alignment: Alignment.topCenter,
+                                    )),
+                              ),
                       ),
                     ),
                   ),
@@ -171,7 +173,8 @@ class _HomePageState extends State<HomePage> {
                       height: 10,
                     ),
                     InkWell(
-                        onTap: () => onCardTapped(lastReadChapterInt, lastReadVerseInt),
+                        onTap: () =>
+                            onCardTapped(lastReadChapterInt, lastReadVerseInt),
                         child: const Text("CONTINUE READING")),
                     const SizedBox(
                       height: 20,
@@ -179,7 +182,6 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -187,21 +189,32 @@ class _HomePageState extends State<HomePage> {
                     "CHAPTERS",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.sort_sharp))
+                  IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.sort_sharp))
                 ],
               ),
-              ListView.builder(
-                  shrinkWrap: true,
-                  physics: const ClampingScrollPhysics(),
-                  itemCount: chapterSummaryList.length,
-                  itemBuilder: (context, position) {
-                    return ChapterWidgetCard(
-                      chapterNumber: position + 1,
-                      chapterName: chapterSummaryList[position].nameTranslated,
-                      verseCount: chapterSummaryList[position].verseCount,
-                      chapterSummary: chapterSummaryList[position].summary,
-                    );
-                  })
+              chapterSummaryList.isNotEmpty
+                  ? ListView.builder(
+                      shrinkWrap: true,
+                      physics: const ClampingScrollPhysics(),
+                      itemCount: chapterSummaryList.length,
+                      itemBuilder: (context, position) {
+                        return ChapterWidgetCard(
+                          chapterNumber: position + 1,
+                          chapterName:
+                              chapterSummaryList[position].nameTranslated,
+                          verseCount: chapterSummaryList[position].verseCount,
+                          chapterSummary: chapterSummaryList[position].summary,
+                        );
+                      })
+                  : Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Text(
+                        "Could not load chapter data from server.\nPlease check your internet connection and reload the app.",
+                        style: Theme.of(context).textTheme.titleSmall,
+                        textAlign: TextAlign.center,
+                      ),
+                    )
             ],
           ),
         ),
@@ -235,8 +248,10 @@ class _HomePageState extends State<HomePage> {
 
     //<--- get all chapters summary --->
     Box<ChapterSummaryModel> chapterSummaryModelBox =
-    store.box<ChapterSummaryModel>();
-    QueryBuilder<ChapterSummaryModel> queryBuilder = chapterSummaryModelBox.query()..order(ChapterSummaryModel_.chapterNumberInt);
+        store.box<ChapterSummaryModel>();
+    QueryBuilder<ChapterSummaryModel> queryBuilder = chapterSummaryModelBox
+        .query()
+      ..order(ChapterSummaryModel_.chapterNumberInt);
     Query<ChapterSummaryModel> query = queryBuilder.build();
     List<ChapterSummaryModel> _chapterSummaryList = query.find();
 
@@ -267,12 +282,10 @@ class _HomePageState extends State<HomePage> {
 
       chapterSummaryList.addAll(_chapterSummaryList);
 
-
       // debugPrint("VerseOfTheDay: ${queryList[0].translation}");
       // debugPrint("VerseOfTheDay: ${queryList[0].chapterNumber}");
       // debugPrint("VerseOfTheDay: ${queryList[0].verseNumber}");
       // debugPrint("Random verse num: $randomChapterNumber.$randomVerseNumber");
-
 
       if (lastReadList.isNotEmpty) {
         debugPrint("Last Read Found: ${lastReadList[0].lastReadVerseText}");
@@ -282,11 +295,12 @@ class _HomePageState extends State<HomePage> {
         lastReadChapterInt = lastReadList.first.chapterNumber;
         lastReadVerseInt = lastReadList.first.verseNumber;
 
-        QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
-            .query(
-            ChapterDetailedModel_.chapterNumber.equals("${lastReadList.first.chapterNumber}") &
-            ChapterDetailedModel_.verseNumber.equals("${lastReadList.first.verseNumber}"))
-          ..order(ChapterDetailedModel_.verseNumberInt);
+        QueryBuilder<ChapterDetailedModel> queryBuilder =
+            chapterDetailedModelBox.query(ChapterDetailedModel_.chapterNumber
+                    .equals("${lastReadList.first.chapterNumber}") &
+                ChapterDetailedModel_.verseNumber
+                    .equals("${lastReadList.first.verseNumber}"))
+              ..order(ChapterDetailedModel_.verseNumberInt);
         Query<ChapterDetailedModel> query = queryBuilder.build();
         List<ChapterDetailedModel>? queryList = query.find();
         chapterDetailedList.addAll(queryList);

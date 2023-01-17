@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/network/chapter_detailed_loader.dart';
 import 'package:sbg/network/chapter_summary_loader.dart';
@@ -46,13 +47,15 @@ class _MyAppState extends State<MyApp> {
   String? notificationTitle;
   String? notificationBody;
   String? notificationData;
+  bool? internetConnectivity;
 
   @override
   void initState() {
+    checkInternetConnectivity();
     checkForBackendChanges();
-    setState(() {
-      splashScreenLoaderTime = 4;
-    });
+    // setState(() {
+    //   splashScreenLoaderTime = 4;
+    // });
 
     final firebaseMessaging = FCM();
     firebaseMessaging.setNotifications();
@@ -72,12 +75,12 @@ class _MyAppState extends State<MyApp> {
   _changeBody(String msg) => setState(() => notificationBody = msg);
   _changeTitle(String msg) {
     setState(() => notificationTitle = msg);
-    if(notificationTitle != null ) {
-      log(notificationBody != null? notificationBody! : "no body");
-      NotificationService().showNotifications(notificationTitle!, notificationBody );
+    if (notificationTitle != null) {
+      log(notificationBody != null ? notificationBody! : "no body");
+      NotificationService()
+          .showNotifications(notificationTitle!, notificationBody);
     }
   }
-
 
   launchNotificationsServices() async {
     await NotificationService().init(context);
@@ -85,9 +88,25 @@ class _MyAppState extends State<MyApp> {
     await _notificationService.scheduleNotifications();
   }
 
+  checkInternetConnectivity() async {
+    bool flag = await InternetConnectionChecker().hasConnection;
+    debugPrint("Internet Available: $flag");
+    setState(() {
+      internetConnectivity = flag;
+    });
+    if (internetConnectivity!) {
+      setState(() {
+        splashScreenLoaderTime = 8;
+      });
+    } else {
+      setState(() {
+        splashScreenLoaderTime = 3;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-
     bool flag = true;
 
     return Phoenix(
@@ -97,13 +116,15 @@ class _MyAppState extends State<MyApp> {
         theme: ThemeData(
           primarySwatch: Colors.orange,
         ),
-        // home: const MyHomePage(title: 'Flutter Demo Home Page'),
         home: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SplashScreen(
               seconds: splashScreenLoaderTime,
-              navigateAfterSeconds: flag? const MyHomePage(title: '',) : const LoginScreen(),
-              // navigateAfterFuture: checkForBackendChanges(),
+              navigateAfterSeconds: flag
+                  ? const MyHomePage(
+                      title: '',
+                    )
+                  : const LoginScreen(),
               title: Text(
                 'Srimad Bhagwad Gita',
                 style: Theme.of(context).textTheme.headlineSmall,
@@ -134,10 +155,6 @@ class _MyAppState extends State<MyApp> {
     var response = jsonResp[0]['new_change'].toString();
     log("Backend Changes: $response");
 
-    setState(() {
-      splashScreenLoaderTime = 1;
-    });
-
     return response;
   }
 
@@ -145,9 +162,9 @@ class _MyAppState extends State<MyApp> {
     var _lookForBackendChanges = await lookForBackendChanges();
     setState(() {
       shouldMakeApiCall = _lookForBackendChanges;
-      log(shouldMakeApiCall);
     });
-    if (shouldMakeApiCall == "true") {
+
+    if (shouldMakeApiCall == "true" && internetConnectivity!) {
       ChapterSummaryLoader().getDataFromDB();
       ChapterDetailedLoader().getDataFromDB();
       StoriesLoader().getDataFromDB();
@@ -203,15 +220,22 @@ class _MyHomePageState extends State<MyHomePage> {
         currentIndex: selectedIndex,
         backgroundColor: Colors.white,
         type: BottomNavigationBarType.fixed,
-        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.deepOrange),
-        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-        selectedIconTheme: const IconThemeData(color: Colors.deepOrange, size: 30),
-        unselectedIconTheme: const IconThemeData(color: Colors.grey, ),
+        selectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.bold, color: Colors.deepOrange),
+        unselectedLabelStyle:
+            const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+        selectedIconTheme:
+            const IconThemeData(color: Colors.deepOrange, size: 30),
+        unselectedIconTheme: const IconThemeData(
+          color: Colors.grey,
+        ),
         onTap: _onItemTapped,
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(icon: Icon(Icons.bookmark), label: "Bookmarks"),
-          BottomNavigationBarItem(icon: Icon(Icons.question_mark), label: "About"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.bookmark), label: "Bookmarks"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.question_mark), label: "About"),
           BottomNavigationBarItem(icon: Icon(Icons.feed), label: "Stories"),
         ],
       ),
