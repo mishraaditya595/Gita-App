@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:objectbox/objectbox.dart';
+import 'package:sbg/models/daily_darshan_model.dart';
 import 'package:sbg/objectbox.dart';
 import 'package:sbg/ui/screens/verse_screen.dart';
 import 'package:sbg/ui/widgets/chapter_card_widget.dart';
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   List<ChapterSummaryModel> chapterSummaryList = [];
   List<ChapterDetailedModel> chapterDetailedList = [];
   List<String> verseOfTheDay = [];
+  List<String> dailyDarshanImageFiles = [];
   String lastReadVerseText = "";
   String lastReadVerseNum = "";
   int lastReadChapterInt = 0;
@@ -101,28 +103,43 @@ class _HomePageState extends State<HomePage> {
                                 animationDuration:
                                     const Duration(milliseconds: 500),
                                 autoplayDuration: const Duration(seconds: 5),
-                                images: [
-                                  Image.network(
-                                    "https://firebasestorage.googleapis.com/v0/b/opinionpoll-cb453.appspot.com/o/WhatsApp%20Image%202023-01-14%20at%2009.14.13.jpeg?alt=media&token=2ff29db6-4f59-4a72-a37d-e1728f0f5310",
-                                    fit: BoxFit.cover,
-                                    alignment: Alignment.topCenter,
-                                  ),
-                                  Image.network(
-                                    "https://firebasestorage.googleapis.com/v0/b/gita-237e4.appspot.com/o/files%2Fdaily_darshan%2FWhatsApp%20Image%202023-01-14%20at%2009.14.13.jpeg?alt=media&token=6f658e58-4b5f-400c-a7a6-ff860f378ac0",
-                                    fit: BoxFit.cover,
-                                    alignment: Alignment.topCenter,
-                                  ),
-                                  Image.network(
-                                    "https://firebasestorage.googleapis.com/v0/b/gita-237e4.appspot.com/o/files%2Fdaily_darshan%2FWhatsApp%20Image%202023-01-17%20at%2011.40.20.jpeg?alt=media&token=6eae2c85-915e-48bf-9189-f8c746b017db",
-                                    fit: BoxFit.cover,
-                                    alignment: Alignment.topCenter,
-                                  ),
-                                  Image.network(
-                                    "https://firebasestorage.googleapis.com/v0/b/gita-237e4.appspot.com/o/files%2Fdaily_darshan%2FWhatsApp%20Image%202023-01-13%20at%2009.31.59.jpeg?alt=media&token=bbdee1da-e8b0-499a-ac8b-a1c2c00ff0f5",
-                                    fit: BoxFit.cover,
-                                    alignment: Alignment.topCenter,
-                                  ),
-                                ],
+                                images: dailyDarshanImageFiles.length !=0
+                                    ? dailyDarshanImageFiles.map<Widget>((e) =>
+                                    Image.network(
+                                      e,
+                                      fit: BoxFit.cover,
+                                      alignment: Alignment.topCenter,
+                                    )).toList()
+                                    : [ const AssetImage("assets/images/krishna.jpg"),],
+                                // images: [
+                                //   for(int i = 0; i < dailyDarshanImageFiles.length; i++){
+                                //     Image.network(
+                                //       dailyDarshanImageFiles[i],
+                                //       fit: BoxFit.cover,
+                                //       alignment: Alignment.topCenter,
+                                //     ),
+                                //   },
+                                //   // Image.network(
+                                //   //   "https://firebasestorage.googleapis.com/v0/b/opinionpoll-cb453.appspot.com/o/WhatsApp%20Image%202023-01-14%20at%2009.14.13.jpeg?alt=media&token=2ff29db6-4f59-4a72-a37d-e1728f0f5310",
+                                //   //   fit: BoxFit.cover,
+                                //   //   alignment: Alignment.topCenter,
+                                //   // ),
+                                //   // Image.network(
+                                //   //   "https://firebasestorage.googleapis.com/v0/b/gita-237e4.appspot.com/o/files%2Fdaily_darshan%2FWhatsApp%20Image%202023-01-14%20at%2009.14.13.jpeg?alt=media&token=6f658e58-4b5f-400c-a7a6-ff860f378ac0",
+                                //   //   fit: BoxFit.cover,
+                                //   //   alignment: Alignment.topCenter,
+                                //   // ),
+                                //   // Image.network(
+                                //   //   "https://firebasestorage.googleapis.com/v0/b/gita-237e4.appspot.com/o/files%2Fdaily_darshan%2FWhatsApp%20Image%202023-01-17%20at%2011.40.20.jpeg?alt=media&token=6eae2c85-915e-48bf-9189-f8c746b017db",
+                                //   //   fit: BoxFit.cover,
+                                //   //   alignment: Alignment.topCenter,
+                                //   // ),
+                                //   // Image.network(
+                                //   //   "https://firebasestorage.googleapis.com/v0/b/gita-237e4.appspot.com/o/files%2Fdaily_darshan%2FWhatsApp%20Image%202023-01-13%20at%2009.31.59.jpeg?alt=media&token=bbdee1da-e8b0-499a-ac8b-a1c2c00ff0f5",
+                                //   //   fit: BoxFit.cover,
+                                //   //   alignment: Alignment.topCenter,
+                                //   // ),
+                                // ],
                               )
                             : Container(
                                 decoration: BoxDecoration(
@@ -275,12 +292,21 @@ class _HomePageState extends State<HomePage> {
     Box<LastReadModel> lastReadModelBox = store.box<LastReadModel>();
     List<LastReadModel> lastReadList = lastReadModelBox.getAll();
 
+    //<--- get last read verse --->
+    Box<DailyDarshanModel> dailyDarshanBox = store.box<DailyDarshanModel>();
+    QueryBuilder<DailyDarshanModel> _query = dailyDarshanBox.query()..order(DailyDarshanModel_.timestamp, flags: Order.descending);
+    List<DailyDarshanModel> dailyDarshanList = _query.build().find();
+
+    debugPrint("Daily darshan files: ${dailyDarshanList.first.filesList}");
+
     setState(() {
       // verseOfTheDay.add(queryList[0].translation);
       // verseOfTheDay.add(randomChapterNumber.toString());
       // verseOfTheDay.add(randomVerseNumber.toString());
 
       chapterSummaryList.addAll(_chapterSummaryList);
+      debugPrint("Timestamp: ${dailyDarshanList.first.timestamp}");
+      dailyDarshanImageFiles.addAll(dailyDarshanList.first.filesList);
 
       // debugPrint("VerseOfTheDay: ${queryList[0].translation}");
       // debugPrint("VerseOfTheDay: ${queryList[0].chapterNumber}");

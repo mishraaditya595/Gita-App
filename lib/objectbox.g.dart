@@ -17,6 +17,7 @@ import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 import 'models/change_data_model.dart';
 import 'models/chapter_detailed_model.dart';
 import 'models/chapter_summary_model.dart';
+import 'models/daily_darshan_model.dart';
 import 'models/last_read_model.dart';
 import 'models/stories_model.dart';
 import 'models/verse_bookmark_model.dart';
@@ -292,6 +293,35 @@ final _entities = <ModelEntity>[
             flags: 0)
       ],
       relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(7, 5468388059592780141),
+      name: 'DailyDarshanModel',
+      lastPropertyId: const IdUid(4, 8926284041382166935),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 1984717800786371251),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 3824546194160023907),
+            name: 'files',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 2783461543482997626),
+            name: 'timestamp',
+            type: 6,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 8926284041382166935),
+            name: 'filesList',
+            type: 30,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
 ];
 
@@ -315,7 +345,7 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(6, 2026905150890170209),
+      lastEntityId: const IdUid(7, 5468388059592780141),
       lastIndexId: const IdUid(0, 0),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
@@ -604,6 +634,43 @@ ModelDefinition getObjectBoxModel() {
                   .vTableGet(buffer, rootOffset, 16, ''));
 
           return object;
+        }),
+    DailyDarshanModel: EntityDefinition<DailyDarshanModel>(
+        model: _entities[6],
+        toOneRelations: (DailyDarshanModel object) => [],
+        toManyRelations: (DailyDarshanModel object) => {},
+        getId: (DailyDarshanModel object) => object.id,
+        setId: (DailyDarshanModel object, int id) {
+          object.id = id;
+        },
+        objectToFB: (DailyDarshanModel object, fb.Builder fbb) {
+          final filesOffset = fbb.writeString(object.files);
+          final filesListOffset = fbb.writeList(
+              object.filesList.map(fbb.writeString).toList(growable: false));
+          fbb.startTable(5);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, filesOffset);
+          fbb.addInt64(2, object.timestamp);
+          fbb.addOffset(3, filesListOffset);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = DailyDarshanModel(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              files: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              filesList: const fb.ListReader<String>(
+                      fb.StringReader(asciiOptimization: true),
+                      lazy: false)
+                  .vTableGet(buffer, rootOffset, 10, []),
+              timestamp:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0));
+
+          return object;
         })
   };
 
@@ -798,4 +865,23 @@ class StoriesModel_ {
   /// see [StoriesModel.content]
   static final content =
       QueryStringProperty<StoriesModel>(_entities[5].properties[6]);
+}
+
+/// [DailyDarshanModel] entity fields to define ObjectBox queries.
+class DailyDarshanModel_ {
+  /// see [DailyDarshanModel.id]
+  static final id =
+      QueryIntegerProperty<DailyDarshanModel>(_entities[6].properties[0]);
+
+  /// see [DailyDarshanModel.files]
+  static final files =
+      QueryStringProperty<DailyDarshanModel>(_entities[6].properties[1]);
+
+  /// see [DailyDarshanModel.timestamp]
+  static final timestamp =
+      QueryIntegerProperty<DailyDarshanModel>(_entities[6].properties[2]);
+
+  /// see [DailyDarshanModel.filesList]
+  static final filesList =
+      QueryStringVectorProperty<DailyDarshanModel>(_entities[6].properties[3]);
 }

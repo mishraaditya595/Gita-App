@@ -271,9 +271,38 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "7:5468388059592780141",
+      "lastPropertyId": "4:8926284041382166935",
+      "name": "DailyDarshanModel",
+      "properties": [
+        {
+          "id": "1:1984717800786371251",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:3824546194160023907",
+          "name": "files",
+          "type": 9
+        },
+        {
+          "id": "3:2783461543482997626",
+          "name": "timestamp",
+          "type": 6
+        },
+        {
+          "id": "4:8926284041382166935",
+          "name": "filesList",
+          "type": 30
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "6:2026905150890170209",
+  "lastEntityId": "7:5468388059592780141",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

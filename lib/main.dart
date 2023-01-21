@@ -21,6 +21,7 @@ import 'package:sbg/utils/constants.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:http/http.dart' as http;
 
+import 'network/daily_darshan_loader.dart';
 import 'objectbox.dart';
 
 late ObjectBox objectBox;
@@ -168,6 +169,7 @@ class _MyAppState extends State<MyApp> {
       ChapterSummaryLoader().getDataFromDB();
       ChapterDetailedLoader().getDataFromDB();
       StoriesLoader().getDataFromDB();
+      DailyDarshanLoader().getDataFromDB();
     }
 
     return const MyHomePage(title: '');
