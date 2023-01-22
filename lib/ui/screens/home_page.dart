@@ -1,6 +1,6 @@
 import 'dart:developer';
 import 'dart:math';
-
+import 'package:intl/intl.dart';
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,6 +29,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<ChapterSummaryModel> chapterSummaryList = [];
   List<ChapterDetailedModel> chapterDetailedList = [];
+  String dailyDarshanDate = "";
   List<String> verseOfTheDay = [];
   List<String> dailyDarshanImageFiles = [];
   String lastReadVerseText = "";
@@ -78,6 +79,22 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              dailyDarshanDate.isNotEmpty
+                  ? Align(
+                      alignment: Alignment.center,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 5.0, bottom: 5),
+                        child: Text(
+                          "Deity Darshan - $dailyDarshanDate",
+                          style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.deepOrange),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    )
+                  : const SizedBox(),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 4,
                 width: double.maxFinite,
@@ -102,15 +119,19 @@ class _HomePageState extends State<HomePage> {
                                 overlayShadow: true,
                                 animationDuration:
                                     const Duration(milliseconds: 500),
-                                autoplayDuration: const Duration(seconds: 5),
-                                images: dailyDarshanImageFiles.length !=0
-                                    ? dailyDarshanImageFiles.map<Widget>((e) =>
-                                    Image.network(
-                                      e,
-                                      fit: BoxFit.cover,
-                                      alignment: Alignment.topCenter,
-                                    )).toList()
-                                    : [ const AssetImage("assets/images/krishna.jpg"),],
+                                autoplayDuration: const Duration(seconds: 8),
+                                images: dailyDarshanImageFiles.isNotEmpty
+                                    ? dailyDarshanImageFiles
+                                        .map<Widget>((e) => Image.network(
+                                              e,
+                                              fit: BoxFit.cover,
+                                              alignment: Alignment.topCenter,
+                                            ))
+                                        .toList()
+                                    : [
+                                        const AssetImage(
+                                            "assets/images/krishna.jpg"),
+                                      ],
                                 // images: [
                                 //   for(int i = 0; i < dailyDarshanImageFiles.length; i++){
                                 //     Image.network(
@@ -292,11 +313,13 @@ class _HomePageState extends State<HomePage> {
     Box<LastReadModel> lastReadModelBox = store.box<LastReadModel>();
     List<LastReadModel> lastReadList = lastReadModelBox.getAll();
 
-    //<--- get last read verse --->
+    //<--- get daily darshan --->
     Box<DailyDarshanModel> dailyDarshanBox = store.box<DailyDarshanModel>();
-    QueryBuilder<DailyDarshanModel> _query = dailyDarshanBox.query()..order(DailyDarshanModel_.timestamp, flags: Order.descending);
+    QueryBuilder<DailyDarshanModel> _query = dailyDarshanBox.query()
+      ..order(DailyDarshanModel_.timestamp, flags: Order.descending);
     List<DailyDarshanModel> dailyDarshanList = _query.build().find();
-
+    final DateTime now = DateTime.now();
+    final DateFormat formatter = DateFormat('dd.MM.yyyy');
     debugPrint("Daily darshan files: ${dailyDarshanList.first.filesList}");
 
     setState(() {
@@ -307,6 +330,15 @@ class _HomePageState extends State<HomePage> {
       chapterSummaryList.addAll(_chapterSummaryList);
       debugPrint("Timestamp: ${dailyDarshanList.first.timestamp}");
       dailyDarshanImageFiles.addAll(dailyDarshanList.first.filesList);
+      // var format = new DateFormat("yMd");
+      // var dateString = DateTime.fromMicrosecondsSinceEpoch(dailyDarshanList.first.timestamp);
+      final String dailyDarshanTimeStampDate = formatter.format(
+          DateTime.fromMicrosecondsSinceEpoch(
+              dailyDarshanList.first.timestamp));
+      dailyDarshanDate = dailyDarshanTimeStampDate;
+      debugPrint("Datetime: $dailyDarshanTimeStampDate");
+      // .format();
+      // dailyDarshanDate = dailyDarshanList.first.timestamp;
 
       // debugPrint("VerseOfTheDay: ${queryList[0].translation}");
       // debugPrint("VerseOfTheDay: ${queryList[0].chapterNumber}");
