@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sbg/ui/screens/story_screen.dart';
@@ -82,8 +81,7 @@ class _StoryCardWidgetState extends State<StoryCardWidget> {
                   topRight: Radius.circular(8),
                   bottomRight: Radius.circular(8)),
               child: Image.network(
-                //widget.imgeAssetPath,
-                "https://firebasestorage.googleapis.com/v0/b/opinionpoll-cb453.appspot.com/o/WhatsApp%20Image%202023-01-14%20at%2009.14.13.jpeg?alt=media&token=2ff29db6-4f59-4a72-a37d-e1728f0f5310",
+                widget.imgeAssetPath,
                 height: getContainerHeight(widget.desc),
                 width: 120,
                 fit: BoxFit.fill,

@@ -300,9 +300,43 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "8:7856497657640334090",
+      "lastPropertyId": "5:5131725147930700446",
+      "name": "NotificationsModel",
+      "properties": [
+        {
+          "id": "1:1330566881785837422",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8515790409815831277",
+          "name": "title",
+          "type": 9
+        },
+        {
+          "id": "3:8961606657890630656",
+          "name": "description",
+          "type": 9
+        },
+        {
+          "id": "4:2339728734718736858",
+          "name": "imagePath",
+          "type": 9
+        },
+        {
+          "id": "5:5131725147930700446",
+          "name": "dateTime",
+          "type": 6
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "7:5468388059592780141",
+  "lastEntityId": "8:7856497657640334090",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",

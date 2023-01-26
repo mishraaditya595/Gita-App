@@ -19,6 +19,7 @@ import 'models/chapter_detailed_model.dart';
 import 'models/chapter_summary_model.dart';
 import 'models/daily_darshan_model.dart';
 import 'models/last_read_model.dart';
+import 'models/notifications_model.dart';
 import 'models/stories_model.dart';
 import 'models/verse_bookmark_model.dart';
 
@@ -322,6 +323,40 @@ final _entities = <ModelEntity>[
             flags: 0)
       ],
       relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(8, 7856497657640334090),
+      name: 'NotificationsModel',
+      lastPropertyId: const IdUid(5, 5131725147930700446),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 1330566881785837422),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 8515790409815831277),
+            name: 'title',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 8961606657890630656),
+            name: 'description',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(4, 2339728734718736858),
+            name: 'imagePath',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(5, 5131725147930700446),
+            name: 'dateTime',
+            type: 6,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
 ];
 
@@ -345,7 +380,7 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(7, 5468388059592780141),
+      lastEntityId: const IdUid(8, 7856497657640334090),
       lastIndexId: const IdUid(0, 0),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
@@ -671,6 +706,44 @@ ModelDefinition getObjectBoxModel() {
                   const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0));
 
           return object;
+        }),
+    NotificationsModel: EntityDefinition<NotificationsModel>(
+        model: _entities[7],
+        toOneRelations: (NotificationsModel object) => [],
+        toManyRelations: (NotificationsModel object) => {},
+        getId: (NotificationsModel object) => object.id,
+        setId: (NotificationsModel object, int id) {
+          object.id = id;
+        },
+        objectToFB: (NotificationsModel object, fb.Builder fbb) {
+          final titleOffset = fbb.writeString(object.title);
+          final descriptionOffset = fbb.writeString(object.description);
+          final imagePathOffset = fbb.writeString(object.imagePath);
+          fbb.startTable(6);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, titleOffset);
+          fbb.addOffset(2, descriptionOffset);
+          fbb.addOffset(3, imagePathOffset);
+          fbb.addInt64(4, object.dateTime);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = NotificationsModel(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              title: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              description: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 8, ''),
+              dateTime:
+                  const fb.Int64Reader().vTableGet(buffer, rootOffset, 12, 0),
+              imagePath: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 10, ''));
+
+          return object;
         })
   };
 
@@ -884,4 +957,27 @@ class DailyDarshanModel_ {
   /// see [DailyDarshanModel.filesList]
   static final filesList =
       QueryStringVectorProperty<DailyDarshanModel>(_entities[6].properties[3]);
+}
+
+/// [NotificationsModel] entity fields to define ObjectBox queries.
+class NotificationsModel_ {
+  /// see [NotificationsModel.id]
+  static final id =
+      QueryIntegerProperty<NotificationsModel>(_entities[7].properties[0]);
+
+  /// see [NotificationsModel.title]
+  static final title =
+      QueryStringProperty<NotificationsModel>(_entities[7].properties[1]);
+
+  /// see [NotificationsModel.description]
+  static final description =
+      QueryStringProperty<NotificationsModel>(_entities[7].properties[2]);
+
+  /// see [NotificationsModel.imagePath]
+  static final imagePath =
+      QueryStringProperty<NotificationsModel>(_entities[7].properties[3]);
+
+  /// see [NotificationsModel.dateTime]
+  static final dateTime =
+      QueryIntegerProperty<NotificationsModel>(_entities[7].properties[4]);
 }

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
+import 'package:sbg/models/notifications_model.dart';
 import 'package:sbg/network/chapter_detailed_loader.dart';
 import 'package:sbg/network/chapter_summary_loader.dart';
 import 'package:sbg/network/stories_loader.dart';
@@ -17,12 +18,14 @@ import 'package:sbg/ui/screens/home_page.dart';
 import 'package:sbg/ui/screens/bookmark_page.dart';
 import 'package:sbg/ui/screens/login_screen.dart';
 import 'package:sbg/ui/screens/more_screen.dart';
+import 'package:sbg/ui/screens/notifications_screen.dart';
 import 'package:sbg/utils/constants.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:http/http.dart' as http;
 
 import 'network/daily_darshan_loader.dart';
 import 'objectbox.dart';
+import 'objectbox.g.dart';
 
 late ObjectBox objectBox;
 
@@ -78,8 +81,8 @@ class _MyAppState extends State<MyApp> {
     setState(() => notificationTitle = msg);
     if (notificationTitle != null) {
       log(notificationBody != null ? notificationBody! : "no body");
-      NotificationService()
-          .showNotifications(notificationTitle!, notificationBody);
+      addNotificationsToTheDB(notificationTitle, notificationBody, "");
+      NotificationService().showNotifications(notificationTitle!, notificationBody);
     }
   }
 
@@ -178,6 +181,19 @@ class _MyAppState extends State<MyApp> {
   Future<void> getFcmToken() async {
     String? token = await FirebaseMessaging.instance.getToken();
   }
+
+  Future<void> addNotificationsToTheDB(String? notificationTitle, String? notificationBody, String? imgPath) async {
+    Store store = await ObjectBox().getStore();
+    NotificationsModel notification = NotificationsModel(
+        title: notificationTitle ?? "",
+        description: notificationBody ?? "",
+        dateTime: DateTime.now().microsecondsSinceEpoch,
+        imagePath: imgPath ?? ""
+    );
+    store.box<NotificationsModel>().put(notification);
+    debugPrint("Notification Added: ${store.box<NotificationsModel>().count()}");
+    store.close();
+  }
 }
 
 class MyHomePage extends StatefulWidget {
@@ -215,6 +231,19 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.notifications,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const NotificationsScreen())
+              );
+            },
+          )
+        ],
       ),
       body: pages[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(

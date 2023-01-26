@@ -35,7 +35,7 @@ class DailyDarshanLoader {
       var jsonResp = jsonDecode(res.body);
       for (int i = 0; i < jsonResp.length; i++) {
         var chapterDetailed = jsonResp[i];
-        dailyDarshanList.add(toChapterDetailedModel(chapterDetailed));
+        dailyDarshanList.add(toDailyDarshanModel(chapterDetailed));
       }
       store.box<DailyDarshanModel>().removeAll();
       store.box<DailyDarshanModel>().putMany(dailyDarshanList);
@@ -44,7 +44,7 @@ class DailyDarshanLoader {
     }
   }
 
-  DailyDarshanModel toChapterDetailedModel(data) {
+  DailyDarshanModel toDailyDarshanModel(data) {
 
     String filesStr = data['files'].substring(1, data['files'].length - 1);
 

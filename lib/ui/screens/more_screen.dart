@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sbg/ui/widgets/story_card_widget.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 import '../../models/chapter_detailed_model.dart';
 import '../../models/stories_model.dart';
 import '../../objectbox.dart';
@@ -16,12 +17,14 @@ class MoreScreen extends StatefulWidget {
 class _MoreScreenState extends State<MoreScreen> {
 
   List<StoriesModel> storiesList = [];
+  String blogTitle = "";
+  String blogDescription = "";
+  String blogLink = "";
 
   @override
   void initState() {
-
+    getBlogDetails();
     getStories();
-
     super.initState();
   }
 
@@ -31,22 +34,39 @@ class _MoreScreenState extends State<MoreScreen> {
       body: ListView(
         children: [
           Padding(
-            padding: EdgeInsets.all(15),
-            child: Text(
-                "Stories of Krishna",
-              style: Theme.of(context).textTheme.titleLarge,
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                      blogTitle,
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    blogDescription,
+                    style: Theme.of(context).textTheme.subtitle1,
+                  ),
+                ),
+              ],
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(8.0),
             child: ListView.builder(
                 shrinkWrap: true,
                 physics: const ClampingScrollPhysics(),
                 itemCount: storiesList.length,
                 itemBuilder: (context, position) {
+                  var formatter = DateFormat('dd-MM-yyyy');
+                  DateTime dateTime = DateTime.parse(storiesList[position].pubDate);
+                  String formattedDate = formatter.format(dateTime);
                   return StoryCardWidget(
                     address: '',
-                    date: storiesList[position].pubDate,
+                    date: formattedDate,
                     desc: storiesList[position].title,
                     imgeAssetPath: storiesList[position].thumbnail,
                     content: storiesList[position].content,
@@ -62,16 +82,20 @@ class _MoreScreenState extends State<MoreScreen> {
   Future<void> getStories() async {
     Store store = await ObjectBox().getStore();
     Box<StoriesModel> storyModelBox = store.box<StoriesModel>();
-    // QueryBuilder<StoriesModel> queryBuilder = storyModelBox.query(
-    //
-    // )..order(StoriesModel_.pubDate);
-    // Query<StoriesModel> query = queryBuilder.build();
-    // List<StoriesModel>? _storiesList = query.find();
     List<StoriesModel>? _storiesList = storyModelBox.getAll();
 
     setState(() {
       storiesList.addAll(_storiesList);
     });
     store.close();
+  }
+
+  Future<void> getBlogDetails() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    setState(() {
+      blogTitle = preferences.getString("x-blog-title");
+      blogDescription = preferences.getString("x-blog-description");
+      blogLink = preferences.getString("x-blog-link");
+    });
   }
 }
