@@ -6,6 +6,7 @@ import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/models/verse_bookmark_model.dart';
 import 'package:sbg/ui/widgets/verse_card_widget.dart';
+import 'package:sbg/utils/global_variables.dart';
 
 import '../../objectbox.dart';
 import '../../objectbox.g.dart';
@@ -120,7 +121,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
   }
 
   Future<void> fetchAllBookmarks() async {
-    Store store = await ObjectBox().getStore();
+    Store store = GlobalVariables.store ?? await ObjectBox().getStore();
     Box<VerseBookmarkModel> chapterDetailedModelBox = store.box<
         VerseBookmarkModel>();
     List<VerseBookmarkModel>? _verseBookmarkModelList = chapterDetailedModelBox.getAll();
@@ -128,11 +129,11 @@ class _BookmarkPageState extends State<BookmarkPage> {
     setState(() {
       verseBookmarkModelList.addAll(_verseBookmarkModelList);
     });
-    store.close();
+    // store.close();
   }
 
   Future<void> removeBookmark(String verseNumber, String chapterNumber) async {
-    Store store = await ObjectBox().getStore();
+    Store store = GlobalVariables.store ?? await ObjectBox().getStore();
 
     Box<VerseBookmarkModel> verseBookmarkModelBox = store.box<VerseBookmarkModel>();
     QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(

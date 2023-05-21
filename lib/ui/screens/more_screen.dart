@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sbg/ui/widgets/story_card_widget.dart';
+import 'package:sbg/utils/global_variables.dart';
 
 import '../../models/chapter_detailed_model.dart';
 import '../../models/stories_model.dart';
@@ -60,7 +61,7 @@ class _MoreScreenState extends State<MoreScreen> {
   }
 
   Future<void> getStories() async {
-    Store store = await ObjectBox().getStore();
+    Store store = GlobalVariables.store ?? await ObjectBox().getStore();
     Box<StoriesModel> storyModelBox = store.box<StoriesModel>();
     // QueryBuilder<StoriesModel> queryBuilder = storyModelBox.query(
     //
@@ -72,6 +73,6 @@ class _MoreScreenState extends State<MoreScreen> {
     setState(() {
       storiesList.addAll(_storiesList);
     });
-    store.close();
+    // store.close();
   }
 }

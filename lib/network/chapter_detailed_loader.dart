@@ -7,6 +7,7 @@ import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/models/chapter_summary_model.dart';
 import 'package:sbg/objectbox.dart';
+import 'package:sbg/utils/global_variables.dart';
 
 import '../utils/constants.dart';
 
@@ -27,7 +28,7 @@ class ChapterDetailedLoader {
   }
 
   Future<void> addDataToLocalDb(Response res) async {
-    Store store = await ObjectBox().getStore();
+    Store store = GlobalVariables.store ?? await ObjectBox().getStore();
     List<ChapterDetailedModel> chapterDetailedList = [];
     if(res.statusCode == 200) {
       var jsonResp = jsonDecode(res.body);
@@ -38,7 +39,7 @@ class ChapterDetailedLoader {
       store.box<ChapterDetailedModel>().removeAll();
       store.box<ChapterDetailedModel>().putMany(chapterDetailedList);
       log("Chapter Detailed Loaded: ${store.box<ChapterDetailedModel>().getAll().length}");
-      store.close();
+      // store.close();
     }
   }
 

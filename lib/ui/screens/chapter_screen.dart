@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/ui/widgets/verse_card_widget.dart';
+import 'package:sbg/utils/global_variables.dart';
 
 import '../../objectbox.dart';
 import '../../objectbox.g.dart';
@@ -146,7 +147,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
   }
 
   Future<void> fetchChapterDetails() async {
-    Store store = await ObjectBox().getStore();
+    Store store = GlobalVariables.store ?? await ObjectBox().getStore();
     Box<ChapterDetailedModel> chapterDetailedModelBox = store.box<
         ChapterDetailedModel>();
     QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
@@ -159,6 +160,6 @@ class _ChapterScreenState extends State<ChapterScreen> {
     setState(() {
       chapterDetailedList.addAll(_chapterDetailedList);
     });
-    store.close();
+    // store.close();
   }
 }

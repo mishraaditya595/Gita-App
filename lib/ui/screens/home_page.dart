@@ -12,6 +12,7 @@ import 'package:sbg/models/daily_darshan_model.dart';
 import 'package:sbg/objectbox.dart';
 import 'package:sbg/ui/screens/verse_screen.dart';
 import 'package:sbg/ui/widgets/chapter_card_widget.dart';
+import 'package:sbg/utils/global_variables.dart';
 
 import '../../models/chapter_detailed_model.dart';
 import '../../models/chapter_summary_model.dart';
@@ -282,7 +283,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchData() async {
-    Store store = await ObjectBox().getStore();
+    Store store = GlobalVariables.store ?? await ObjectBox().getStore();
 
     //<--- get all chapters summary --->
     Box<ChapterSummaryModel> chapterSummaryModelBox =
@@ -364,6 +365,6 @@ class _HomePageState extends State<HomePage> {
         chapterDetailedList.addAll(queryList);
       }
     });
-    store.close();
+    // store.close();
   }
 }

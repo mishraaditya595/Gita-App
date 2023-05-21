@@ -8,6 +8,7 @@ import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/models/chapter_summary_model.dart';
 import 'package:sbg/objectbox.dart';
+import 'package:sbg/utils/global_variables.dart';
 
 import '../models/daily_darshan_model.dart';
 import '../utils/constants.dart';
@@ -29,7 +30,7 @@ class DailyDarshanLoader {
   }
 
   Future<void> addDataToLocalDb(Response res) async {
-    Store store = await ObjectBox().getStore();
+    Store store = GlobalVariables.store ?? await ObjectBox().getStore();
     List<DailyDarshanModel> dailyDarshanList = [];
     if(res.statusCode == 200) {
       var jsonResp = jsonDecode(res.body);
@@ -40,7 +41,7 @@ class DailyDarshanLoader {
       store.box<DailyDarshanModel>().removeAll();
       store.box<DailyDarshanModel>().putMany(dailyDarshanList);
       log("Daily Darshan Loaded: ${store.box<DailyDarshanModel>().getAll().length}");
-      store.close();
+      // store.close();
     }
   }
 

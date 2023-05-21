@@ -18,6 +18,7 @@ import 'package:sbg/ui/screens/bookmark_page.dart';
 import 'package:sbg/ui/screens/login_screen.dart';
 import 'package:sbg/ui/screens/more_screen.dart';
 import 'package:sbg/utils/constants.dart';
+import 'package:sbg/utils/global_variables.dart';
 import 'package:splashscreen/splashscreen.dart';
 import 'package:http/http.dart' as http;
 
@@ -164,6 +165,8 @@ class _MyAppState extends State<MyApp> {
     setState(() {
       shouldMakeApiCall = _lookForBackendChanges;
     });
+
+    GlobalVariables.store = await ObjectBox().getStore();
 
     if (shouldMakeApiCall == "true" && internetConnectivity!) {
       ChapterSummaryLoader().getDataFromDB();

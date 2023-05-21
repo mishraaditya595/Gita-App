@@ -7,6 +7,7 @@ import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/chapter_summary_model.dart';
 import 'package:sbg/models/last_read_model.dart';
 import 'package:sbg/models/verse_bookmark_model.dart';
+import 'package:sbg/utils/global_variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../models/chapter_detailed_model.dart';
@@ -284,7 +285,7 @@ class _VerseScreenState extends State<VerseScreen> {
   }
 
   Future<void> addOrRemoveBookmark(ChapterDetailedModel verseDetails) async {
-    Store store = await ObjectBox().getStore();
+    Store store = GlobalVariables.store ?? await ObjectBox().getStore();
     DateTime currentDateTime = DateTime.now();
     Box<VerseBookmarkModel> VerseBookmarkModelBox =
         store.box<VerseBookmarkModel>();
@@ -342,12 +343,12 @@ class _VerseScreenState extends State<VerseScreen> {
         fabIcon = Icons.bookmark_add;
       });
     }
-    store.close();
+    // store.close();
   }
 
   Future<void> fetchBookmarkAndAddToLastRead() async {
     // <--- fetch bookmark details --->
-    Store store = await ObjectBox().getStore();
+    Store store = GlobalVariables.store ??  await ObjectBox().getStore();
     Box<VerseBookmarkModel> verseBookmarkModelBox =
         store.box<VerseBookmarkModel>();
     QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
@@ -377,11 +378,11 @@ class _VerseScreenState extends State<VerseScreen> {
       verseNumber: widget.verseDetails.verseNumberInt,
       chapterNumber: int.parse(widget.verseDetails.chapterNumber),
     ));
-    store.close();
+    // store.close();
   }
 
   Future<void> navigateVerse(String operator) async {
-    Store store = await ObjectBox().getStore();
+    Store store = GlobalVariables.store ?? await ObjectBox().getStore();
 
     int currentChapter = widget.chapterNumber;
     int currentVerse = widget.verseNumber;
@@ -493,7 +494,7 @@ class _VerseScreenState extends State<VerseScreen> {
     }
 
 
-    store.close();
+    // store.close();
 
     fetchBookmarkAndAddToLastRead();
   }

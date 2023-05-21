@@ -7,6 +7,7 @@ import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/chapter_summary_model.dart';
 import 'package:sbg/models/stories_model.dart';
 import 'package:sbg/objectbox.dart';
+import 'package:sbg/utils/global_variables.dart';
 
 import '../utils/constants.dart';
 
@@ -23,7 +24,7 @@ class StoriesLoader {
   }
 
   Future<void> addDataToLocalDb(Response res) async {
-    Store store = await ObjectBox().getStore();
+    Store store = GlobalVariables.store ?? await ObjectBox().getStore();
     List<StoriesModel> storiesList = [];
     if(res.statusCode == 200) {
       var jsonResp = jsonDecode(res.body)['items'];
@@ -34,7 +35,7 @@ class StoriesLoader {
       store.box<StoriesModel>().removeAll();
       store.box<StoriesModel>().putMany(storiesList);
       log("Story Loaded: ${store.box<StoriesModel>().getAll().length}");
-      store.close();
+      // store.close();
     }
   }
 

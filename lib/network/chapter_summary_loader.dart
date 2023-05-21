@@ -6,6 +6,7 @@ import 'package:http/http.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/chapter_summary_model.dart';
 import 'package:sbg/objectbox.dart';
+import 'package:sbg/utils/global_variables.dart';
 
 import '../utils/constants.dart';
 
@@ -26,7 +27,7 @@ class ChapterSummaryLoader {
   }
 
   Future<void> addDataToLocalDb(Response res) async {
-    Store store = await ObjectBox().getStore();
+    Store store = GlobalVariables.store ?? await ObjectBox().getStore();
     List<ChapterSummaryModel> chapterSummaryList = [];
     if(res.statusCode == 200) {
       var jsonResp = jsonDecode(res.body);
@@ -37,7 +38,7 @@ class ChapterSummaryLoader {
       store.box<ChapterSummaryModel>().removeAll();
       store.box<ChapterSummaryModel>().putMany(chapterSummaryList);
       log("Chapter Summary Loaded: ${store.box<ChapterSummaryModel>().getAll().length}");
-      store.close();
+      // store.close();
     }
   }
 
