@@ -30,15 +30,6 @@ class ChapterScreen extends StatefulWidget {
 }
 
 class _ChapterScreenState extends State<ChapterScreen> {
-  ScrollController? _controller;
-  late ChapterScreenProvider chapterScreenProvider;
-
-  @override
-  void initState() {
-    _controller = ScrollController();
-    _controller?.addListener(scrollListener);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +40,6 @@ class _ChapterScreenState extends State<ChapterScreen> {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             provider.fetchAll(widget.chapterNumber);
           });
-          chapterScreenProvider = provider;
           return Scaffold(
             appBar: AppBar(
               title: Text("Chapter ${widget.chapterNumber}"),
@@ -114,7 +104,6 @@ class _ChapterScreenState extends State<ChapterScreen> {
                       ),
                       ListView.builder(
                           shrinkWrap: true,
-                          controller: _controller,
                           itemCount: provider.chapterDetailedList
                               .length,
                           physics: const ClampingScrollPhysics(),
@@ -122,28 +111,28 @@ class _ChapterScreenState extends State<ChapterScreen> {
                             return VerseCardWidget(
                               verseDetails: ChapterDetailedModel(
                                 verseNumber:
-                                chapterScreenProvider
+                                provider
                                     .chapterDetailedList[position].verseNumber,
                                 chapterNumber:
-                                chapterScreenProvider
+                                provider
                                     .chapterDetailedList[position]
                                     .chapterNumber,
-                                text: chapterScreenProvider
+                                text: provider
                                     .chapterDetailedList[position].text,
                                 transliteration:
-                                chapterScreenProvider
+                                provider
                                     .chapterDetailedList[position]
                                     .transliteration,
                                 wordMeanings:
-                                chapterScreenProvider
+                                provider
                                     .chapterDetailedList[position].wordMeanings,
                                 translation:
-                                chapterScreenProvider
+                                provider
                                     .chapterDetailedList[position].translation,
-                                commentary: chapterScreenProvider
+                                commentary: provider
                                     .chapterDetailedList[position].commentary,
                                 verseNumberInt:
-                                chapterScreenProvider
+                                provider
                                     .chapterDetailedList[position]
                                     .verseNumberInt,
                               ),
@@ -156,11 +145,6 @@ class _ChapterScreenState extends State<ChapterScreen> {
             ),
           );
     }));
-  }
-
-
-  scrollListener() {
-    chapterScreenProvider.changeStateOnScroll();
   }
 
 }
