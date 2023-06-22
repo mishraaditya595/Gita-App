@@ -47,6 +47,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
+    
     checkForBackendChanges();
     setState(() {
       splashScreenLoaderTime = 4;
