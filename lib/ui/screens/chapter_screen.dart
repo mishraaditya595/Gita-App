@@ -1,12 +1,14 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/ui/widgets/verse_card_widget.dart';
 
 import '../../objectbox.dart';
 import '../../objectbox.g.dart';
+import '../../services/db/database_service.dart';
 
 class ChapterScreen extends StatefulWidget {
 
@@ -146,7 +148,8 @@ class _ChapterScreenState extends State<ChapterScreen> {
   }
 
   Future<void> fetchChapterDetails() async {
-    Store store = await ObjectBox().getStore();
+    DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
+    Store store = databaseService.getStore()!;
     Box<ChapterDetailedModel> chapterDetailedModelBox = store.box<
         ChapterDetailedModel>();
     QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
@@ -159,6 +162,6 @@ class _ChapterScreenState extends State<ChapterScreen> {
     setState(() {
       chapterDetailedList.addAll(_chapterDetailedList);
     });
-    store.close();
+
   }
 }

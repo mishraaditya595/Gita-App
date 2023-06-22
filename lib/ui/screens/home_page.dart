@@ -1,11 +1,10 @@
-import 'dart:developer';
-import 'dart:math';
+
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:get_it/get_it.dart';
 import 'package:objectbox/objectbox.dart';
-import 'package:sbg/objectbox.dart';
 import 'package:sbg/ui/screens/verse_screen.dart';
 import 'package:sbg/ui/widgets/chapter_card_widget.dart';
 
@@ -13,7 +12,7 @@ import '../../models/chapter_detailed_model.dart';
 import '../../models/chapter_summary_model.dart';
 import '../../models/last_read_model.dart';
 import '../../objectbox.g.dart';
-import '../../services/notifications/local/notification_service.dart';
+import '../../services/db/database_service.dart';
 import 'package:device_information/device_information.dart';
 
 class HomePage extends StatefulWidget {
@@ -178,8 +177,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> fetchData() async {
-    Store store = await ObjectBox().getStore();
-
+    DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
+    Store store = databaseService.getStore()!;
     //<--- get all chapters summary --->
     Box<ChapterSummaryModel> chapterSummaryModelBox =
     store.box<ChapterSummaryModel>();
@@ -239,6 +238,6 @@ class _HomePageState extends State<HomePage> {
         chapterDetailedList.addAll(queryList);
       }
     });
-    store.close();
+
   }
 }

@@ -6,9 +6,12 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
+import 'package:get_it/get_it.dart';
+import 'package:sbg/injection.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/network/chapter_detailed_loader.dart';
 import 'package:sbg/network/chapter_summary_loader.dart';
+import 'package:sbg/services/db/database_service.dart';
 import 'package:sbg/services/notifications/firebase/firebase_notification_service.dart';
 import 'package:sbg/services/notifications/local/notification_service.dart';
 import 'package:sbg/ui/screens/about_page.dart';
@@ -26,6 +29,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await FirebaseMessaging.instance.getInitialMessage();
+  configureDependencies();
   runApp(const MyApp());
 }
 
@@ -47,7 +51,8 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    
+    DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
+    databaseService.init();
     checkForBackendChanges();
     setState(() {
       splashScreenLoaderTime = 4;

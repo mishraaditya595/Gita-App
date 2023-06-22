@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/chapter_summary_model.dart';
 import 'package:sbg/objectbox.dart';
 
+import '../services/db/database_service.dart';
 import '../utils/constants.dart';
 
 class ChapterSummaryLoader {
@@ -26,8 +28,8 @@ class ChapterSummaryLoader {
   }
 
   Future<void> addDataToLocalDb(Response res) async {
-    Store store = await ObjectBox().getStore();
-    List<ChapterSummaryModel> chapterSummaryList = [];
+    DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
+    Store store = databaseService.getStore()!;    List<ChapterSummaryModel> chapterSummaryList = [];
     if(res.statusCode == 200) {
       var jsonResp = jsonDecode(res.body);
       for (int i = 0; i < jsonResp.length; i++) {
@@ -37,7 +39,6 @@ class ChapterSummaryLoader {
       store.box<ChapterSummaryModel>().removeAll();
       store.box<ChapterSummaryModel>().putMany(chapterSummaryList);
       log("Chapter Summary Loaded: ${store.box<ChapterSummaryModel>().getAll().length}");
-      store.close();
     }
   }
 

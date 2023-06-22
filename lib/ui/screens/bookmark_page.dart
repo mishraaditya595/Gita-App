@@ -1,14 +1,14 @@
-import 'dart:ffi';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/models/verse_bookmark_model.dart';
 import 'package:sbg/ui/widgets/verse_card_widget.dart';
 
-import '../../objectbox.dart';
 import '../../objectbox.g.dart';
+import '../../services/db/database_service.dart';
 
 class BookmarkPage extends StatefulWidget {
   const BookmarkPage({Key? key}) : super(key: key);
@@ -120,7 +120,8 @@ class _BookmarkPageState extends State<BookmarkPage> {
   }
 
   Future<void> fetchAllBookmarks() async {
-    Store store = await ObjectBox().getStore();
+    DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
+    Store store = databaseService.getStore()!;
     Box<VerseBookmarkModel> chapterDetailedModelBox = store.box<
         VerseBookmarkModel>();
     List<VerseBookmarkModel>? _verseBookmarkModelList = chapterDetailedModelBox.getAll();
@@ -128,12 +129,12 @@ class _BookmarkPageState extends State<BookmarkPage> {
     setState(() {
       verseBookmarkModelList.addAll(_verseBookmarkModelList);
     });
-    store.close();
+
   }
 
   Future<void> removeBookmark(String verseNumber, String chapterNumber) async {
-    Store store = await ObjectBox().getStore();
-
+    DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
+    Store store = databaseService.getStore()!;
     Box<VerseBookmarkModel> verseBookmarkModelBox = store.box<VerseBookmarkModel>();
     QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
         VerseBookmarkModel_.verseNumber.equals(verseNumber) &
@@ -150,7 +151,6 @@ class _BookmarkPageState extends State<BookmarkPage> {
     bookmarkList = verseBookmarkModelBox.getAll();
     debugPrint("Bookmark length after removal: ${verseBookmarkModelBox.count()}");
 
-    store.close();
 
     setState(() {
       verseBookmarkModelList = bookmarkList!;

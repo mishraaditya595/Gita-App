@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:get_it/get_it.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/chapter_summary_model.dart';
 import 'package:sbg/models/last_read_model.dart';
@@ -12,6 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/chapter_detailed_model.dart';
 import '../../objectbox.dart';
 import '../../objectbox.g.dart';
+import '../../services/db/database_service.dart';
 
 class VerseScreen extends StatefulWidget {
   late int chapterNumber;
@@ -284,7 +286,8 @@ class _VerseScreenState extends State<VerseScreen> {
   }
 
   Future<void> addOrRemoveBookmark(ChapterDetailedModel verseDetails) async {
-    Store store = await ObjectBox().getStore();
+    DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
+    Store store = databaseService.getStore()!;
     DateTime currentDateTime = DateTime.now();
     Box<VerseBookmarkModel> VerseBookmarkModelBox =
         store.box<VerseBookmarkModel>();
@@ -342,12 +345,12 @@ class _VerseScreenState extends State<VerseScreen> {
         fabIcon = Icons.bookmark_add;
       });
     }
-    store.close();
   }
 
   Future<void> fetchBookmarkAndAddToLastRead() async {
     // <--- fetch bookmark details --->
-    Store store = await ObjectBox().getStore();
+    DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
+    Store store = databaseService.getStore()!;
     Box<VerseBookmarkModel> verseBookmarkModelBox =
         store.box<VerseBookmarkModel>();
     QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
@@ -377,12 +380,12 @@ class _VerseScreenState extends State<VerseScreen> {
       verseNumber: widget.verseDetails.verseNumberInt,
       chapterNumber: int.parse(widget.verseDetails.chapterNumber),
     ));
-    store.close();
+
   }
 
   Future<void> navigateVerse(String operator) async {
-    Store store = await ObjectBox().getStore();
-
+    DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
+    Store store = databaseService.getStore()!;
     int currentChapter = widget.chapterNumber;
     int currentVerse = widget.verseNumber;
 
@@ -491,10 +494,6 @@ class _VerseScreenState extends State<VerseScreen> {
         isCommentaryAvailable = true;
       });
     }
-
-
-    store.close();
-
     fetchBookmarkAndAddToLastRead();
   }
 }
