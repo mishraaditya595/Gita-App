@@ -12,8 +12,7 @@ import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/network/chapter_detailed_loader.dart';
 import 'package:sbg/network/chapter_summary_loader.dart';
 import 'package:sbg/services/db/database_service.dart';
-import 'package:sbg/services/notifications/firebase/firebase_notification_service.dart';
-import 'package:sbg/services/notifications/local/notification_service.dart';
+import 'package:sbg/services/notifications/firebase/firebase_messaging_service.dart';
 import 'package:sbg/ui/screens/about_page.dart';
 import 'package:sbg/ui/screens/home_page.dart';
 import 'package:sbg/ui/screens/bookmark_page.dart';
@@ -58,35 +57,15 @@ class _MyAppState extends State<MyApp> {
       splashScreenLoaderTime = 4;
     });
 
-    final firebaseMessaging = FCM();
-    firebaseMessaging.setNotifications();
-
-    firebaseMessaging.streamCtlr.stream.listen(_changeData);
-    firebaseMessaging.bodyCtlr.stream.listen(_changeBody);
-    firebaseMessaging.titleCtlr.stream.listen(_changeTitle);
+    FirebaseMessagingService firebaseMessagingService =
+    GetIt.instance.get<FirebaseMessagingService>();
+    firebaseMessagingService.initializeLocalNotifications();
+    firebaseMessagingService.listenToMessages();
 
     getFcmToken();
 
     super.initState();
     log(shouldMakeApiCall);
-    launchNotificationsServices();
-  }
-
-  _changeData(String msg) => setState(() => notificationData = msg);
-  _changeBody(String msg) => setState(() => notificationBody = msg);
-  _changeTitle(String msg) {
-    setState(() => notificationTitle = msg);
-    if (notificationTitle != null) {
-      log('not null');
-      NotificationService()
-          .showNotifications(notificationTitle!, notificationBody);
-    }
-  }
-
-  launchNotificationsServices() async {
-    await NotificationService().init(context);
-    NotificationService _notificationService = NotificationService();
-    await _notificationService.scheduleNotifications();
   }
 
   @override
