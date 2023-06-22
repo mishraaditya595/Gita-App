@@ -60,16 +60,22 @@ class _HomePageState extends State<HomePage> {
     homePageProvider =
           Provider.of<HomePageProvider>(context, listen: true);
 
-    return Scaffold(
-      body:
-        ListView(children: [
+    if(homePageProvider.loading) {
+      return const Center(child: CircularProgressIndicator());
+    } else {
+      return Scaffold(
+          body:
+          ListView(children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   SizedBox(
-                    height: MediaQuery.of(context).size.height / 5,
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height / 5,
                     width: double.maxFinite,
                     child: InkWell(
                       onTap: () async => {},
@@ -84,7 +90,8 @@ class _HomePageState extends State<HomePage> {
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(12),
                                 image: const DecorationImage(
-                                  image: AssetImage("assets/images/krishna.jpg"),
+                                  image: AssetImage(
+                                      "assets/images/krishna.jpg"),
                                   fit: BoxFit.fill,
                                   alignment: Alignment.topCenter,
                                 )),
@@ -128,7 +135,9 @@ class _HomePageState extends State<HomePage> {
                         ),
                         InkWell(
                             onTap: () =>
-                                onCardTapped(homePageProvider.lastReadChapterInt, homePageProvider.lastReadVerseInt, homePageProvider),
+                                onCardTapped(homePageProvider
+                                    .lastReadChapterInt, homePageProvider
+                                    .lastReadVerseInt, homePageProvider),
                             child: const Text("CONTINUE READING")),
                         const SizedBox(
                           height: 20,
@@ -154,15 +163,19 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (context, position) {
                         return ChapterWidgetCard(
                           chapterNumber: position + 1,
-                          chapterName: homePageProvider.chapterSummaryList[position].nameTranslated,
-                          verseCount: homePageProvider.chapterSummaryList[position].verseCount,
-                          chapterSummary: homePageProvider.chapterSummaryList[position].summary,
+                          chapterName: homePageProvider
+                              .chapterSummaryList[position].nameTranslated,
+                          verseCount: homePageProvider
+                              .chapterSummaryList[position].verseCount,
+                          chapterSummary: homePageProvider
+                              .chapterSummaryList[position].summary,
                         );
                       })
                 ],
               ),
             ),
           ]));
+    }
   }
 
   onCardTapped(int chapterNumber, int verseNumber, HomePageProvider homePageProvider) {

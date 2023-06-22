@@ -14,8 +14,10 @@ class HomePageProvider with ChangeNotifier {
   int lastReadChapterInt = 0;
   int lastReadVerseInt = 0;
   bool isLastReadAvailable = false;
+  bool loading = false;
 
   Future<void> fetchAll() async {
+    changeLoadingState();
     HomePageServices homePageServices = GetIt.instance.get<HomePageServices>();
     chapterSummaryList = homePageServices.getAllChapters();
 
@@ -32,7 +34,11 @@ class HomePageProvider with ChangeNotifier {
       List<ChapterDetailedModel>? queryList = homePageServices.getChapterDetailedList(lastReadList[0].chapterNumber, lastReadList[0].verseNumber);
       chapterDetailedList.addAll(queryList);
     }
+    changeLoadingState();
+  }
 
+  void changeLoadingState() {
+    loading = !loading;
     notifyListeners();
   }
 }
