@@ -16,7 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 @Singleton()
 class FirebaseMessagingService {
   static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   Future<String?> getToken() async {
     final FirebaseMessaging fcm = FirebaseMessaging.instance;
@@ -71,53 +71,52 @@ class FirebaseMessagingService {
       String title = message.notification?.title ?? '';
       String body = message.notification?.body ?? '';
 
-
       var initializationSettingsAndroid =
-      const AndroidInitializationSettings('@mipmap/ic_launcher');
+          const AndroidInitializationSettings('@mipmap/ic_launcher');
       var initializationSettings =
-      InitializationSettings(android: initializationSettingsAndroid);
+          InitializationSettings(android: initializationSettingsAndroid);
 
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+          FlutterLocalNotificationsPlugin();
 
       await flutterLocalNotificationsPlugin.initialize(initializationSettings,
           // onDidReceiveBackgroundNotificationResponse: notificationTapBackground,
           onDidReceiveNotificationResponse: (notificationResponse) async {
-            Map? payload = jsonDecode(notificationResponse.payload!);
-            if (payload != null) {
-              // handleNavigation(payload['feature'], payload["category"] ?? '',
-              //     payload["productCategory"] ?? '');
+        Map? payload = jsonDecode(notificationResponse.payload!);
+        if (payload != null) {
+          // handleNavigation(payload['feature'], payload["category"] ?? '',
+          //     payload["productCategory"] ?? '');
 
-              List<String>? readNotifications =
+          List<String>? readNotifications =
               prefs.getStringList("x-read-notifications");
 
-              if (readNotifications != null && readNotifications.isNotEmpty) {
-                readNotifications.add(payload["notificationId"]);
-                await prefs.setStringList(
-                    "x-read-notifications", readNotifications);
-              } else {
-                await prefs.setStringList(
-                    "x-read-notifications", [payload["notificationId"]]);
-              }
-            } else {
-              // unawaited(SlackAlertService()
-              //     .alert("Did not find payload for notification."));
-            }
-          });
+          if (readNotifications != null && readNotifications.isNotEmpty) {
+            readNotifications.add(payload["notificationId"]);
+            await prefs.setStringList(
+                "x-read-notifications", readNotifications);
+          } else {
+            await prefs.setStringList(
+                "x-read-notifications", [payload["notificationId"]]);
+          }
+        } else {
+          // unawaited(SlackAlertService()
+          //     .alert("Did not find payload for notification."));
+        }
+      });
 
-      if (imageUrl.isNotEmpty ) {
+      if (imageUrl.isNotEmpty) {
         final http.Response response = await http.get(Uri.parse(imageUrl));
 
         BigPictureStyleInformation bigPictureStyleInformation =
-        BigPictureStyleInformation(
-            ByteArrayAndroidBitmap.fromBase64String(
-                base64Encode(response.bodyBytes)),
-            contentTitle: title,
-            summaryText: body,
-            htmlFormatSummaryText: true,
-            htmlFormatContentTitle: true,
-            htmlFormatTitle: true,
-            htmlFormatContent: true);
+            BigPictureStyleInformation(
+                ByteArrayAndroidBitmap.fromBase64String(
+                    base64Encode(response.bodyBytes)),
+                contentTitle: title,
+                summaryText: body,
+                htmlFormatSummaryText: true,
+                htmlFormatContentTitle: true,
+                htmlFormatTitle: true,
+                htmlFormatContent: true);
 
         var androidPlatformChannelSpecifics = AndroidNotificationDetails(
           "default_channel_id",
@@ -131,18 +130,20 @@ class FirebaseMessagingService {
           largeIcon: const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
         );
 
-        if(title.isNotEmpty) {
-          await flutterLocalNotificationsPlugin.show(getNotificationId(), title,
-            body, NotificationDetails(android: androidPlatformChannelSpecifics),
-            payload: ""
-          );
+        if (title.isNotEmpty) {
+          await flutterLocalNotificationsPlugin.show(
+              getNotificationId(),
+              title,
+              body,
+              NotificationDetails(android: androidPlatformChannelSpecifics),
+              payload: "");
         }
       } else {
         BigTextStyleInformation bigTextStyleInformation =
-        BigTextStyleInformation(body,
-            contentTitle: title,
-            htmlFormatBigText: true,
-            htmlFormatContentTitle: true);
+            BigTextStyleInformation(body,
+                contentTitle: title,
+                htmlFormatBigText: true,
+                htmlFormatContentTitle: true);
 
         var androidPlatformChannelSpecifics = AndroidNotificationDetails(
           "default_channel_id",
@@ -156,11 +157,13 @@ class FirebaseMessagingService {
           largeIcon: const DrawableResourceAndroidBitmap('@mipmap/ic_launcher'),
         );
 
-        if(title.isNotEmpty) {
-          await flutterLocalNotificationsPlugin.show(getNotificationId(), title,
-            body, NotificationDetails(android: androidPlatformChannelSpecifics),
-            payload: ""
-          );
+        if (title.isNotEmpty) {
+          await flutterLocalNotificationsPlugin.show(
+              getNotificationId(),
+              title,
+              body,
+              NotificationDetails(android: androidPlatformChannelSpecifics),
+              payload: "");
         }
       }
     } on Exception catch (e) {
@@ -178,8 +181,6 @@ class FirebaseMessagingService {
 
   // This method handles navigation when the user taps on a notification.
   @pragma('vm:entry-point')
-  static void handleNavigation(String screenFeature, String category,
-      String productCategory) {
-
-  }
+  static void handleNavigation(
+      String screenFeature, String category, String productCategory) {}
 }

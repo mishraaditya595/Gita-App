@@ -58,7 +58,7 @@ class _MyAppState extends State<MyApp> {
     });
 
     FirebaseMessagingService firebaseMessagingService =
-    GetIt.instance.get<FirebaseMessagingService>();
+        GetIt.instance.get<FirebaseMessagingService>();
     firebaseMessagingService.initializeLocalNotifications();
     firebaseMessagingService.listenToMessages();
 
