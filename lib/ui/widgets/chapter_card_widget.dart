@@ -10,21 +10,19 @@ class ChapterWidgetCard extends StatefulWidget {
   final int verseCount;
   final String chapterSummary;
 
-  const ChapterWidgetCard({
-    Key? key, 
-    required this.chapterNumber, 
-    required this.chapterName, 
-    required this.verseCount, 
-    required this.chapterSummary
-  }) : super(key: key);
+  const ChapterWidgetCard(
+      {Key? key,
+      required this.chapterNumber,
+      required this.chapterName,
+      required this.verseCount,
+      required this.chapterSummary})
+      : super(key: key);
 
   @override
   State<ChapterWidgetCard> createState() => _ChapterWidgetCardState();
 }
 
 class _ChapterWidgetCardState extends State<ChapterWidgetCard> {
-
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -32,7 +30,8 @@ class _ChapterWidgetCardState extends State<ChapterWidgetCard> {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: InkWell(
-        onTap: () => onCardTapped(widget.chapterNumber, widget.chapterName, widget.chapterSummary),
+        onTap: () => onCardTapped(
+            widget.chapterNumber, widget.chapterName, widget.chapterSummary),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Row(
@@ -43,25 +42,36 @@ class _ChapterWidgetCardState extends State<ChapterWidgetCard> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text("${widget.chapterNumber}"),
-                  )
-              ),
+                  )),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(widget.chapterName, style: TextStyle(fontWeight: FontWeight.bold),),
-                  const SizedBox(height: 10,),
+                  Text(
+                    widget.chapterName,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Icon(Icons.list, color: Colors.grey.shade700,),
-                      Text("${widget.verseCount} Verses", style: TextStyle(color: Colors.grey.shade700),)
+                      Icon(
+                        Icons.list,
+                        color: Colors.grey.shade700,
+                      ),
+                      Text(
+                        "${widget.verseCount} Verses",
+                        style: TextStyle(color: Colors.grey.shade700),
+                      )
                     ],
                   )
                 ],
               ),
               IconButton(
                   onPressed: () {
-                    onCardTapped(widget.chapterNumber, widget.chapterName, widget.chapterSummary);
+                    onCardTapped(widget.chapterNumber, widget.chapterName,
+                        widget.chapterSummary);
                   },
                   icon: const Icon(Icons.navigate_next))
             ],
@@ -72,12 +82,14 @@ class _ChapterWidgetCardState extends State<ChapterWidgetCard> {
   }
 
   onCardTapped(int chapterNumber, String chapterName, String chapterSummary) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) =>
-        ChapterScreen(
-          chapterNumber: chapterNumber,
-          chapterName: chapterName,
-          chapterSummary: chapterSummary,
-        )));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => ChapterScreen(
+                  chapterNumber: chapterNumber,
+                  chapterName: chapterName,
+                  chapterSummary: chapterSummary,
+                )));
     log("Card $chapterNumber tapped");
   }
 }

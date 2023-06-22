@@ -7,11 +7,10 @@ import 'package:timezone/timezone.dart' as tz;
 
 import '../../../main.dart';
 
-
 class NotificationService {
   //Singleton pattern
   static final NotificationService _notificationService =
-  NotificationService._internal();
+      NotificationService._internal();
   factory NotificationService() {
     return _notificationService;
   }
@@ -19,14 +18,14 @@ class NotificationService {
 
   //instance of FlutterLocalNotificationsPlugin
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   init(BuildContext context) async {
     const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
+        AndroidInitializationSettings('@mipmap/ic_launcher');
 
     DarwinInitializationSettings initializationSettingsIOS =
-    const DarwinInitializationSettings(
+        const DarwinInitializationSettings(
       requestAlertPermission: false,
       requestBadgePermission: false,
       requestSoundPermission: false,
@@ -34,23 +33,22 @@ class NotificationService {
       //   notificationCategories: darwinNotificationCategories,
     );
 
-    InitializationSettings initializationSettings =
-    InitializationSettings(
+    InitializationSettings initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid,
         iOS: initializationSettingsIOS,
         macOS: null);
 
-    NotificationDetails platformChannelSpecifics =
-    NotificationDetails(
-        android: _androidNotificationDetails,
-        iOS: _iosNotificationDetails);
+    NotificationDetails platformChannelSpecifics = NotificationDetails(
+        android: _androidNotificationDetails, iOS: _iosNotificationDetails);
 
     tz.initializeTimeZones();
 
     requestIOSPermissions(flutterLocalNotificationsPlugin);
 
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
-      onDidReceiveNotificationResponse: (NotificationResponse notificationResponse) async {
+    await flutterLocalNotificationsPlugin.initialize(
+      initializationSettings,
+      onDidReceiveNotificationResponse:
+          (NotificationResponse notificationResponse) async {
         showDialog(
           context: context,
           builder: (BuildContext context) => CupertinoAlertDialog(
@@ -73,8 +71,8 @@ class NotificationService {
             ],
           ),
         );
-    },);
-
+      },
+    );
   }
 
   Future selectNotification(String payload) async {
@@ -82,7 +80,7 @@ class NotificationService {
   }
 
   final AndroidNotificationDetails _androidNotificationDetails =
-  const AndroidNotificationDetails(
+      const AndroidNotificationDetails(
     '001',
     'Reminder',
     channelDescription: '',
@@ -91,15 +89,16 @@ class NotificationService {
     importance: Importance.high,
   );
 
-  final DarwinNotificationDetails _iosNotificationDetails = const DarwinNotificationDetails(
-      presentAlert: true,
-      presentBadge: true,
-      presentSound: null,
-      badgeNumber: null,
+  final DarwinNotificationDetails _iosNotificationDetails =
+      const DarwinNotificationDetails(
+    presentAlert: true,
+    presentBadge: true,
+    presentSound: null,
+    badgeNumber: null,
   );
 
-  void onDidReceiveLocalNotification(
-      int id, String title, String body, String payload, BuildContext context) async {
+  void onDidReceiveLocalNotification(int id, String title, String body,
+      String payload, BuildContext context) async {
     // display a dialog with the notification details, tap ok to go to another page
     showDialog(
       context: context,
@@ -125,12 +124,14 @@ class NotificationService {
     );
   }
 
-  Future<void> showNotifications(String notificationTitle, String? notificationBody) async {
+  Future<void> showNotifications(
+      String notificationTitle, String? notificationBody) async {
     await flutterLocalNotificationsPlugin.show(
       0,
       notificationTitle,
       notificationBody ?? 'Hi',
-      NotificationDetails(android: _androidNotificationDetails, iOS: _iosNotificationDetails),
+      NotificationDetails(
+          android: _androidNotificationDetails, iOS: _iosNotificationDetails),
     );
   }
 
@@ -143,28 +144,25 @@ class NotificationService {
   }
 
   Future<void> scheduleNotifications() async {
-    await flutterLocalNotificationsPlugin.periodicallyShow
-      (
+    await flutterLocalNotificationsPlugin.periodicallyShow(
         0,
         'Hare Krishna',
         "Your daily of Godfidence is missing. Tap here to align yourself in Krishna Consciousness",
         RepeatInterval.daily,
         NotificationDetails(
-            android: _androidNotificationDetails,
-            iOS: _iosNotificationDetails),
-        androidAllowWhileIdle: true
-    );
+            android: _androidNotificationDetails, iOS: _iosNotificationDetails),
+        androidAllowWhileIdle: true);
   }
 
   void requestIOSPermissions(
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) {
     flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-        IOSFlutterLocalNotificationsPlugin>()
+            IOSFlutterLocalNotificationsPlugin>()
         ?.requestPermissions(
-      alert: true,
-      badge: true,
-      sound: true,
-    );
+          alert: true,
+          badge: true,
+          sound: true,
+        );
   }
 }

@@ -11,7 +11,6 @@ class StoryCardWidget extends StatefulWidget {
 class _StoryCardWidgetState extends State<StoryCardWidget> {
   @override
   Widget build(BuildContext context) {
-
     double height = MediaQuery.of(context).size.height * 0.09;
 
     return Padding(
@@ -28,11 +27,10 @@ class _StoryCardWidgetState extends State<StoryCardWidget> {
                   decoration: const BoxDecoration(
                       // borderRadius: BorderRadius.circular(12),
                       image: DecorationImage(
-                        image:
-                        AssetImage("assets/images/krishna.jpg"),
-                        fit: BoxFit.fill,
-                        alignment: Alignment.topCenter,
-                      )),
+                    image: AssetImage("assets/images/krishna.jpg"),
+                    fit: BoxFit.fill,
+                    alignment: Alignment.topCenter,
+                  )),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,11 +40,11 @@ class _StoryCardWidgetState extends State<StoryCardWidget> {
                       width: MediaQuery.of(context).size.width * 0.72,
                       child: Padding(
                         padding: EdgeInsets.only(left: 8.0, bottom: 5),
-                        child: Text (
-                            "Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 ",
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
+                        child: Text(
+                          "Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 ",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
                           style: Theme.of(context).textTheme.titleLarge,
                         ),
                       ),
@@ -54,12 +52,14 @@ class _StoryCardWidgetState extends State<StoryCardWidget> {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.72,
                       child: Padding(
-                        padding: EdgeInsets.only(left: 8.0,),
-                        child: Text (
-                            "Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 ",
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.left,
+                        padding: EdgeInsets.only(
+                          left: 8.0,
+                        ),
+                        child: Text(
+                          "Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 Long text 1 ",
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          textAlign: TextAlign.left,
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ),
@@ -70,9 +70,13 @@ class _StoryCardWidgetState extends State<StoryCardWidget> {
             ),
           ),
           Container(
-              margin: EdgeInsets.only(left: MediaQuery.of(context).size.width * 0.2,),
-              child: const Divider(color: Colors.orangeAccent, thickness: 1,)
-          )
+              margin: EdgeInsets.only(
+                left: MediaQuery.of(context).size.width * 0.2,
+              ),
+              child: const Divider(
+                color: Colors.orangeAccent,
+                thickness: 1,
+              ))
         ],
       ),
     );

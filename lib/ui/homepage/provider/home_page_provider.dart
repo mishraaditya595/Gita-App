@@ -1,5 +1,3 @@
 import 'package:flutter/cupertino.dart';
 
-class HomePageProvider with ChangeNotifier {
-
-}
+class HomePageProvider with ChangeNotifier {}

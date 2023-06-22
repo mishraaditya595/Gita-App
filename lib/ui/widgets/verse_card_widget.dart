@@ -7,12 +7,10 @@ import 'package:sbg/ui/screens/verse_screen.dart';
 import '../../models/chapter_detailed_model.dart';
 
 class VerseCardWidget extends StatefulWidget {
-
   final ChapterDetailedModel verseDetails;
 
   const VerseCardWidget({
     Key? key,
-
     required this.verseDetails,
   }) : super(key: key);
 
@@ -28,7 +26,8 @@ class _VerseCardWidgetState extends State<VerseCardWidget> {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: InkWell(
-        onTap: () => onCardTapped(int.parse(widget.verseDetails.chapterNumber), int.parse(widget.verseDetails.verseNumber)),
+        onTap: () => onCardTapped(int.parse(widget.verseDetails.chapterNumber),
+            int.parse(widget.verseDetails.verseNumber)),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -39,18 +38,21 @@ class _VerseCardWidgetState extends State<VerseCardWidget> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   const Icon(Icons.book),
-                  const SizedBox(width: 15,),
-                  Text("Verse ${widget.verseDetails.chapterNumber}.${widget.verseDetails.verseNumber}", style: const TextStyle(fontWeight: FontWeight.bold),),
+                  const SizedBox(
+                    width: 15,
+                  ),
+                  Text(
+                    "Verse ${widget.verseDetails.chapterNumber}.${widget.verseDetails.verseNumber}",
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
                 ],
               ),
               // const SizedBox(height: 10,),
-               Align(
+              Align(
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                      widget.verseDetails.translation
-                  ),
+                  child: Text(widget.verseDetails.translation),
                 ),
               )
             ],
@@ -61,12 +63,14 @@ class _VerseCardWidgetState extends State<VerseCardWidget> {
   }
 
   onCardTapped(int chapterNumber, int verseNumber) {
-    Navigator.push(context, MaterialPageRoute(builder: (context) =>
-        VerseScreen(
-          chapterNumber: chapterNumber,
-          verseNumber: verseNumber,
-          verseDetails: widget.verseDetails ,
-        )));
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => VerseScreen(
+                  chapterNumber: chapterNumber,
+                  verseNumber: verseNumber,
+                  verseDetails: widget.verseDetails,
+                )));
     log("Card $verseNumber tapped");
   }
 }

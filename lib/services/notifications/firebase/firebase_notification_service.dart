@@ -28,7 +28,7 @@ class FCM {
   setNotifications() {
     FirebaseMessaging.onBackgroundMessage(onBackgroundMessage);
     FirebaseMessaging.onMessage.listen(
-          (message) async {
+      (message) async {
         if (message.data.containsKey('data')) {
           // Handle data message
           streamCtlr.sink.add(message.data['data']);
@@ -44,7 +44,7 @@ class FCM {
     );
     // With this token you can test it easily on your phone
     final token =
-    _firebaseMessaging.getToken().then((value) => print('Token: $value'));
+        _firebaseMessaging.getToken().then((value) => print('Token: $value'));
   }
 
   dispose() {

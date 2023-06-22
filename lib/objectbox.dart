@@ -10,7 +10,6 @@ class ObjectBox {
   late final Box<ChangeDataModel> changeDataBox;
   late final Box<ChapterSummaryModel> chapterSummaryBox;
 
-
   ObjectBox();
 
   ObjectBox._create(this.store) {
@@ -26,5 +25,4 @@ class ObjectBox {
   getStore() async {
     return await openStore();
   }
-
 }

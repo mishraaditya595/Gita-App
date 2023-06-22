@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
@@ -11,20 +10,22 @@ import '../../objectbox.g.dart';
 import '../../services/db/database_service.dart';
 
 class ChapterScreen extends StatefulWidget {
-
   final int chapterNumber;
   final String chapterName;
   final String chapterSummary;
 
-  const ChapterScreen({Key? key, required this.chapterNumber, required this.chapterName, required this.chapterSummary}) : super(key: key);
-
+  const ChapterScreen(
+      {Key? key,
+      required this.chapterNumber,
+      required this.chapterName,
+      required this.chapterSummary})
+      : super(key: key);
 
   @override
   State<ChapterScreen> createState() => _ChapterScreenState();
 }
 
 class _ChapterScreenState extends State<ChapterScreen> {
-
   int? chapterSummaryLines = 4;
   bool isNotExpanded = true;
   String expandSummaryText = "READ MORE";
@@ -53,7 +54,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
             onPressed: () {
               Navigator.pop(context, true);
             },
-            icon: const Icon(Icons.arrow_back_ios_new)) ,
+            icon: const Icon(Icons.arrow_back_ios_new)),
       ),
       body: ListView(
         children: [
@@ -65,17 +66,19 @@ class _ChapterScreenState extends State<ChapterScreen> {
                   alignment: Alignment.topCenter,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 12.0),
-                    child: Text(widget.chapterName.toUpperCase(),
+                    child: Text(
+                      widget.chapterName.toUpperCase(),
                       style: const TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
-                          color: Colors.deepOrange
-                      ),
+                          color: Colors.deepOrange),
                       textAlign: TextAlign.center,
                     ),
                   ),
                 ),
-                const SizedBox(height: 20,),
+                const SizedBox(
+                  height: 20,
+                ),
                 Visibility(
                   visible: isNotExpanded,
                   child: Text(
@@ -88,17 +91,21 @@ class _ChapterScreenState extends State<ChapterScreen> {
                 Visibility(
                   visible: !isNotExpanded,
                   child: Text(
-                    widget.chapterSummary,),
+                    widget.chapterSummary,
+                  ),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: InkWell(
                       onTap: () => inflateChapterSummary(),
-                      child: Text(expandSummaryText)
-                  ),
+                      child: Text(expandSummaryText)),
                 ),
-                const SizedBox(height: 30,),
+                const SizedBox(
+                  height: 30,
+                ),
                 ListView.builder(
                     shrinkWrap: true,
                     controller: _controller,
@@ -107,22 +114,26 @@ class _ChapterScreenState extends State<ChapterScreen> {
                     itemBuilder: (context, position) {
                       return VerseCardWidget(
                         verseDetails: ChapterDetailedModel(
-                          verseNumber: chapterDetailedList[position].verseNumber,
-                          chapterNumber: chapterDetailedList[position].chapterNumber,
+                          verseNumber:
+                              chapterDetailedList[position].verseNumber,
+                          chapterNumber:
+                              chapterDetailedList[position].chapterNumber,
                           text: chapterDetailedList[position].text,
-                          transliteration: chapterDetailedList[position].transliteration,
-                          wordMeanings: chapterDetailedList[position].wordMeanings,
-                          translation: chapterDetailedList[position].translation,
+                          transliteration:
+                              chapterDetailedList[position].transliteration,
+                          wordMeanings:
+                              chapterDetailedList[position].wordMeanings,
+                          translation:
+                              chapterDetailedList[position].translation,
                           commentary: chapterDetailedList[position].commentary,
-                          verseNumberInt: chapterDetailedList[position].verseNumberInt,
+                          verseNumberInt:
+                              chapterDetailedList[position].verseNumberInt,
                         ),
-
                       );
                     })
               ],
             ),
           )
-
         ],
       ),
     );
@@ -150,11 +161,11 @@ class _ChapterScreenState extends State<ChapterScreen> {
   Future<void> fetchChapterDetails() async {
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
     Store store = databaseService.getStore()!;
-    Box<ChapterDetailedModel> chapterDetailedModelBox = store.box<
-        ChapterDetailedModel>();
+    Box<ChapterDetailedModel> chapterDetailedModelBox =
+        store.box<ChapterDetailedModel>();
     QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
-        .query(
-        ChapterDetailedModel_.chapterNumber.equals("${widget.chapterNumber}"))
+        .query(ChapterDetailedModel_.chapterNumber
+            .equals("${widget.chapterNumber}"))
       ..order(ChapterDetailedModel_.verseNumberInt);
     Query<ChapterDetailedModel> query = queryBuilder.build();
     List<ChapterDetailedModel>? _chapterDetailedList = query.find();
@@ -162,6 +173,5 @@ class _ChapterScreenState extends State<ChapterScreen> {
     setState(() {
       chapterDetailedList.addAll(_chapterDetailedList);
     });
-
   }
 }

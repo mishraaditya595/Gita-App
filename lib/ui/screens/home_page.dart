@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
@@ -40,7 +38,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   getImei() async {
-    try{
+    try {
       String imeiNo = await DeviceInformation.deviceIMEINumber;
       debugPrint("Imei: $imeiNo");
     } catch (e) {
@@ -51,17 +49,17 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
-        children: [Padding(
+      body: ListView(children: [
+        Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(
-                height: MediaQuery.of(context).size.height/5,
+                height: MediaQuery.of(context).size.height / 5,
                 width: double.maxFinite,
                 child: InkWell(
-                  onTap: () async => { },
+                  onTap: () async => {},
                   child: Card(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),
@@ -73,8 +71,7 @@ class _HomePageState extends State<HomePage> {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             image: const DecorationImage(
-                              image:
-                                  AssetImage("assets/images/krishna.jpg"),
+                              image: AssetImage("assets/images/krishna.jpg"),
                               fit: BoxFit.fill,
                               alignment: Alignment.topCenter,
                             )),
@@ -117,7 +114,8 @@ class _HomePageState extends State<HomePage> {
                       height: 10,
                     ),
                     InkWell(
-                        onTap: () => onCardTapped(lastReadChapterInt, lastReadVerseInt),
+                        onTap: () =>
+                            onCardTapped(lastReadChapterInt, lastReadVerseInt),
                         child: const Text("CONTINUE READING")),
                     const SizedBox(
                       height: 20,
@@ -125,7 +123,6 @@ class _HomePageState extends State<HomePage> {
                   ],
                 ),
               ),
-
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -133,7 +130,8 @@ class _HomePageState extends State<HomePage> {
                     "CHAPTERS",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  IconButton(onPressed: () {}, icon: const Icon(Icons.sort_sharp))
+                  IconButton(
+                      onPressed: () {}, icon: const Icon(Icons.sort_sharp))
                 ],
               ),
               ListView.builder(
@@ -181,8 +179,10 @@ class _HomePageState extends State<HomePage> {
     Store store = databaseService.getStore()!;
     //<--- get all chapters summary --->
     Box<ChapterSummaryModel> chapterSummaryModelBox =
-    store.box<ChapterSummaryModel>();
-    QueryBuilder<ChapterSummaryModel> queryBuilder = chapterSummaryModelBox.query()..order(ChapterSummaryModel_.chapterNumberInt);
+        store.box<ChapterSummaryModel>();
+    QueryBuilder<ChapterSummaryModel> queryBuilder = chapterSummaryModelBox
+        .query()
+      ..order(ChapterSummaryModel_.chapterNumberInt);
     Query<ChapterSummaryModel> query = queryBuilder.build();
     List<ChapterSummaryModel> _chapterSummaryList = query.find();
 
@@ -213,12 +213,10 @@ class _HomePageState extends State<HomePage> {
 
       chapterSummaryList.addAll(_chapterSummaryList);
 
-
       // debugPrint("VerseOfTheDay: ${queryList[0].translation}");
       // debugPrint("VerseOfTheDay: ${queryList[0].chapterNumber}");
       // debugPrint("VerseOfTheDay: ${queryList[0].verseNumber}");
       // debugPrint("Random verse num: $randomChapterNumber.$randomVerseNumber");
-
 
       if (lastReadList.isNotEmpty) {
         debugPrint("Last Read Found: ${lastReadList[0].lastReadVerseText}");
@@ -228,16 +226,16 @@ class _HomePageState extends State<HomePage> {
         lastReadChapterInt = lastReadList.first.chapterNumber;
         lastReadVerseInt = lastReadList.first.verseNumber;
 
-        QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
-            .query(
-            ChapterDetailedModel_.chapterNumber.equals("${lastReadList.first.chapterNumber}") &
-            ChapterDetailedModel_.verseNumber.equals("${lastReadList.first.verseNumber}"))
-          ..order(ChapterDetailedModel_.verseNumberInt);
+        QueryBuilder<ChapterDetailedModel> queryBuilder =
+            chapterDetailedModelBox.query(ChapterDetailedModel_.chapterNumber
+                    .equals("${lastReadList.first.chapterNumber}") &
+                ChapterDetailedModel_.verseNumber
+                    .equals("${lastReadList.first.verseNumber}"))
+              ..order(ChapterDetailedModel_.verseNumberInt);
         Query<ChapterDetailedModel> query = queryBuilder.build();
         List<ChapterDetailedModel>? queryList = query.find();
         chapterDetailedList.addAll(queryList);
       }
     });
-
   }
 }

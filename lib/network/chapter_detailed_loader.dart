@@ -13,11 +13,9 @@ import 'package:sbg/services/db/database_service.dart';
 import '../utils/constants.dart';
 
 class ChapterDetailedLoader {
-
   final String tableName = "chapter_detailed";
 
   getDataFromDB() async {
-
     http.Response res = await http.get(
         Uri.parse('${Constants.SUPABASE_URI}rest/v1/$tableName?select=*'),
         headers: {
@@ -32,7 +30,7 @@ class ChapterDetailedLoader {
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
     Store store = databaseService.getStore()!;
     List<ChapterDetailedModel> chapterDetailedList = [];
-    if(res.statusCode == 200) {
+    if (res.statusCode == 200) {
       var jsonResp = jsonDecode(res.body);
       for (int i = 0; i < jsonResp.length; i++) {
         var chapterDetailed = jsonResp[i];
@@ -41,20 +39,20 @@ class ChapterDetailedLoader {
       store.box<ChapterDetailedModel>().removeAll();
       store.box<ChapterDetailedModel>().putMany(chapterDetailedList);
       log("Chapter Detailed Loaded: ${store.box<ChapterDetailedModel>().getAll().length}");
-
     }
   }
 
   ChapterDetailedModel toChapterDetailedModel(chapterDetailed) {
     ChapterDetailedModel chapterDetailedModel = ChapterDetailedModel(
-        verseNumber: chapterDetailed['verse_number'].toString().trim() ?? '',
-        chapterNumber: chapterDetailed['chapter_number'].toString().trim() ?? '',
-        text: chapterDetailed['text'].toString().trim() ?? '',
-        transliteration: chapterDetailed['transliteration'].toString().trim() ?? '',
-        wordMeanings: chapterDetailed['word_meanings'].toString().trim() ?? '',
-        translation: chapterDetailed['translation'].toString().trim() ?? '',
-        commentary: chapterDetailed['commentary'].toString().trim() ?? '',
-        verseNumberInt: chapterDetailed['verse_number'].toInt() ?? -1,
+      verseNumber: chapterDetailed['verse_number'].toString().trim() ?? '',
+      chapterNumber: chapterDetailed['chapter_number'].toString().trim() ?? '',
+      text: chapterDetailed['text'].toString().trim() ?? '',
+      transliteration:
+          chapterDetailed['transliteration'].toString().trim() ?? '',
+      wordMeanings: chapterDetailed['word_meanings'].toString().trim() ?? '',
+      translation: chapterDetailed['translation'].toString().trim() ?? '',
+      commentary: chapterDetailed['commentary'].toString().trim() ?? '',
+      verseNumberInt: chapterDetailed['verse_number'].toInt() ?? -1,
     );
     return chapterDetailedModel;
   }

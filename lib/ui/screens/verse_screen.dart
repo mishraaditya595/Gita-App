@@ -40,7 +40,8 @@ class _VerseScreenState extends State<VerseScreen> {
   @override
   void initState() {
     fetchBookmarkAndAddToLastRead();
-    if(widget.verseDetails.commentary == null || widget.verseDetails.commentary.isEmpty) {
+    if (widget.verseDetails.commentary == null ||
+        widget.verseDetails.commentary.isEmpty) {
       setState(() {
         isCommentaryAvailable = false;
       });
@@ -50,7 +51,6 @@ class _VerseScreenState extends State<VerseScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     ScrollController listScrollController = ScrollController();
 
     return Scaffold(
@@ -65,12 +65,15 @@ class _VerseScreenState extends State<VerseScreen> {
             icon: const Icon(Icons.arrow_back_ios_new)),
         actions: [
           IconButton(
-              onPressed: (){
-              addOrRemoveBookmark(widget.verseDetails);
-              var toastText = fabIcon == Icons.bookmark_add ? "Verse added to bookmarks." : "Verse removed from bookmarks.";
-              showToast(toastText, context: context);
+              onPressed: () {
+                addOrRemoveBookmark(widget.verseDetails);
+                var toastText = fabIcon == Icons.bookmark_add
+                    ? "Verse added to bookmarks."
+                    : "Verse removed from bookmarks.";
+                showToast(toastText, context: context);
               },
-              icon: Icon(fabIcon))],
+              icon: Icon(fabIcon))
+        ],
       ),
       // floatingActionButton: Stack(
       //   fit: StackFit.expand,
@@ -110,7 +113,8 @@ class _VerseScreenState extends State<VerseScreen> {
       // ),
       body: ListView(controller: listScrollController, children: [
         Padding(
-          padding: const EdgeInsets.only(top: 0, left: 25, right: 25, bottom: 0),
+          padding:
+              const EdgeInsets.only(top: 0, left: 25, right: 25, bottom: 0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -252,7 +256,8 @@ class _VerseScreenState extends State<VerseScreen> {
                               onPressed: () {
                                 navigateVerse("PREVIOUS");
                                 if (listScrollController.hasClients) {
-                                  final position = listScrollController.position.minScrollExtent;
+                                  final position = listScrollController
+                                      .position.minScrollExtent;
                                   listScrollController.jumpTo(position);
                                 }
                               },
@@ -266,7 +271,8 @@ class _VerseScreenState extends State<VerseScreen> {
                               onPressed: () {
                                 navigateVerse("NEXT");
                                 if (listScrollController.hasClients) {
-                                  final position = listScrollController.position.minScrollExtent;
+                                  final position = listScrollController
+                                      .position.minScrollExtent;
                                   listScrollController.jumpTo(position);
                                 }
                               },
@@ -376,11 +382,11 @@ class _VerseScreenState extends State<VerseScreen> {
     lastReadModelBox.removeAll();
     lastReadModelBox.put(LastReadModel(
       lastReadVerseText: widget.verseDetails.translation,
-      lastReadVerseNum: "${widget.verseDetails.chapterNumber}.${widget.verseDetails.verseNumber}",
+      lastReadVerseNum:
+          "${widget.verseDetails.chapterNumber}.${widget.verseDetails.verseNumber}",
       verseNumber: widget.verseDetails.verseNumberInt,
       chapterNumber: int.parse(widget.verseDetails.chapterNumber),
     ));
-
   }
 
   Future<void> navigateVerse(String operator) async {
@@ -485,7 +491,8 @@ class _VerseScreenState extends State<VerseScreen> {
         }
     }
 
-    if(widget.verseDetails.commentary == null || widget.verseDetails.commentary.isEmpty) {
+    if (widget.verseDetails.commentary == null ||
+        widget.verseDetails.commentary.isEmpty) {
       setState(() {
         isCommentaryAvailable = false;
       });

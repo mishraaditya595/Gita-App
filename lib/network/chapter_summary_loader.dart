@@ -12,11 +12,9 @@ import '../services/db/database_service.dart';
 import '../utils/constants.dart';
 
 class ChapterSummaryLoader {
-
   final String tableName = "chapter_summary";
 
   getDataFromDB() async {
-
     http.Response res = await http.get(
         Uri.parse('${Constants.SUPABASE_URI}rest/v1/$tableName?select=*'),
         headers: {
@@ -29,8 +27,9 @@ class ChapterSummaryLoader {
 
   Future<void> addDataToLocalDb(Response res) async {
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
-    Store store = databaseService.getStore()!;    List<ChapterSummaryModel> chapterSummaryList = [];
-    if(res.statusCode == 200) {
+    Store store = databaseService.getStore()!;
+    List<ChapterSummaryModel> chapterSummaryList = [];
+    if (res.statusCode == 200) {
       var jsonResp = jsonDecode(res.body);
       for (int i = 0; i < jsonResp.length; i++) {
         var chapterSummary = jsonResp[i];
@@ -45,14 +44,14 @@ class ChapterSummaryLoader {
   ChapterSummaryModel toChapterSummaryModel(chapterSummary) {
     ChapterSummaryModel chapterSummaryModel = ChapterSummaryModel(
         chapterNumber: chapterSummary['chapter_number'].toString().trim() ?? '',
-        name: chapterSummary['name'].toString().trim() ??'',
-        nameTranslated: chapterSummary['name_translated'].toString().trim() ??'',
+        name: chapterSummary['name'].toString().trim() ?? '',
+        nameTranslated:
+            chapterSummary['name_translated'].toString().trim() ?? '',
         verseCount: chapterSummary['verses_count'].toInt() ?? -1,
         nameMeaning: chapterSummary['name_meaning'].toString().trim() ?? '',
         summary: chapterSummary['summary'].toString().trim() ?? '',
         summaryHindi: chapterSummary['summary_hindi'].toString().trim() ?? '',
-        chapterNumberInt: chapterSummary['chapter_number'] ?? 0
-    );
+        chapterNumberInt: chapterSummary['chapter_number'] ?? 0);
     return chapterSummaryModel;
   }
 }
