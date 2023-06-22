@@ -7,12 +7,14 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 import 'package:sbg/injection.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/network/chapter_detailed_loader.dart';
 import 'package:sbg/network/chapter_summary_loader.dart';
 import 'package:sbg/services/db/database_service.dart';
 import 'package:sbg/services/notifications/firebase/firebase_messaging_service.dart';
+import 'package:sbg/ui/homepage/provider/home_page_provider.dart';
 import 'package:sbg/ui/screens/about_page.dart';
 import 'package:sbg/ui/homepage/screen/home_page.dart';
 import 'package:sbg/ui/screens/bookmark_page.dart';
@@ -63,6 +65,13 @@ class _MyAppState extends State<MyApp> {
 
     super.initState();
     log(shouldMakeApiCall);
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   @override
@@ -155,39 +164,46 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // backgroundColor: Colors.white,
-        title: const Text(
-          "Srimad Bhagwad Gita",
-          style: TextStyle(fontWeight: FontWeight.bold),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: ((BuildContext context) => HomePageProvider()),
         ),
-        centerTitle: true,
-      ),
-      body: pages[selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        elevation: 10,
-        currentIndex: selectedIndex,
-        backgroundColor: Colors.white,
-        type: BottomNavigationBarType.fixed,
-        selectedLabelStyle: const TextStyle(
-            fontWeight: FontWeight.bold, color: Colors.deepOrange),
-        unselectedLabelStyle:
-            const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-        selectedIconTheme:
-            const IconThemeData(color: Colors.deepOrange, size: 30),
-        unselectedIconTheme: const IconThemeData(
-          color: Colors.grey,
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          // backgroundColor: Colors.white,
+          title: const Text(
+            "Srimad Bhagwad Gita",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          centerTitle: true,
         ),
-        onTap: _onItemTapped,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.bookmark), label: "Bookmarks"),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.question_mark), label: "About"),
-          // BottomNavigationBarItem(icon: Icon(Icons.more), label: "More"),
-        ],
+        body: pages[selectedIndex],
+        bottomNavigationBar: BottomNavigationBar(
+          elevation: 10,
+          currentIndex: selectedIndex,
+          backgroundColor: Colors.white,
+          type: BottomNavigationBarType.fixed,
+          selectedLabelStyle: const TextStyle(
+              fontWeight: FontWeight.bold, color: Colors.deepOrange),
+          unselectedLabelStyle:
+              const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+          selectedIconTheme:
+              const IconThemeData(color: Colors.deepOrange, size: 30),
+          unselectedIconTheme: const IconThemeData(
+            color: Colors.grey,
+          ),
+          onTap: _onItemTapped,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.bookmark), label: "Bookmarks"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.question_mark), label: "About"),
+            // BottomNavigationBarItem(icon: Icon(Icons.more), label: "More"),
+          ],
+        ),
       ),
     );
   }

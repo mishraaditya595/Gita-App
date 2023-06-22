@@ -1,9 +1,9 @@
-import 'package:colorful_circular_progress_indicator/colorful_circular_progress_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get_it/get_it.dart';
 import 'package:objectbox/objectbox.dart';
+import 'package:sbg/ui/homepage/provider/home_page_provider.dart';
 import 'package:sbg/ui/homepage/services/home_page_services.dart';
 import 'package:sbg/ui/screens/verse_screen.dart';
 import 'package:sbg/ui/widgets/chapter_card_widget.dart';
@@ -14,6 +14,8 @@ import '../../../models/last_read_model.dart';
 import '../../../objectbox.g.dart';
 import '../../../services/db/database_service.dart';
 import 'package:device_information/device_information.dart';
+import 'package:provider/provider.dart';
+
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -23,18 +25,24 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<ChapterSummaryModel> chapterSummaryList = [];
-  List<ChapterDetailedModel> chapterDetailedList = [];
-  List<String> verseOfTheDay = [];
-  String lastReadVerseText = "";
-  String lastReadVerseNum = "";
-  int lastReadChapterInt = 0;
-  int lastReadVerseInt = 0;
-  bool isLastReadAvailable = false;
+  late  HomePageProvider homePageProvider;
 
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      homePageProvider =
+          Provider.of<HomePageProvider>(context, listen: false);
+      homePageProvider.fetchAll();
+    });
     super.initState();
+  }
+
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   getImei() async {
@@ -48,16 +56,13 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+
+    homePageProvider =
+          Provider.of<HomePageProvider>(context, listen: true);
+
     return Scaffold(
-      body: FutureBuilder(
-        future: fetchData(),
-        builder: (BuildContext context, AsyncSnapshot<void> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator()
-            );
-          } else if (snapshot.connectionState == ConnectionState.done) {
-          return ListView(children: [
+      body:
+        ListView(children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Column(
@@ -92,7 +97,7 @@ class _HomePageState extends State<HomePage> {
                     height: 20,
                   ),
                   Visibility(
-                    visible: isLastReadAvailable,
+                    visible: homePageProvider.isLastReadAvailable,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -104,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             Text(
-                              "Verse: ${lastReadVerseNum}",
+                              "Verse: ${homePageProvider.lastReadVerseNum}",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                           ],
@@ -113,7 +118,7 @@ class _HomePageState extends State<HomePage> {
                           height: 10,
                         ),
                         Text(
-                          lastReadVerseText,
+                          homePageProvider.lastReadVerseText,
                           style: const TextStyle(color: Colors.black),
                           overflow: TextOverflow.fade,
                           maxLines: 2,
@@ -123,7 +128,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         InkWell(
                             onTap: () =>
-                                onCardTapped(lastReadChapterInt, lastReadVerseInt),
+                                onCardTapped(homePageProvider.lastReadChapterInt, homePageProvider.lastReadVerseInt, homePageProvider),
                             child: const Text("CONTINUE READING")),
                         const SizedBox(
                           height: 20,
@@ -145,28 +150,22 @@ class _HomePageState extends State<HomePage> {
                   ListView.builder(
                       shrinkWrap: true,
                       physics: const ClampingScrollPhysics(),
-                      itemCount: chapterSummaryList.length,
+                      itemCount: homePageProvider.chapterSummaryList.length,
                       itemBuilder: (context, position) {
                         return ChapterWidgetCard(
                           chapterNumber: position + 1,
-                          chapterName: chapterSummaryList[position].nameTranslated,
-                          verseCount: chapterSummaryList[position].verseCount,
-                          chapterSummary: chapterSummaryList[position].summary,
+                          chapterName: homePageProvider.chapterSummaryList[position].nameTranslated,
+                          verseCount: homePageProvider.chapterSummaryList[position].verseCount,
+                          chapterSummary: homePageProvider.chapterSummaryList[position].summary,
                         );
                       })
                 ],
               ),
             ),
-          ]);
-          } else {
-            return const Text("Something went wrong. Restart the app!");
-          }
-        },
-      ),
-    );
+          ]));
   }
 
-  onCardTapped(int chapterNumber, int verseNumber) {
+  onCardTapped(int chapterNumber, int verseNumber, HomePageProvider homePageProvider) {
     debugPrint("$chapterNumber.$verseNumber");
     Navigator.push(
         context,
@@ -175,43 +174,15 @@ class _HomePageState extends State<HomePage> {
                   chapterNumber: chapterNumber,
                   verseNumber: verseNumber,
                   verseDetails: ChapterDetailedModel(
-                    verseNumber: chapterDetailedList[0].verseNumber,
-                    chapterNumber: chapterDetailedList[0].chapterNumber,
-                    text: chapterDetailedList[0].text,
-                    transliteration: chapterDetailedList[0].transliteration,
-                    wordMeanings: chapterDetailedList[0].wordMeanings,
-                    translation: chapterDetailedList[0].translation,
-                    commentary: chapterDetailedList[0].commentary,
-                    verseNumberInt: chapterDetailedList[0].verseNumberInt,
+                    verseNumber: homePageProvider.chapterDetailedList[0].verseNumber,
+                    chapterNumber: homePageProvider.chapterDetailedList[0].chapterNumber,
+                    text: homePageProvider.chapterDetailedList[0].text,
+                    transliteration: homePageProvider.chapterDetailedList[0].transliteration,
+                    wordMeanings: homePageProvider.chapterDetailedList[0].wordMeanings,
+                    translation: homePageProvider.chapterDetailedList[0].translation,
+                    commentary: homePageProvider.chapterDetailedList[0].commentary,
+                    verseNumberInt: homePageProvider.chapterDetailedList[0].verseNumberInt,
                   ),
                 )));
-  }
-
-  Future<void> fetchData() async {
-    DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
-    //<--- get all chapters summary --->
-    HomePageServices homePageServices = GetIt.instance.get<HomePageServices>();
-    List<ChapterSummaryModel> _chapterSummaryList = homePageServices.getAllChapters();
-
-    //<--- get last read verse --->
-    List<LastReadModel> lastReadList = homePageServices.getLastReadVerse();
-
-    setState(() {
-
-      chapterSummaryList.addAll(_chapterSummaryList);
-
-      if (lastReadList.isNotEmpty) {
-        debugPrint("Last Read Found: ${lastReadList[0].lastReadVerseText}");
-        lastReadVerseText = lastReadList[0].lastReadVerseText;
-        lastReadVerseNum = lastReadList[0].lastReadVerseNum;
-        isLastReadAvailable = true;
-        lastReadChapterInt = lastReadList.first.chapterNumber;
-        lastReadVerseInt = lastReadList.first.verseNumber;
-
-        List<ChapterDetailedModel>? queryList = homePageServices.getChapterDetailedList(lastReadList[0].chapterNumber, lastReadList[0].verseNumber);
-        chapterDetailedList.addAll(queryList);
-      }
-    });
-    await Future.delayed(const Duration(seconds: 1));
   }
 }
