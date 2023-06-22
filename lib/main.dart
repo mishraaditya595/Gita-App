@@ -20,6 +20,7 @@ import 'package:sbg/ui/screens/about_page.dart';
 import 'package:sbg/ui/homepage/screen/home_page.dart';
 import 'package:sbg/ui/screens/bookmark_page.dart';
 import 'package:sbg/ui/screens/more_screen.dart';
+import 'package:sbg/ui/verse_screen/provider/verse_screen_provider.dart';
 import 'package:sbg/utils/constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -172,6 +173,9 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         ChangeNotifierProvider(
           create: ((BuildContext context) => ChapterScreenProvider()),
+        ),
+        ChangeNotifierProvider(
+          create: ((BuildContext context) => VerseScreenProvider()),
         ),
       ],
       child: Scaffold(

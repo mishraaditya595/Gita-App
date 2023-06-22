@@ -41,7 +41,7 @@ class VerseScreenService {
     ));
   }
 
-  navigateVerses(String operator, String chapterNumber, String verseNumber) {
+  List<ChapterDetailedModel> navigateVerses(String operator, String chapterNumber, String verseNumber) {
     int currentChapter = int.parse(chapterNumber);
     int currentVerse = int.parse(verseNumber);
     List<ChapterDetailedModel> navigatedVerse = [];
@@ -90,7 +90,7 @@ class VerseScreenService {
       ChapterDetailedModel_.chapterNumber
           .equals((nextChapter).toString()));
       Query<ChapterDetailedModel> query2 = queryBuilder2.build();
-      List<ChapterDetailedModel>? chapterDetailedList = query2.find();
+      chapterDetailedList = query2.find();
     }
 
     return chapterDetailedList;
@@ -132,7 +132,7 @@ class VerseScreenService {
       ChapterDetailedModel_.chapterNumber
           .equals((previousChapter).toString()));
       Query<ChapterDetailedModel> query2 = queryBuilder2.build();
-      List<ChapterDetailedModel>? chapterDetailedList = query2.find();
+      chapterDetailedList = query2.find();
     }
     return chapterDetailedList;
   }
