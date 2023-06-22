@@ -14,7 +14,7 @@ import 'package:sbg/network/chapter_summary_loader.dart';
 import 'package:sbg/services/db/database_service.dart';
 import 'package:sbg/services/notifications/firebase/firebase_messaging_service.dart';
 import 'package:sbg/ui/screens/about_page.dart';
-import 'package:sbg/ui/screens/home_page.dart';
+import 'package:sbg/ui/homepage/screen/home_page.dart';
 import 'package:sbg/ui/screens/bookmark_page.dart';
 import 'package:sbg/ui/screens/more_screen.dart';
 import 'package:sbg/utils/constants.dart';
@@ -44,9 +44,6 @@ class _MyAppState extends State<MyApp> {
 
   int splashScreenLoaderTime = 10;
   String shouldMakeApiCall = "false";
-  String? notificationTitle;
-  String? notificationBody;
-  String? notificationData;
 
   @override
   void initState() {
