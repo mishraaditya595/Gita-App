@@ -5,7 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:sbg/ui/homepage/provider/home_page_provider.dart';
 import 'package:sbg/ui/homepage/services/home_page_services.dart';
-import 'package:sbg/ui/screens/verse_screen.dart';
+import 'package:sbg/ui/verse_screen/screen/verse_screen.dart';
 import 'package:sbg/ui/widgets/chapter_card_widget.dart';
 
 import '../../../models/chapter_detailed_model.dart';

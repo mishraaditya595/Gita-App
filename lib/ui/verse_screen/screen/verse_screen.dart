@@ -10,10 +10,10 @@ import 'package:sbg/models/last_read_model.dart';
 import 'package:sbg/models/verse_bookmark_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../models/chapter_detailed_model.dart';
-import '../../objectbox.dart';
-import '../../objectbox.g.dart';
-import '../../services/db/database_service.dart';
+import '../../../models/chapter_detailed_model.dart';
+import '../../../objectbox.dart';
+import '../../../objectbox.g.dart';
+import '../../../services/db/database_service.dart';
 
 class VerseScreen extends StatefulWidget {
   late int chapterNumber;
@@ -75,42 +75,7 @@ class _VerseScreenState extends State<VerseScreen> {
               icon: Icon(fabIcon))
         ],
       ),
-      // floatingActionButton: Stack(
-      //   fit: StackFit.expand,
-      //   children: [
-      //     Positioned(
-      //       left: MediaQuery.of(context).size.width/15,
-      //       bottom: MediaQuery.of(context).size.height/10,
-      //       // bottom: 20,
-      //       child: FloatingActionButton(
-      //         heroTag: 'back',
-      //         onPressed: () {
-      //           navigateVerse("PREVIOUS");
-      //           },
-      //         backgroundColor: Colors.white,
-      //         child: const Icon(
-      //           Icons.arrow_left,
-      //           size: 40,
-      //           color: Colors.deepOrange,
-      //         ),
-      //       ),
-      //     ),
-      //     Positioned(
-      //       right: MediaQuery.of(context).size.width/15,
-      //       bottom: MediaQuery.of(context).size.height/10,
-      //       child: FloatingActionButton(
-      //         heroTag: 'next',
-      //         onPressed: () {/* Do something */},
-      //         backgroundColor: Colors.white,
-      //         child: const Icon(
-      //           Icons.arrow_right,
-      //           size: 40,
-      //           color: Colors.deepOrange,
-      //         ),
-      //       ),
-      //     ),
-      //   ],
-      // ),
+
       body: ListView(controller: listScrollController, children: [
         Padding(
           padding:
