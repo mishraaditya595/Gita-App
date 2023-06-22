@@ -161,14 +161,17 @@ class _HomePageState extends State<HomePage> {
                       physics: const ClampingScrollPhysics(),
                       itemCount: homePageProvider.chapterSummaryList.length,
                       itemBuilder: (context, position) {
+                        String name = homePageProvider
+                            .chapterSummaryList[position].nameTranslated;
+                        int verseCount = homePageProvider
+                            .chapterSummaryList[position].verseCount;
+                        String chapterSummary = homePageProvider
+                            .chapterSummaryList[position].summary;
                         return ChapterWidgetCard(
                           chapterNumber: position + 1,
-                          chapterName: homePageProvider
-                              .chapterSummaryList[position].nameTranslated,
-                          verseCount: homePageProvider
-                              .chapterSummaryList[position].verseCount,
-                          chapterSummary: homePageProvider
-                              .chapterSummaryList[position].summary,
+                          chapterName: name,
+                          verseCount: verseCount,
+                          chapterSummary: chapterSummary,
                         );
                       })
                 ],

@@ -14,6 +14,7 @@ import 'package:sbg/network/chapter_detailed_loader.dart';
 import 'package:sbg/network/chapter_summary_loader.dart';
 import 'package:sbg/services/db/database_service.dart';
 import 'package:sbg/services/notifications/firebase/firebase_messaging_service.dart';
+import 'package:sbg/ui/chapter_screen/provider/chapter_screen_provider.dart';
 import 'package:sbg/ui/homepage/provider/home_page_provider.dart';
 import 'package:sbg/ui/screens/about_page.dart';
 import 'package:sbg/ui/homepage/screen/home_page.dart';
@@ -168,6 +169,9 @@ class _MyHomePageState extends State<MyHomePage> {
       providers: [
         ChangeNotifierProvider(
           create: ((BuildContext context) => HomePageProvider()),
+        ),
+        ChangeNotifierProvider(
+          create: ((BuildContext context) => ChapterScreenProvider()),
         ),
       ],
       child: Scaffold(
