@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../models/chapter_detailed_model.dart';
 import '../../../models/verse_bookmark_model.dart';
+import '../../../objectbox.g.dart';
+import '../../../services/db/database_service.dart';
 import '../services/verse_screen_service.dart';
 
 class VerseScreenProvider extends ChangeNotifier {
@@ -17,23 +20,15 @@ class VerseScreenProvider extends ChangeNotifier {
   ChapterDetailedModel _verseDetails = ChapterDetailedModel(verseNumber: "-1", chapterNumber: "-1", text: "text", transliteration: "transliteration", wordMeanings: "wordMeanings", translation: "translation", commentary: "commentary", verseNumberInt: -1);
   ChapterDetailedModel get verseDetails => _verseDetails;
 
-  setInitialValue(ChapterDetailedModel verse, int chapNum, int verseNum){
-    if(firstTime) {
+  setInitialValue(ChapterDetailedModel verse, int chapNum, int verseNum) {
+    if (firstTime) {
       _verseDetails = verse;
       chapterNumber = chapNum;
       verseNumber = verseNum;
       firstTime = !firstTime;
-
-      // notifyListeners();
+      fetchBookmarkDetails(verse.chapterNumber, verse.verseNumber);
     }
   }
-
-  // set verseDetails(ChapterDetailedModel verse) {
-  //   if(firstTime) {
-  //     _verseDetails = verse;
-  //     firstTime = !firstTime;
-  //   }
-  // }
 
   void fetchBookmarkDetails(String chapterNumber, String verseNumber) {
     VerseScreenService verseScreenService = GetIt.instance.get<VerseScreenService>();
@@ -44,7 +39,10 @@ class VerseScreenProvider extends ChangeNotifier {
     } else {
         fabIcon = Icons.bookmark_add;
     }
-    notifyListeners();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      notifyListeners();
+    });
+
   }
 
   void addToLastRead(String translation, String chapterNumber, String verseNumber) {
@@ -73,6 +71,20 @@ class VerseScreenProvider extends ChangeNotifier {
           _verseDetails!.chapterNumber, _verseDetails!.verseNumber);
       notifyListeners();
     }
+  }
+
+  addOrRemoveBookmarks(ChapterDetailedModel verseDetails) {
+    VerseScreenService verseScreenService = GetIt.instance.get<VerseScreenService>();
+
+    if (fabIcon == Icons.bookmark_add) {
+      // <--- Bookmark to be added --->
+      fabIcon = Icons.bookmark_remove;
+      verseScreenService.addBookmark(verseDetails);
+    } else {
+      fabIcon = Icons.bookmark_add;
+      verseScreenService.removeBookmark(verseDetails);
+    }
+    notifyListeners();
   }
 
 

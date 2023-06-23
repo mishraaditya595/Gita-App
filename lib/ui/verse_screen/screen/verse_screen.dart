@@ -37,12 +37,6 @@ class VerseScreen extends StatefulWidget {
 
 class _VerseScreenState extends State<VerseScreen> {
 
-  bool isBookmarked = false;
-  bool isCommentaryAvailable = true;
-  IconData fabIcon = Icons.bookmark_add;
-
-
-
   @override
   Widget build(BuildContext context) {
     ScrollController listScrollController = ScrollController();
@@ -66,13 +60,14 @@ class _VerseScreenState extends State<VerseScreen> {
             actions: [
               IconButton(
                   onPressed: () {
-                    addOrRemoveBookmark(provider.verseDetails);
-                    var toastText = fabIcon == Icons.bookmark_add
+                    var toastText = provider.fabIcon == Icons.bookmark_add
                         ? "Verse added to bookmarks."
                         : "Verse removed from bookmarks.";
                     showToast(toastText, context: context);
+
+                    provider.addOrRemoveBookmarks(provider.verseDetails);
                   },
-                  icon: Icon(fabIcon))
+                  icon: Icon(provider.fabIcon))
             ],
           ),
 
@@ -257,68 +252,4 @@ class _VerseScreenState extends State<VerseScreen> {
       }
     ));
   }
-
-  Future<void> addOrRemoveBookmark(ChapterDetailedModel verseDetails) async {
-    DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
-    Store store = databaseService.getStore()!;
-    DateTime currentDateTime = DateTime.now();
-    Box<VerseBookmarkModel> VerseBookmarkModelBox =
-        store.box<VerseBookmarkModel>();
-
-    if (fabIcon == Icons.bookmark_add) {
-      // <--- Bookmark to be added --->
-      setState(() {
-        fabIcon = Icons.bookmark_remove;
-      });
-
-      Box<VerseBookmarkModel> verseBookmarkModelBox =
-          store.box<VerseBookmarkModel>();
-      QueryBuilder<VerseBookmarkModel> queryBuilder =
-          verseBookmarkModelBox.query(
-              VerseBookmarkModel_.verseNumber.equals(verseDetails.verseNumber) &
-                  VerseBookmarkModel_.chapterNumber
-                      .equals(verseDetails.chapterNumber));
-      Query<VerseBookmarkModel> query = queryBuilder.build();
-      List<VerseBookmarkModel>? bookmarkList = query.find();
-      debugPrint("Bookmark List length: ${bookmarkList.length}");
-      if (bookmarkList.isEmpty) {
-        // <--- add bookmark to the table as it is not present already --->
-        VerseBookmarkModelBox.put(VerseBookmarkModel(
-            verseNumber: verseDetails.verseNumber,
-            chapterNumber: verseDetails.chapterNumber,
-            text: verseDetails.text,
-            transliteration: verseDetails.transliteration,
-            wordMeanings: verseDetails.wordMeanings,
-            translation: verseDetails.translation,
-            commentary: verseDetails.commentary,
-            verseNumberInt: verseDetails.verseNumberInt,
-            creationTime: currentDateTime.microsecondsSinceEpoch));
-      }
-    } else {
-      // <--- bookmark to be removed --->
-      Box<VerseBookmarkModel> verseBookmarkModelBox =
-          store.box<VerseBookmarkModel>();
-      QueryBuilder<VerseBookmarkModel> queryBuilder =
-          verseBookmarkModelBox.query(
-              VerseBookmarkModel_.verseNumber.equals(verseDetails.verseNumber) &
-                  VerseBookmarkModel_.chapterNumber
-                      .equals(verseDetails.chapterNumber));
-      Query<VerseBookmarkModel> query = queryBuilder.build();
-      List<VerseBookmarkModel>? bookmarkList = query.find();
-
-      debugPrint("Bookmark to be removed: ${bookmarkList[0].id}");
-      debugPrint(
-          "Bookmark length before removal: ${verseBookmarkModelBox.count()}");
-
-      verseBookmarkModelBox.remove(bookmarkList[0].id);
-      debugPrint(
-          "Bookmark length after removal: ${verseBookmarkModelBox.count()}");
-
-      setState(() {
-        fabIcon = Icons.bookmark_add;
-      });
-    }
-  }
-
-
 }

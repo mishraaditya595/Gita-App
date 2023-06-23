@@ -144,4 +144,57 @@ class VerseScreenService {
     }
     return chapterDetailedList;
   }
+
+  void addBookmark(ChapterDetailedModel verseDetails) {
+    Store store = databaseService.getStore()!;
+    DateTime currentDateTime = DateTime.now();
+    Box<VerseBookmarkModel> VerseBookmarkModelBox =
+    store.box<VerseBookmarkModel>();
+
+    Box<VerseBookmarkModel> verseBookmarkModelBox =
+    store.box<VerseBookmarkModel>();
+    QueryBuilder<VerseBookmarkModel> queryBuilder =
+    verseBookmarkModelBox.query(
+        VerseBookmarkModel_.verseNumber.equals(verseDetails.verseNumber) &
+        VerseBookmarkModel_.chapterNumber
+            .equals(verseDetails.chapterNumber));
+    Query<VerseBookmarkModel> query = queryBuilder.build();
+    List<VerseBookmarkModel>? bookmarkList = query.find();
+    // debugPrint("Bookmark List length: ${bookmarkList.length}");
+    if (bookmarkList.isEmpty) {
+      // <--- add bookmark to the table as it is not present already --->
+      VerseBookmarkModelBox.put(VerseBookmarkModel(
+          verseNumber: verseDetails.verseNumber,
+          chapterNumber: verseDetails.chapterNumber,
+          text: verseDetails.text,
+          transliteration: verseDetails.transliteration,
+          wordMeanings: verseDetails.wordMeanings,
+          translation: verseDetails.translation,
+          commentary: verseDetails.commentary,
+          verseNumberInt: verseDetails.verseNumberInt,
+          creationTime: currentDateTime.microsecondsSinceEpoch));
+    }
+  }
+
+  void removeBookmark(ChapterDetailedModel verseDetails) {
+    Store store = databaseService.getStore()!;
+    Box<VerseBookmarkModel> verseBookmarkModelBox =
+    store.box<VerseBookmarkModel>();
+    QueryBuilder<VerseBookmarkModel> queryBuilder =
+    verseBookmarkModelBox.query(
+        VerseBookmarkModel_.verseNumber.equals(verseDetails.verseNumber) &
+        VerseBookmarkModel_.chapterNumber
+            .equals(verseDetails.chapterNumber));
+    Query<VerseBookmarkModel> query = queryBuilder.build();
+    List<VerseBookmarkModel>? bookmarkList = query.find();
+
+    // debugPrint("Bookmark to be removed: ${bookmarkList[0].id}");
+    // debugPrint(
+    //     "Bookmark length before removal: ${verseBookmarkModelBox.count()}");
+
+    verseBookmarkModelBox.remove(bookmarkList[0].id);
+    // debugPrint(
+    //     "Bookmark length after removal: ${verseBookmarkModelBox.count()}");
+
+  }
 }
