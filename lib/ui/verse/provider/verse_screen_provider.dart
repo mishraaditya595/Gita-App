@@ -17,7 +17,15 @@ class VerseScreenProvider extends ChangeNotifier {
   IconData fabIcon = Icons.bookmark_add;
   int chapterNumber = 0;
   int verseNumber = 0;
-  ChapterDetailedModel _verseDetails = ChapterDetailedModel(verseNumber: "-1", chapterNumber: "-1", text: "text", transliteration: "transliteration", wordMeanings: "wordMeanings", translation: "translation", commentary: "commentary", verseNumberInt: -1);
+  ChapterDetailedModel _verseDetails = ChapterDetailedModel(
+      verseNumber: "-1",
+      chapterNumber: "-1",
+      text: "text",
+      transliteration: "transliteration",
+      wordMeanings: "wordMeanings",
+      translation: "translation",
+      commentary: "commentary",
+      verseNumberInt: -1);
   ChapterDetailedModel get verseDetails => _verseDetails;
 
   setInitialValue(ChapterDetailedModel verse, int chapNum, int verseNum) {
@@ -31,29 +39,35 @@ class VerseScreenProvider extends ChangeNotifier {
   }
 
   void fetchBookmarkDetails(String chapterNumber, String verseNumber) {
-    VerseScreenService verseScreenService = GetIt.instance.get<VerseScreenService>();
-    List<VerseBookmarkModel>? bookmarkList = verseScreenService.fetchBookmarkDetails(chapterNumber, verseNumber);
+    VerseScreenService verseScreenService =
+        GetIt.instance.get<VerseScreenService>();
+    List<VerseBookmarkModel>? bookmarkList =
+        verseScreenService.fetchBookmarkDetails(chapterNumber, verseNumber);
 
     if (bookmarkList.isNotEmpty) {
-        fabIcon = Icons.bookmark_remove;
+      fabIcon = Icons.bookmark_remove;
     } else {
-        fabIcon = Icons.bookmark_add;
+      fabIcon = Icons.bookmark_add;
     }
     WidgetsBinding.instance.addPostFrameCallback((_) {
       notifyListeners();
     });
-
   }
 
-  void addToLastRead(String translation, String chapterNumber, String verseNumber) {
-    VerseScreenService verseScreenService = GetIt.instance.get<VerseScreenService>();
-    verseScreenService.addVerseToLastRead(translation, chapterNumber, verseNumber);
+  void addToLastRead(
+      String translation, String chapterNumber, String verseNumber) {
+    VerseScreenService verseScreenService =
+        GetIt.instance.get<VerseScreenService>();
+    verseScreenService.addVerseToLastRead(
+        translation, chapterNumber, verseNumber);
   }
 
   navigateVerses(String operator) {
-    VerseScreenService verseScreenService = GetIt.instance.get<VerseScreenService>();
-    ChapterDetailedModel? verse = verseScreenService.navigateVerses(operator, chapterNumber.toString(), verseNumber.toString());
-    if(verse != null) {
+    VerseScreenService verseScreenService =
+        GetIt.instance.get<VerseScreenService>();
+    ChapterDetailedModel? verse = verseScreenService.navigateVerses(
+        operator, chapterNumber.toString(), verseNumber.toString());
+    if (verse != null) {
       _verseDetails = verse;
       this.chapterNumber = int.parse(_verseDetails!.chapterNumber);
       this.verseNumber = int.parse(_verseDetails!.verseNumber);
@@ -74,7 +88,8 @@ class VerseScreenProvider extends ChangeNotifier {
   }
 
   addOrRemoveBookmarks(ChapterDetailedModel verseDetails) {
-    VerseScreenService verseScreenService = GetIt.instance.get<VerseScreenService>();
+    VerseScreenService verseScreenService =
+        GetIt.instance.get<VerseScreenService>();
 
     if (fabIcon == Icons.bookmark_add) {
       // <--- Bookmark to be added --->
@@ -86,6 +101,4 @@ class VerseScreenProvider extends ChangeNotifier {
     }
     notifyListeners();
   }
-
-
 }

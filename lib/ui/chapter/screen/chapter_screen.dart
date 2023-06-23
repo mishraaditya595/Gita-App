@@ -4,14 +4,13 @@ import 'package:get_it/get_it.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:provider/provider.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
-import 'package:sbg/ui/chapter_screen/provider/chapter_screen_provider.dart';
-import 'package:sbg/ui/chapter_screen/services/chapter_screen_service.dart';
 import 'package:sbg/ui/homepage/provider/home_page_provider.dart';
 import 'package:sbg/ui/widgets/verse_card_widget.dart';
 
 import '../../../objectbox.dart';
 import '../../../objectbox.g.dart';
 import '../../../services/db/database_service.dart';
+import '../provider/chapter_screen_provider.dart';
 
 class ChapterScreen extends StatefulWidget {
   final int chapterNumber;
@@ -30,13 +29,12 @@ class ChapterScreen extends StatefulWidget {
 }
 
 class _ChapterScreenState extends State<ChapterScreen> {
-
   @override
   Widget build(BuildContext context) {
-
     return ChangeNotifierProvider<ChapterScreenProvider>(
-      create: (context) => ChapterScreenProvider(),
-        child: Consumer<ChapterScreenProvider>(builder: (context, provider, child){
+        create: (context) => ChapterScreenProvider(),
+        child: Consumer<ChapterScreenProvider>(
+            builder: (context, provider, child) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             provider.fetchAll(widget.chapterNumber);
           });
@@ -94,45 +92,36 @@ class _ChapterScreenState extends State<ChapterScreen> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: InkWell(
-                            onTap: () =>
-                                provider.inflateChapterSummary(),
-                            child: Text(
-                                provider.expandSummaryText)),
+                            onTap: () => provider.inflateChapterSummary(),
+                            child: Text(provider.expandSummaryText)),
                       ),
                       const SizedBox(
                         height: 30,
                       ),
                       ListView.builder(
                           shrinkWrap: true,
-                          itemCount: provider.chapterDetailedList
-                              .length,
+                          itemCount: provider.chapterDetailedList.length,
                           physics: const ClampingScrollPhysics(),
                           itemBuilder: (context, position) {
                             return VerseCardWidget(
                               verseDetails: ChapterDetailedModel(
-                                verseNumber:
-                                provider
+                                verseNumber: provider
                                     .chapterDetailedList[position].verseNumber,
-                                chapterNumber:
-                                provider
+                                chapterNumber: provider
                                     .chapterDetailedList[position]
                                     .chapterNumber,
-                                text: provider
-                                    .chapterDetailedList[position].text,
-                                transliteration:
-                                provider
+                                text:
+                                    provider.chapterDetailedList[position].text,
+                                transliteration: provider
                                     .chapterDetailedList[position]
                                     .transliteration,
-                                wordMeanings:
-                                provider
+                                wordMeanings: provider
                                     .chapterDetailedList[position].wordMeanings,
-                                translation:
-                                provider
+                                translation: provider
                                     .chapterDetailedList[position].translation,
                                 commentary: provider
                                     .chapterDetailedList[position].commentary,
-                                verseNumberInt:
-                                provider
+                                verseNumberInt: provider
                                     .chapterDetailedList[position]
                                     .verseNumberInt,
                               ),
@@ -144,7 +133,6 @@ class _ChapterScreenState extends State<ChapterScreen> {
               ],
             ),
           );
-    }));
+        }));
   }
-
 }

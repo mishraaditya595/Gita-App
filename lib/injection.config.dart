@@ -11,10 +11,9 @@ import 'package:sbg/services/db/database_service.dart' as _i4;
 import 'package:sbg/services/db/dbstore.dart' as _i3;
 import 'package:sbg/services/notifications/firebase/firebase_messaging_service.dart'
     as _i5;
-import 'package:sbg/ui/chapter_screen/services/chapter_screen_service.dart'
-    as _i8;
+import 'package:sbg/ui/chapter/services/chapter_screen_service.dart' as _i8;
 import 'package:sbg/ui/homepage/services/home_page_services.dart' as _i6;
-import 'package:sbg/ui/verse_screen/services/verse_screen_service.dart'
+import 'package:sbg/ui/verse/services/verse_screen_service.dart'
     as _i7; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars

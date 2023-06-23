@@ -2,9 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sbg/ui/verse_screen/screen/verse_screen.dart';
 
 import '../../models/chapter_detailed_model.dart';
+import '../verse/screen/verse_screen.dart';
 
 class VerseCardWidget extends StatefulWidget {
   final ChapterDetailedModel verseDetails;

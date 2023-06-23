@@ -31,7 +31,9 @@ class HomePageProvider with ChangeNotifier {
       lastReadChapterInt = lastReadList.first.chapterNumber;
       lastReadVerseInt = lastReadList.first.verseNumber;
 
-      List<ChapterDetailedModel>? queryList = homePageServices.getChapterDetailedList(lastReadList[0].chapterNumber, lastReadList[0].verseNumber);
+      List<ChapterDetailedModel>? queryList =
+          homePageServices.getChapterDetailedList(
+              lastReadList[0].chapterNumber, lastReadList[0].verseNumber);
       chapterDetailedList.addAll(queryList);
     }
     changeLoadingState();

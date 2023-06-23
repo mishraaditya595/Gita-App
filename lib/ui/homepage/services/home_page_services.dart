@@ -17,7 +17,7 @@ class HomePageServices {
   List<ChapterSummaryModel> getAllChapters() {
     Store store = databaseService.getStore()!;
     Box<ChapterSummaryModel> chapterSummaryModelBox =
-    store.box<ChapterSummaryModel>();
+        store.box<ChapterSummaryModel>();
     QueryBuilder<ChapterSummaryModel> queryBuilder = chapterSummaryModelBox
         .query()
       ..order(ChapterSummaryModel_.chapterNumberInt);
@@ -30,26 +30,24 @@ class HomePageServices {
   List<LastReadModel> getLastReadVerse() {
     Store store = databaseService.getStore()!;
     Box<ChapterDetailedModel> chapterDetailedModelBox =
-    store.box<ChapterDetailedModel>();
+        store.box<ChapterDetailedModel>();
     Box<LastReadModel> lastReadModelBox = store.box<LastReadModel>();
     List<LastReadModel> lastReadList = lastReadModelBox.getAll();
     return lastReadList;
   }
 
-  List<ChapterDetailedModel> getChapterDetailedList(int chapterNumber, int verseNumber) {
+  List<ChapterDetailedModel> getChapterDetailedList(
+      int chapterNumber, int verseNumber) {
     Store store = databaseService.getStore()!;
     Box<ChapterDetailedModel> chapterDetailedModelBox =
-    store.box<ChapterDetailedModel>();
-    QueryBuilder<ChapterDetailedModel> queryBuilder =
-    chapterDetailedModelBox.query(ChapterDetailedModel_.chapterNumber
-        .equals("$chapterNumber") &
-    ChapterDetailedModel_.verseNumber
-        .equals("$verseNumber"))
+        store.box<ChapterDetailedModel>();
+    QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
+        .query(ChapterDetailedModel_.chapterNumber.equals("$chapterNumber") &
+            ChapterDetailedModel_.verseNumber.equals("$verseNumber"))
       ..order(ChapterDetailedModel_.verseNumberInt);
     Query<ChapterDetailedModel> query = queryBuilder.build();
     List<ChapterDetailedModel>? queryList = query.find();
 
     return queryList;
   }
-
 }

@@ -13,10 +13,9 @@ class ChapterScreenService {
   List<ChapterDetailedModel> getChapterDetailedList(int chapterNumber) {
     Store store = databaseService.getStore()!;
     Box<ChapterDetailedModel> chapterDetailedModelBox =
-    store.box<ChapterDetailedModel>();
+        store.box<ChapterDetailedModel>();
     QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
-        .query(ChapterDetailedModel_.chapterNumber
-        .equals("$chapterNumber"))
+        .query(ChapterDetailedModel_.chapterNumber.equals("$chapterNumber"))
       ..order(ChapterDetailedModel_.verseNumberInt);
     Query<ChapterDetailedModel> query = queryBuilder.build();
     List<ChapterDetailedModel>? chapterDetailedList = query.find();
