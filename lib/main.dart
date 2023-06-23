@@ -14,11 +14,12 @@ import 'package:sbg/network/chapter_detailed_loader.dart';
 import 'package:sbg/network/chapter_summary_loader.dart';
 import 'package:sbg/services/db/database_service.dart';
 import 'package:sbg/services/notifications/firebase/firebase_messaging_service.dart';
+import 'package:sbg/ui/bookmark/provider/bookmark_provider.dart';
 import 'package:sbg/ui/chapter/provider/chapter_screen_provider.dart';
 import 'package:sbg/ui/homepage/provider/home_page_provider.dart';
 import 'package:sbg/ui/screens/about_page.dart';
 import 'package:sbg/ui/homepage/screen/home_page.dart';
-import 'package:sbg/ui/screens/bookmark_page.dart';
+import 'package:sbg/ui/bookmark/screen/bookmark_page.dart';
 import 'package:sbg/ui/verse/provider/verse_screen_provider.dart';
 import 'package:sbg/utils/constants.dart';
 import 'package:http/http.dart' as http;
@@ -175,6 +176,9 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         ChangeNotifierProvider(
           create: ((BuildContext context) => VerseScreenProvider()),
+        ),
+        ChangeNotifierProvider(
+          create: ((BuildContext context) => BookmarkProvider()),
         ),
       ],
       child: Scaffold(
