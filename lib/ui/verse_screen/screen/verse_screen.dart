@@ -75,11 +75,12 @@ class _VerseScreenState extends State<VerseScreen> {
     return ChangeNotifierProvider<VerseScreenProvider>(
       create: (context) => VerseScreenProvider(),
       child: Consumer<VerseScreenProvider>(builder: (context, provider, child){
-        provider.verseDetails = widget.verseDetails;
+        provider.setInitialValue(widget.verseDetails, widget.chapterNumber, widget.verseNumber);
+        // provider.verseDetails = widget.verseDetails;
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          provider.chapterNumber = widget.chapterNumber;
-          provider.verseNumber = widget.verseNumber;
-          provider.verseDetails = widget.verseDetails;
+          // provider.chapterNumber = widget.chapterNumber;
+          // provider.verseNumber = widget.verseNumber;
+          // provider.verseDetails = widget.verseDetails;
         });
         return Scaffold(
           appBar: AppBar(

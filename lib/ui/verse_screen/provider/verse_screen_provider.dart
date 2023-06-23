@@ -17,13 +17,23 @@ class VerseScreenProvider extends ChangeNotifier {
   ChapterDetailedModel _verseDetails = ChapterDetailedModel(verseNumber: "-1", chapterNumber: "-1", text: "text", transliteration: "transliteration", wordMeanings: "wordMeanings", translation: "translation", commentary: "commentary", verseNumberInt: -1);
   ChapterDetailedModel get verseDetails => _verseDetails;
 
-
-  set verseDetails(ChapterDetailedModel verse) {
+  setInitialValue(ChapterDetailedModel verse, int chapNum, int verseNum){
     if(firstTime) {
       _verseDetails = verse;
+      chapterNumber = chapNum;
+      verseNumber = verseNum;
       firstTime = !firstTime;
+
+      // notifyListeners();
     }
   }
+
+  // set verseDetails(ChapterDetailedModel verse) {
+  //   if(firstTime) {
+  //     _verseDetails = verse;
+  //     firstTime = !firstTime;
+  //   }
+  // }
 
   void fetchBookmarkDetails(String chapterNumber, String verseNumber) {
     VerseScreenService verseScreenService = GetIt.instance.get<VerseScreenService>();
@@ -44,20 +54,25 @@ class VerseScreenProvider extends ChangeNotifier {
 
   navigateVerses(String operator) {
     VerseScreenService verseScreenService = GetIt.instance.get<VerseScreenService>();
-    _verseDetails = verseScreenService.navigateVerses(operator, chapterNumber.toString(), verseNumber.toString()).first;
-    this.chapterNumber = int.parse(_verseDetails!.chapterNumber);
-    this.verseNumber = int.parse(_verseDetails!.verseNumber);
+    ChapterDetailedModel? verse = verseScreenService.navigateVerses(operator, chapterNumber.toString(), verseNumber.toString());
+    if(verse != null) {
+      _verseDetails = verse;
+      this.chapterNumber = int.parse(_verseDetails!.chapterNumber);
+      this.verseNumber = int.parse(_verseDetails!.verseNumber);
 
-    if (_verseDetails!.commentary == null ||
-        _verseDetails!.commentary.isEmpty) {
-      isCommentaryAvailable = false;
-    } else {
-      isCommentaryAvailable = true;
+      if (_verseDetails!.commentary == null ||
+          _verseDetails!.commentary.isEmpty) {
+        isCommentaryAvailable = false;
+      } else {
+        isCommentaryAvailable = true;
+      }
+
+      addToLastRead(_verseDetails!.translation, _verseDetails!.chapterNumber,
+          _verseDetails!.verseNumber);
+      fetchBookmarkDetails(
+          _verseDetails!.chapterNumber, _verseDetails!.verseNumber);
+      notifyListeners();
     }
-
-    addToLastRead(_verseDetails!.translation, _verseDetails!.chapterNumber, _verseDetails!.verseNumber);
-    fetchBookmarkDetails(_verseDetails!.chapterNumber, _verseDetails!.verseNumber);
-    notifyListeners();
   }
 
 

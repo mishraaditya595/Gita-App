@@ -41,7 +41,7 @@ class VerseScreenService {
     ));
   }
 
-  List<ChapterDetailedModel> navigateVerses(String operator, String chapterNumber, String verseNumber) {
+  ChapterDetailedModel? navigateVerses(String operator, String chapterNumber, String verseNumber) {
     int currentChapter = int.parse(chapterNumber);
     int currentVerse = int.parse(verseNumber);
     List<ChapterDetailedModel> navigatedVerse = [];
@@ -53,7 +53,11 @@ class VerseScreenService {
         navigatedVerse = navigateToPreviousVerse(currentChapter, currentVerse);
         break;
     }
-    return navigatedVerse;
+    if(navigatedVerse.isNotEmpty) {
+      return navigatedVerse.first;
+    } else {
+      return null;
+    }
   }
 
   List<ChapterDetailedModel> navigateToNextVerse(int currentChapter, int currentVerse) {
@@ -112,14 +116,18 @@ class VerseScreenService {
 
     if (currentVerse == 1) {
       previousChapter = currentChapter - 1;
-      Box<ChapterSummaryModel> chapterSummaryModelBox =
-      store.box<ChapterSummaryModel>();
-      QueryBuilder<ChapterSummaryModel> queryBuilder =
-      chapterSummaryModelBox.query(ChapterSummaryModel_.chapterNumber
-          .equals((previousChapter).toString()));
-      Query<ChapterSummaryModel> query = queryBuilder.build();
-      List<ChapterSummaryModel>? chapterSummaryList = query.find();
-      previousVerse = chapterSummaryList.first.verseCount;
+      // if(previousVerse != 0) {
+        Box<ChapterSummaryModel> chapterSummaryModelBox =
+        store.box<ChapterSummaryModel>();
+        QueryBuilder<ChapterSummaryModel> queryBuilder =
+        chapterSummaryModelBox.query(ChapterSummaryModel_.chapterNumber
+            .equals((previousChapter).toString()));
+        Query<ChapterSummaryModel> query = queryBuilder.build();
+        List<ChapterSummaryModel>? chapterSummaryList = query.find();
+        if(chapterSummaryList.isNotEmpty) {
+          previousVerse = chapterSummaryList.first.verseCount;
+        }
+      // }
     }
 
     List<ChapterDetailedModel> chapterDetailedList = [];
