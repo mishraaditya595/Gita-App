@@ -36,52 +36,23 @@ class VerseScreen extends StatefulWidget {
 }
 
 class _VerseScreenState extends State<VerseScreen> {
-  List<ChapterDetailedModel> verseList = [];
+
   bool isBookmarked = false;
   bool isCommentaryAvailable = true;
   IconData fabIcon = Icons.bookmark_add;
 
-  @override
-  void initState() {
-    // fetchBookmarkAndAddToLastRead();
-    // if (widget.verseDetails.commentary == null ||
-    //     widget.verseDetails.commentary.isEmpty) {
-    //   setState(() {
-    //     isCommentaryAvailable = false;
-    //   });
-    // }
-    // WidgetsBinding.instance.addPostFrameCallback((_) {
-    //   VerseScreenProvider provider = Provider.of<VerseScreenProvider>(context, listen: false);
-    //   provider.chapterNumber = widget.chapterNumber;
-    //   provider.verseNumber = widget.verseNumber;
-    //   provider.verseDetails = widget.verseDetails;
-    // });
-    // VerseScreenProvider provider = Provider.of<VerseScreenProvider>(context, listen: false);
-    // provider.chapterNumber = widget.chapterNumber;
-    // provider.verseNumber = widget.verseNumber;
-    // provider.verseDetails = widget.verseDetails;
-    super.initState();
-  }
+
 
   @override
   Widget build(BuildContext context) {
     ScrollController listScrollController = ScrollController();
 
-    // VerseScreenProvider provider = Provider.of<VerseScreenProvider>(context, listen: false);
-    // provider.chapterNumber = widget.chapterNumber;
-    // provider.verseNumber = widget.verseNumber;
-    // provider.verseDetails = widget.verseDetails;
-
     return ChangeNotifierProvider<VerseScreenProvider>(
       create: (context) => VerseScreenProvider(),
       child: Consumer<VerseScreenProvider>(builder: (context, provider, child){
+
         provider.setInitialValue(widget.verseDetails, widget.chapterNumber, widget.verseNumber);
-        // provider.verseDetails = widget.verseDetails;
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          // provider.chapterNumber = widget.chapterNumber;
-          // provider.verseNumber = widget.verseNumber;
-          // provider.verseDetails = widget.verseDetails;
-        });
+
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -349,160 +320,5 @@ class _VerseScreenState extends State<VerseScreen> {
     }
   }
 
-  Future<void> fetchBookmarkAndAddToLastRead() async {
-    VerseScreenService verseScreenService = GetIt.instance.get<VerseScreenService>();
-    // <--- fetch bookmark details --->
-    // DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
-    // Store store = databaseService.getStore()!;
-    // Box<VerseBookmarkModel> verseBookmarkModelBox =
-    //     store.box<VerseBookmarkModel>();
-    // QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
-    //     VerseBookmarkModel_.verseNumber
-    //             .equals(widget.verseDetails.verseNumber) &
-    //         VerseBookmarkModel_.chapterNumber
-    //             .equals(widget.verseDetails.chapterNumber));
-    // Query<VerseBookmarkModel> query = queryBuilder.build();
-    List<VerseBookmarkModel>? bookmarkList = verseScreenService.fetchBookmarkDetails(widget.verseDetails.chapterNumber, widget.verseDetails.verseNumber);
 
-
-
-    if (bookmarkList.isNotEmpty) {
-      setState(() {
-        fabIcon = Icons.bookmark_remove;
-      });
-    } else {
-      setState(() {
-        fabIcon = Icons.bookmark_add;
-      });
-    }
-
-    // <--- add to last read --->
-    verseScreenService.addVerseToLastRead(widget.verseDetails.translation, widget.verseDetails.chapterNumber, widget.verseDetails.verseNumber);
-    // Box<LastReadModel> lastReadModelBox = store.box<LastReadModel>();
-    // lastReadModelBox.removeAll();
-    // lastReadModelBox.put(LastReadModel(
-    //   lastReadVerseText: widget.verseDetails.translation,
-    //   lastReadVerseNum:
-    //       "${widget.verseDetails.chapterNumber}.${widget.verseDetails.verseNumber}",
-    //   verseNumber: widget.verseDetails.verseNumberInt,
-    //   chapterNumber: int.parse(widget.verseDetails.chapterNumber),
-    // ));
-  }
-
-  Future<void> navigateVerse(String operator) async {
-    DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
-    VerseScreenService verseScreenService = GetIt.instance.get<VerseScreenService>();
-
-    Store store = databaseService.getStore()!;
-    int currentChapter = widget.chapterNumber;
-    int currentVerse = widget.verseNumber;
-
-    switch (operator) {
-      case "NEXT":
-        {
-          // int nextChapter = currentChapter;
-          // int nextVerse = currentVerse + 1;
-          //
-          // Box<ChapterSummaryModel> chapterSummaryModelBox =
-          //     store.box<ChapterSummaryModel>();
-          // QueryBuilder<ChapterSummaryModel> queryBuilder =
-          //     chapterSummaryModelBox.query(ChapterSummaryModel_.chapterNumber
-          //         .equals((currentChapter).toString()));
-          // Query<ChapterSummaryModel> query = queryBuilder.build();
-          // List<ChapterSummaryModel>? chapterSummaryList = query.find();
-          // var verseCount = chapterSummaryList.first.verseCount;
-          //
-          // if (verseCount == currentVerse) {
-          //   nextChapter = currentChapter + 1;
-          //   nextVerse = 1;
-          // }
-          //
-          // int totalChapter = store.box<ChapterSummaryModel>().getAll().length;
-          //
-          // if (nextChapter > totalChapter == false) {
-          //   Box<ChapterDetailedModel> chapterDetailedModelBox =
-          //       store.box<ChapterDetailedModel>();
-          //   QueryBuilder<ChapterDetailedModel> queryBuilder2 =
-          //       chapterDetailedModelBox.query(ChapterDetailedModel_.verseNumber
-          //               .equals((nextVerse).toString()) &
-          //           ChapterDetailedModel_.chapterNumber
-          //               .equals((nextChapter).toString()));
-          //   Query<ChapterDetailedModel> query2 = queryBuilder2.build();
-            List<ChapterDetailedModel>? chapterDetailedList = verseScreenService.navigateToNextVerse(currentChapter, currentVerse);
-            setState(() {
-              widget.verseDetails = chapterDetailedList[0];
-              widget.chapterNumber =
-                  int.parse(chapterDetailedList[0].chapterNumber);
-              widget.verseNumber =
-                  int.parse(chapterDetailedList[0].verseNumber);
-            });
-          // } else {
-          //   showToast("The End! \nHare Krishna", context: context);
-          // }
-        }
-        break;
-      case "PREVIOUS":
-        {
-          // int previousChapter = currentChapter;
-          // int previousVerse = currentVerse - 1;
-
-          // Box<ChapterSummaryModel> chapterSummaryModelBox =
-          //     store.box<ChapterSummaryModel>();
-          // QueryBuilder<ChapterSummaryModel> queryBuilder =
-          //     chapterSummaryModelBox.query(ChapterSummaryModel_.chapterNumber
-          //         .equals((previousChapter).toString()));
-          // Query<ChapterSummaryModel> query = queryBuilder.build();
-          // List<ChapterSummaryModel>? chapterSummaryList = query.find();
-          // // var verseCount = chapterSummaryList.first.verseCount;
-          //
-          // if (currentVerse == 1) {
-          //   previousChapter = currentChapter - 1;
-          //   Box<ChapterSummaryModel> chapterSummaryModelBox =
-          //       store.box<ChapterSummaryModel>();
-          //   QueryBuilder<ChapterSummaryModel> queryBuilder =
-          //       chapterSummaryModelBox.query(ChapterSummaryModel_.chapterNumber
-          //           .equals((previousChapter).toString()));
-          //   Query<ChapterSummaryModel> query = queryBuilder.build();
-          //   List<ChapterSummaryModel>? chapterSummaryList = query.find();
-          //   previousVerse = chapterSummaryList.first.verseCount;
-          // }
-          //
-          // int totalChapter = store.box<ChapterSummaryModel>().getAll().length;
-          //
-          // if (previousChapter != 0) {
-          //   Box<ChapterDetailedModel> chapterDetailedModelBox =
-          //       store.box<ChapterDetailedModel>();
-          //   QueryBuilder<ChapterDetailedModel> queryBuilder2 =
-          //       chapterDetailedModelBox.query(ChapterDetailedModel_.verseNumber
-          //               .equals((previousVerse).toString()) &
-          //           ChapterDetailedModel_.chapterNumber
-          //               .equals((previousChapter).toString()));
-          //   Query<ChapterDetailedModel> query2 = queryBuilder2.build();
-            List<ChapterDetailedModel>? chapterDetailedList = verseScreenService.navigateToPreviousVerse(currentChapter, currentVerse);
-            setState(() {
-              widget.verseDetails = chapterDetailedList[0];
-              widget.chapterNumber =
-                  int.parse(chapterDetailedList[0].chapterNumber);
-              widget.verseNumber =
-                  int.parse(chapterDetailedList[0].verseNumber);
-            });
-          // } else {
-          //   showToast("Cannot go back. You are at the beginning.",
-          //       context: context);
-          // }
-        }
-    }
-
-    if (widget.verseDetails.commentary == null ||
-        widget.verseDetails.commentary.isEmpty) {
-      setState(() {
-        isCommentaryAvailable = false;
-      });
-    } else {
-      setState(() {
-        isCommentaryAvailable = true;
-      });
-    }
-    fetchBookmarkAndAddToLastRead();
-  }
 }
