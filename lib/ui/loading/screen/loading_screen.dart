@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
+import 'package:loading_progress_indicator/loading_progress_indicator.dart';
+import 'package:loading_progress_indicator/progress_indicator/ball_spin_fade_loader_progress_indicator.dart';
 import 'package:sbg/main.dart';
-import 'package:sbg/ui/homepage/screen/home_page.dart';
 import 'package:sbg/ui/loading/service/loading_service.dart';
-import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
@@ -29,18 +29,26 @@ class _LoadingScreenState extends State<LoadingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: CircularStepProgressIndicator(
-          totalSteps: 100,
-          currentStep: 74,
-          stepSize: 10,
-          selectedColor: Colors.greenAccent,
-          unselectedColor: Colors.grey[200],
-          padding: 0,
-          width: 150,
-          height: 150,
-          selectedStepSize: 15,
-          roundedCap: (_, __) => true,
-        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            LoadingProgressIndicator(
+              indicator: BallSpinFadeLoaderProgressIndicator(),
+              size: 70,
+              color: Colors.orangeAccent,
+            ),
+            const Padding(
+              padding: EdgeInsets.all(15.0),
+              child: Text(
+                  "Loading data\nPlease wait....",
+                style: TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.bold
+                ),
+              ),
+            )
+          ],
+        )
       ),
     );
   }

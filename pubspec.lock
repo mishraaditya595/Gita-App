@@ -589,6 +589,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
+  loading_progress_indicator:
+    dependency: "direct main"
+    description:
+      name: loading_progress_indicator
+      sha256: ebb00880b540993a8e165235e7d9538e1556565c7e715e4e5c3ceb1fcd2c627c
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.6"
   logging:
     dependency: transitive
     description:
@@ -922,14 +930,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.0"
-  step_progress_indicator:
-    dependency: "direct main"
-    description:
-      name: step_progress_indicator
-      sha256: b51bb1fcfc78454359f0658c5a2c21548c3825ebf76e826308e9ca10f383bbb8
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
   stream_channel:
     dependency: transitive
     description:
