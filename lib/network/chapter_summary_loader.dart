@@ -7,22 +7,28 @@ import 'package:http/http.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/chapter_summary_model.dart';
 import 'package:sbg/objectbox.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/db/database_service.dart';
-import '../utils/constants.dart';
 
 class ChapterSummaryLoader {
   final String tableName = "chapter_summary";
 
   getDataFromDB() async {
-    http.Response res = await http.get(
-        Uri.parse('${Constants.SUPABASE_URI}rest/v1/$tableName?select=*'),
-        headers: {
-          'Authorization': Constants.SUPABASE_AUTHORIZATION,
-          'apikey': Constants.SUPABASE_API_KEY
-        });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? baseUri = prefs.getString("SUPABASE_URI");
+    String? authKey = prefs.getString("SUPABASE_AUTHORIZATION");
+    String? apiKey = prefs.getString("SUPABASE_API_KEY");
+    if(baseUri != null && baseUri.isNotEmpty) {
+      http.Response res = await http.get(
+          Uri.parse('${baseUri}rest/v1/$tableName?select=*'),
+          headers: {
+            'Authorization': authKey ?? "",
+            'apikey': apiKey ?? ""
+          });
 
-    addDataToLocalDb(res);
+      addDataToLocalDb(res);
+    }
   }
 
   Future<void> addDataToLocalDb(Response res) async {
