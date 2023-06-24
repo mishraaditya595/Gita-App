@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:loading_progress_indicator/loading_progress_indicator.dart';
 import 'package:loading_progress_indicator/progress_indicator/ball_spin_fade_loader_progress_indicator.dart';
-import 'package:sbg/main.dart';
 import 'package:sbg/ui/loading/service/loading_service.dart';
+
+import '../../bottombar/screen/bottom_bar.dart';
 
 class LoadingScreen extends StatefulWidget {
   const LoadingScreen({Key? key}) : super(key: key);
@@ -63,7 +64,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
     if (loadingStatus) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const MyHomePage(title: "")
+          builder: (context) => const BottomBar(title: "")
       ));
     }
   }

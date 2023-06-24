@@ -46,9 +46,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   int splashScreenLoaderTime = 10;
-  // String shouldMakeApiCall = "false";
 
   @override
   void initState() {
@@ -56,9 +54,6 @@ class _MyAppState extends State<MyApp> {
     remoteConfigService.init();
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
     databaseService.init();
-    setState(() {
-      splashScreenLoaderTime = 4;
-    });
 
     FirebaseMessagingService firebaseMessagingService =
         GetIt.instance.get<FirebaseMessagingService>();
@@ -68,7 +63,6 @@ class _MyAppState extends State<MyApp> {
     getFcmToken();
 
     super.initState();
-    // log(shouldMakeApiCall);
   }
 
   @override
@@ -87,7 +81,6 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      // home: const MyHomePage(title: 'Flutter Demo Home Page'),
       home: Padding(
         padding: const EdgeInsets.all(8.0),
         child: AnimatedSplashScreen(
@@ -95,131 +88,15 @@ class _MyAppState extends State<MyApp> {
           splash: Image.asset("assets/images/gita.jpg"),
           backgroundColor: Colors.white,
           nextScreen: const LoadingScreen()
-          // const MyHomePage(
-          //   title: '',
-          // ),
         ),
       ),
     ));
   }
 
-  Future<String> lookForBackendChanges() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? baseUri = prefs.getString("SUPABASE_URI");
-    String? authKey = prefs.getString("SUPABASE_AUTHORIZATION");
-    String? apiKey = prefs.getString("SUPABASE_API_KEY");
-    if(baseUri != null && baseUri.isNotEmpty) {
-      http.Response res = await http.get(
-          Uri.parse(
-              'https://iraapaycdfoslqefnvef.supabase.co/rest/v1/tbl_change_data?select=new_change'),
-          headers: {
-            'Authorization': authKey ?? "",
-            'apikey': apiKey ?? ""
-          });
-
-      var jsonResp = jsonDecode(res.body) as List;
-      var response = jsonResp[0]['new_change'].toString();
-      log("Backend Changes: $response");
-
-      setState(() {
-        splashScreenLoaderTime = 1;
-      });
-
-      return response;
-    } else {
-      return "true";
-    }
-  }
-
-  Future<MyHomePage> checkForBackendChanges() async {
-    var _lookForBackendChanges = await lookForBackendChanges();
-
-
-    return const MyHomePage(title: '');
-  }
 
   Future<void> getFcmToken() async {
     String? token = await FirebaseMessaging.instance.getToken();
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
 
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
-  }
-
-  List<Widget> pages = [
-    const HomePage(),
-    const BookmarkPage(),
-    const AboutPage(),
-    // const MoreScreen(),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: ((BuildContext context) => HomePageProvider()),
-        ),
-        ChangeNotifierProvider(
-          create: ((BuildContext context) => ChapterScreenProvider()),
-        ),
-        ChangeNotifierProvider(
-          create: ((BuildContext context) => VerseScreenProvider()),
-        ),
-        ChangeNotifierProvider(
-          create: ((BuildContext context) => BookmarkProvider()),
-        ),
-      ],
-      child: Scaffold(
-        appBar: AppBar(
-          // backgroundColor: Colors.white,
-          title: const Text(
-            "Srimad Bhagwad Gita",
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-          centerTitle: true,
-        ),
-        body: pages[selectedIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          elevation: 10,
-          currentIndex: selectedIndex,
-          backgroundColor: Colors.white,
-          type: BottomNavigationBarType.fixed,
-          selectedLabelStyle: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.deepOrange),
-          unselectedLabelStyle:
-              const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-          selectedIconTheme:
-              const IconThemeData(color: Colors.deepOrange, size: 30),
-          unselectedIconTheme: const IconThemeData(
-            color: Colors.grey,
-          ),
-          onTap: _onItemTapped,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.bookmark), label: "Bookmarks"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.question_mark), label: "About"),
-            // BottomNavigationBarItem(icon: Icon(Icons.more), label: "More"),
-          ],
-        ),
-      ),
-    );
-  }
-}
