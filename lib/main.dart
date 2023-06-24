@@ -17,7 +17,7 @@ import 'package:sbg/services/notifications/firebase/firebase_messaging_service.d
 import 'package:sbg/ui/bookmark/provider/bookmark_provider.dart';
 import 'package:sbg/ui/chapter/provider/chapter_screen_provider.dart';
 import 'package:sbg/ui/homepage/provider/home_page_provider.dart';
-import 'package:sbg/ui/screens/about_page.dart';
+import 'package:sbg/ui/others/about_page.dart';
 import 'package:sbg/ui/homepage/screen/home_page.dart';
 import 'package:sbg/ui/bookmark/screen/bookmark_page.dart';
 import 'package:sbg/ui/verse/provider/verse_screen_provider.dart';
