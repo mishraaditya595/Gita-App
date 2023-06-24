@@ -14,6 +14,7 @@ import 'package:sbg/network/chapter_detailed_loader.dart';
 import 'package:sbg/network/chapter_summary_loader.dart';
 import 'package:sbg/services/db/database_service.dart';
 import 'package:sbg/services/notifications/firebase/firebase_messaging_service.dart';
+import 'package:sbg/services/remote_config_service.dart';
 import 'package:sbg/ui/bookmark/provider/bookmark_provider.dart';
 import 'package:sbg/ui/chapter/provider/chapter_screen_provider.dart';
 import 'package:sbg/ui/homepage/provider/home_page_provider.dart';
@@ -44,7 +45,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
 
   int splashScreenLoaderTime = 10;
   String shouldMakeApiCall = "false";
@@ -53,6 +53,8 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
     databaseService.init();
+    RemoteConfigService remoteConfigService = GetIt.instance.get<RemoteConfigService>();
+    remoteConfigService.init();
     checkForBackendChanges();
     setState(() {
       splashScreenLoaderTime = 4;

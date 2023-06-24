@@ -52,6 +52,8 @@ dependencies:
   injectable: ^2.1.1
   get_it: ^7.2.0
   provider: ^6.0.2
+  firebase_remote_config: ^4.2.3
+  firebase_analytics: ^10.4.3
 
 
 dev_dependencies:
