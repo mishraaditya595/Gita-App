@@ -10,7 +10,6 @@ import 'package:sbg/objectbox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/db/database_service.dart';
-import '../utils/constants.dart';
 
 class ChapterSummaryLoader {
   final String tableName = "chapter_summary";

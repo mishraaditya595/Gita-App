@@ -22,7 +22,6 @@ import 'package:sbg/ui/others/about_page.dart';
 import 'package:sbg/ui/homepage/screen/home_page.dart';
 import 'package:sbg/ui/bookmark/screen/bookmark_page.dart';
 import 'package:sbg/ui/verse/provider/verse_screen_provider.dart';
-import 'package:sbg/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 

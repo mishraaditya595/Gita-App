@@ -11,8 +11,6 @@ import 'package:sbg/objectbox.dart';
 import 'package:sbg/services/db/database_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../utils/constants.dart';
-
 class ChapterDetailedLoader {
   final String tableName = "chapter_detailed";
 
