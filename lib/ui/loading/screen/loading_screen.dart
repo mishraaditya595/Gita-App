@@ -37,13 +37,15 @@ class _LoadingScreenState extends State<LoadingScreen> {
               size: 70,
               color: Colors.orangeAccent,
             ),
-            const Padding(
+            Container(
+              width: MediaQuery.of(context).size.width * 0.9,
               padding: EdgeInsets.all(15.0),
-              child: Text(
-                  "Loading data\nPlease wait....",
+              child: const Text(
+                  "Please wait while we fetch the divine knowledge for you.\n\nहरि ओम तत् सत् |",
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 15,
-                  fontWeight: FontWeight.bold
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             )
