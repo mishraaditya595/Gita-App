@@ -17,6 +17,7 @@ import 'package:objectbox_flutter_libs/objectbox_flutter_libs.dart';
 import 'models/change_data_model.dart';
 import 'models/chapter_detailed_model.dart';
 import 'models/chapter_summary_model.dart';
+import 'models/data_sync_model.dart';
 import 'models/last_read_model.dart';
 import 'models/verse_bookmark_model.dart';
 
@@ -247,6 +248,30 @@ final _entities = <ModelEntity>[
             flags: 0)
       ],
       relations: <ModelRelation>[],
+      backlinks: <ModelBacklink>[]),
+  ModelEntity(
+      id: const IdUid(6, 1215970957034101490),
+      name: 'DataSyncModel',
+      lastPropertyId: const IdUid(3, 660627589827206888),
+      flags: 0,
+      properties: <ModelProperty>[
+        ModelProperty(
+            id: const IdUid(1, 7266836067806787302),
+            name: 'id',
+            type: 6,
+            flags: 1),
+        ModelProperty(
+            id: const IdUid(2, 8071888316437942144),
+            name: 'name',
+            type: 9,
+            flags: 0),
+        ModelProperty(
+            id: const IdUid(3, 660627589827206888),
+            name: 'successStatus',
+            type: 1,
+            flags: 0)
+      ],
+      relations: <ModelRelation>[],
       backlinks: <ModelBacklink>[])
 ];
 
@@ -270,7 +295,7 @@ Future<Store> openStore(
 ModelDefinition getObjectBoxModel() {
   final model = ModelInfo(
       entities: _entities,
-      lastEntityId: const IdUid(5, 1303902611909325809),
+      lastEntityId: const IdUid(6, 1215970957034101490),
       lastIndexId: const IdUid(0, 0),
       lastRelationId: const IdUid(0, 0),
       lastSequenceId: const IdUid(0, 0),
@@ -512,6 +537,36 @@ ModelDefinition getObjectBoxModel() {
               creationTime: const fb.Int64Reader().vTableGet(buffer, rootOffset, 22, 0));
 
           return object;
+        }),
+    DataSyncModel: EntityDefinition<DataSyncModel>(
+        model: _entities[5],
+        toOneRelations: (DataSyncModel object) => [],
+        toManyRelations: (DataSyncModel object) => {},
+        getId: (DataSyncModel object) => object.id,
+        setId: (DataSyncModel object, int id) {
+          object.id = id;
+        },
+        objectToFB: (DataSyncModel object, fb.Builder fbb) {
+          final nameOffset = fbb.writeString(object.name);
+          fbb.startTable(4);
+          fbb.addInt64(0, object.id);
+          fbb.addOffset(1, nameOffset);
+          fbb.addBool(2, object.successStatus);
+          fbb.finish(fbb.endTable());
+          return object.id;
+        },
+        objectFromFB: (Store store, ByteData fbData) {
+          final buffer = fb.BufferContext(fbData);
+          final rootOffset = buffer.derefObject(0);
+
+          final object = DataSyncModel(
+              id: const fb.Int64Reader().vTableGet(buffer, rootOffset, 4, 0),
+              name: const fb.StringReader(asciiOptimization: true)
+                  .vTableGet(buffer, rootOffset, 6, ''),
+              successStatus: const fb.BoolReader()
+                  .vTableGet(buffer, rootOffset, 8, false));
+
+          return object;
         })
   };
 
@@ -675,4 +730,19 @@ class VerseBookmarkModel_ {
   /// see [VerseBookmarkModel.creationTime]
   static final creationTime =
       QueryIntegerProperty<VerseBookmarkModel>(_entities[4].properties[9]);
+}
+
+/// [DataSyncModel] entity fields to define ObjectBox queries.
+class DataSyncModel_ {
+  /// see [DataSyncModel.id]
+  static final id =
+      QueryIntegerProperty<DataSyncModel>(_entities[5].properties[0]);
+
+  /// see [DataSyncModel.name]
+  static final name =
+      QueryStringProperty<DataSyncModel>(_entities[5].properties[1]);
+
+  /// see [DataSyncModel.successStatus]
+  static final successStatus =
+      QueryBooleanProperty<DataSyncModel>(_entities[5].properties[2]);
 }
