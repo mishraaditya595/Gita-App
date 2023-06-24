@@ -24,6 +24,7 @@ import 'package:sbg/ui/bookmark/screen/bookmark_page.dart';
 import 'package:sbg/ui/verse/provider/verse_screen_provider.dart';
 import 'package:sbg/utils/constants.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'objectbox.dart';
 
@@ -103,23 +104,31 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<String> lookForBackendChanges() async {
-    http.Response res = await http.get(
-        Uri.parse(
-            'https://iraapaycdfoslqefnvef.supabase.co/rest/v1/tbl_change_data?select=new_change'),
-        headers: {
-          'Authorization': Constants.SUPABASE_AUTHORIZATION,
-          'apikey': Constants.SUPABASE_API_KEY
-        });
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? baseUri = prefs.getString("SUPABASE_URI");
+    String? authKey = prefs.getString("SUPABASE_AUTHORIZATION");
+    String? apiKey = prefs.getString("SUPABASE_API_KEY");
+    if(baseUri != null && baseUri.isNotEmpty) {
+      http.Response res = await http.get(
+          Uri.parse(
+              'https://iraapaycdfoslqefnvef.supabase.co/rest/v1/tbl_change_data?select=new_change'),
+          headers: {
+            'Authorization': authKey ?? "",
+            'apikey': apiKey ?? ""
+          });
 
-    var jsonResp = jsonDecode(res.body) as List;
-    var response = jsonResp[0]['new_change'].toString();
-    log("Backend Changes: $response");
+      var jsonResp = jsonDecode(res.body) as List;
+      var response = jsonResp[0]['new_change'].toString();
+      log("Backend Changes: $response");
 
-    setState(() {
-      splashScreenLoaderTime = 1;
-    });
+      setState(() {
+        splashScreenLoaderTime = 1;
+      });
 
-    return response;
+      return response;
+    } else {
+      return "true";
+    }
   }
 
   Future<MyHomePage> checkForBackendChanges() async {

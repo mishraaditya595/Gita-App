@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @Singleton()
 class RemoteConfigService {
@@ -13,7 +16,14 @@ class RemoteConfigService {
     ));
     await remoteConfig.fetchAndActivate();
     
-    var temp = remoteConfig.getString("auth_configuration");
-    debugPrint("Remote config test: $temp");
+    String authConfigString = remoteConfig.getString("auth_configuration");
+    Map<String, dynamic> configDecoded = jsonDecode(authConfigString);
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString("SUPABASE_AUTHORIZATION", configDecoded["SUPABASE_AUTHORIZATION"]);
+    prefs.setString("SUPABASE_API_KEY", configDecoded["SUPABASE_API_KEY"]);
+    prefs.setString("SUPABASE_URI", configDecoded["SUPABASE_URI"]);
+    prefs.setString("AD_UNIT_CHAPTER_SCREEN", configDecoded["AD_UNIT_CHAPTER_SCREEN"]);
+    prefs.setString("MEDIUM_URI", configDecoded["MEDIUM_URI"]);
   }
 }
