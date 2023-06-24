@@ -1,6 +1,8 @@
+import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 import '../../bookmark/provider/bookmark_provider.dart';
 import '../../bookmark/screen/bookmark_page.dart';
@@ -32,7 +34,6 @@ class _BottomBarState extends State<BottomBar> {
     const HomePage(),
     const BookmarkPage(),
     const AboutPage(),
-    // const MoreScreen(),
   ];
 
   @override
@@ -62,28 +63,36 @@ class _BottomBarState extends State<BottomBar> {
           centerTitle: true,
         ),
         body: pages[selectedIndex],
-        bottomNavigationBar: BottomNavigationBar(
-          elevation: 10,
+          extendBody: true,
+        bottomNavigationBar: DotNavigationBar(
+          borderRadius: 20,
+          marginR : const EdgeInsets.symmetric(horizontal: 50, vertical: 8),
+          paddingR : const EdgeInsets.only(bottom: 3, top: 3),
+          enablePaddingAnimation: false,
           currentIndex: selectedIndex,
-          backgroundColor: Colors.white,
-          type: BottomNavigationBarType.fixed,
-          selectedLabelStyle: const TextStyle(
-              fontWeight: FontWeight.bold, color: Colors.deepOrange),
-          unselectedLabelStyle:
-          const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-          selectedIconTheme:
-          const IconThemeData(color: Colors.deepOrange, size: 30),
-          unselectedIconTheme: const IconThemeData(
-            color: Colors.grey,
-          ),
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white,
+          backgroundColor: Colors.orange,
           onTap: _onItemTapped,
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.bookmark), label: "Bookmarks"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.question_mark), label: "About"),
-            // BottomNavigationBarItem(icon: Icon(Icons.more), label: "More"),
+          items: [
+            DotNavigationBarItem(
+              icon: selectedIndex == 0
+                  ? const Icon(Icons.home)
+                  : const Icon(Icons.home_outlined) ,
+
+            ),
+            DotNavigationBarItem(
+              icon: selectedIndex == 1
+                  ? const Icon(Icons.bookmark)
+                  : const Icon(Icons.bookmark_outline),
+
+            ),
+            DotNavigationBarItem(
+              icon: selectedIndex == 2
+                  ? const Icon(Icons.info)
+                  : const Icon(Icons.info_outline),
+
+            ),
           ],
         ),
       ),
