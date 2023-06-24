@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/chapter_summary_model.dart';
+import 'package:sbg/models/data_sync_model.dart';
 import 'package:sbg/objectbox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +16,12 @@ class ChapterSummaryLoader {
   final String tableName = "chapter_summary";
 
   getDataFromDB() async {
+    DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
+    Store store = databaseService.getStore()!;
+
+    Box<DataSyncModel> dataSyncBox = store.box<DataSyncModel>();
+    dataSyncBox.put(DataSyncModel(name: tableName, successStatus: false));
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? baseUri = prefs.getString("SUPABASE_URI");
     String? authKey = prefs.getString("SUPABASE_AUTHORIZATION");
@@ -27,8 +34,9 @@ class ChapterSummaryLoader {
             'apikey': apiKey ?? ""
           });
 
-      addDataToLocalDb(res);
+      await addDataToLocalDb(res);
     }
+    dataSyncBox.put(DataSyncModel(name: tableName, successStatus: true));
   }
 
   Future<void> addDataToLocalDb(Response res) async {

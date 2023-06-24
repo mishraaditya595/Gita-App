@@ -18,6 +18,7 @@ import 'package:sbg/services/remote_config_service.dart';
 import 'package:sbg/ui/bookmark/provider/bookmark_provider.dart';
 import 'package:sbg/ui/chapter/provider/chapter_screen_provider.dart';
 import 'package:sbg/ui/homepage/provider/home_page_provider.dart';
+import 'package:sbg/ui/loading/screen/loading_screen.dart';
 import 'package:sbg/ui/others/about_page.dart';
 import 'package:sbg/ui/homepage/screen/home_page.dart';
 import 'package:sbg/ui/bookmark/screen/bookmark_page.dart';
@@ -47,15 +48,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
   int splashScreenLoaderTime = 10;
-  String shouldMakeApiCall = "false";
+  // String shouldMakeApiCall = "false";
 
   @override
   void initState() {
-    DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
-    databaseService.init();
     RemoteConfigService remoteConfigService = GetIt.instance.get<RemoteConfigService>();
     remoteConfigService.init();
-    checkForBackendChanges();
+    DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
+    databaseService.init();
     setState(() {
       splashScreenLoaderTime = 4;
     });
@@ -68,7 +68,7 @@ class _MyAppState extends State<MyApp> {
     getFcmToken();
 
     super.initState();
-    log(shouldMakeApiCall);
+    // log(shouldMakeApiCall);
   }
 
   @override
@@ -91,12 +91,13 @@ class _MyAppState extends State<MyApp> {
       home: Padding(
         padding: const EdgeInsets.all(8.0),
         child: AnimatedSplashScreen(
-          duration: splashScreenLoaderTime,
+          duration: 2,
           splash: Image.asset("assets/images/gita.jpg"),
           backgroundColor: Colors.white,
-          nextScreen: const MyHomePage(
-            title: '',
-          ),
+          nextScreen: const LoadingScreen()
+          // const MyHomePage(
+          //   title: '',
+          // ),
         ),
       ),
     ));
@@ -132,14 +133,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<MyHomePage> checkForBackendChanges() async {
     var _lookForBackendChanges = await lookForBackendChanges();
-    setState(() {
-      shouldMakeApiCall = _lookForBackendChanges;
-      log(shouldMakeApiCall);
-    });
-    if (shouldMakeApiCall == "true") {
-      ChapterSummaryLoader().getDataFromDB();
-      ChapterDetailedLoader().getDataFromDB();
-    }
+
 
     return const MyHomePage(title: '');
   }

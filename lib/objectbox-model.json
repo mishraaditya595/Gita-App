@@ -227,9 +227,33 @@
         }
       ],
       "relations": []
+    },
+    {
+      "id": "6:1215970957034101490",
+      "lastPropertyId": "3:660627589827206888",
+      "name": "DataSyncModel",
+      "properties": [
+        {
+          "id": "1:7266836067806787302",
+          "name": "id",
+          "type": 6,
+          "flags": 1
+        },
+        {
+          "id": "2:8071888316437942144",
+          "name": "name",
+          "type": 9
+        },
+        {
+          "id": "3:660627589827206888",
+          "name": "successStatus",
+          "type": 1
+        }
+      ],
+      "relations": []
     }
   ],
-  "lastEntityId": "5:1303902611909325809",
+  "lastEntityId": "6:1215970957034101490",
   "lastIndexId": "0:0",
   "lastRelationId": "0:0",
   "lastSequenceId": "0:0",
