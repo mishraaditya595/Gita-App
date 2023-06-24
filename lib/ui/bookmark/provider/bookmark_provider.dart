@@ -12,9 +12,6 @@ class BookmarkProvider with ChangeNotifier {
     BookmarkService bookmarkService = GetIt.instance.get<BookmarkService>();
     verseBookmarkModelList = bookmarkService.fetchAllBookmarks();
     isFirstTime = false;
-    // WidgetsBinding.instance!.addPostFrameCallback((_) {
-    //   notifyListeners();
-    // });
   }
 
   removeBookmark(String verseNumber, String chapterNumber) {
