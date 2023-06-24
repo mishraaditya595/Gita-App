@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sbg/ui/screens/chapter_screen.dart';
+import '../chapter/screen/chapter_screen.dart';
 
 class ChapterWidgetCard extends StatefulWidget {
   final int chapterNumber;

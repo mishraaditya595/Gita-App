@@ -10,7 +10,12 @@ import 'package:injectable/injectable.dart' as _i2;
 import 'package:sbg/services/db/database_service.dart' as _i4;
 import 'package:sbg/services/db/dbstore.dart' as _i3;
 import 'package:sbg/services/notifications/firebase/firebase_messaging_service.dart'
-    as _i5; // ignore_for_file: unnecessary_lambdas
+    as _i5;
+import 'package:sbg/ui/bookmark/service/bookmark_service.dart' as _i8;
+import 'package:sbg/ui/chapter/services/chapter_screen_service.dart' as _i9;
+import 'package:sbg/ui/homepage/services/home_page_services.dart' as _i6;
+import 'package:sbg/ui/verse/services/verse_screen_service.dart'
+    as _i7; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 extension GetItInjectableX on _i1.GetIt {
@@ -28,6 +33,14 @@ extension GetItInjectableX on _i1.GetIt {
     gh.singleton<_i4.DatabaseService<dynamic>>(
         _i4.DatabaseService<dynamic>(gh<_i3.DBStore>()));
     gh.singleton<_i5.FirebaseMessagingService>(_i5.FirebaseMessagingService());
+    gh.singleton<_i6.HomePageServices>(
+        _i6.HomePageServices(gh<_i4.DatabaseService<dynamic>>()));
+    gh.singleton<_i7.VerseScreenService>(
+        _i7.VerseScreenService(gh<_i4.DatabaseService<dynamic>>()));
+    gh.singleton<_i8.BookmarkService>(
+        _i8.BookmarkService(gh<_i4.DatabaseService<dynamic>>()));
+    gh.singleton<_i9.ChapterScreenService>(
+        _i9.ChapterScreenService(gh<_i4.DatabaseService<dynamic>>()));
     return this;
   }
 }
