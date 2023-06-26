@@ -1,16 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:objectbox/objectbox.dart';
 import 'package:provider/provider.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
-import 'package:sbg/ui/homepage/provider/home_page_provider.dart';
 import 'package:sbg/ui/widgets/verse_card_widget.dart';
 import 'package:sbg/utils/colour_constants.dart';
 
-import '../../../objectbox.dart';
-import '../../../objectbox.g.dart';
-import '../../../services/db/database_service.dart';
 import '../../../utils/hexcolor.dart';
 import '../provider/chapter_screen_provider.dart';
 
@@ -42,7 +36,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
           });
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: HexColor(ColourConstants.primaryColour),
+              backgroundColor: HexColor(ColourConstants.fiord),
               title: Text("Chapter ${widget.chapterNumber}"),
               centerTitle: true,
               leading: IconButton(

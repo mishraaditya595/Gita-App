@@ -55,7 +55,7 @@ class _BottomBarState extends State<BottomBar> {
       ],
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.white,
+          backgroundColor: HexColor(ColourConstants.offWhite),
           title: SizedBox(
             height: AppBar().preferredSize.height * 0.9,
             child: Image.asset(
@@ -63,12 +63,6 @@ class _BottomBarState extends State<BottomBar> {
           ),
           centerTitle: true,
           actions: const [
-            // Padding(
-            //   padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 16.5),
-            //   child: Image.asset(
-            //   "assets/images/refresh.png",
-            //       height: 50, width: 30,),
-            // ),
           ],
         ),
         body: pages[selectedIndex],
@@ -81,7 +75,7 @@ class _BottomBarState extends State<BottomBar> {
           currentIndex: selectedIndex,
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white,
-          backgroundColor: HexColor("#F79489"),
+          backgroundColor: HexColor(ColourConstants.fiord),
           onTap: _onItemTapped,
           items: [
             DotNavigationBarItem(

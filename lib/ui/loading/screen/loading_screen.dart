@@ -32,7 +32,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         }
 
         return Scaffold(
-        backgroundColor: HexColor(ColourConstants.primaryLight),
+        backgroundColor: HexColor(ColourConstants.offWhite),
         body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -48,17 +48,17 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   child: LoadingProgressIndicator(
                     indicator: BallSpinFadeLoaderProgressIndicator(),
                     size: 70,
-                    color: Colors.white,
+                    color: HexColor(ColourConstants.antiqueBrass),
                   ),
                 ),
                 Container(
                   width: MediaQuery.of(context).size.width * 0.9,
                   padding: EdgeInsets.all(15.0),
-                  child: const Text(
+                  child: Text(
                     "Loading...",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white,
+                      color: HexColor(ColourConstants.fiord),
                       fontSize: 15,
                       fontWeight: FontWeight.bold,
                     ),
