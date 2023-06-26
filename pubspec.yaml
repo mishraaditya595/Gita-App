@@ -55,8 +55,8 @@ dependencies:
   firebase_remote_config: ^4.2.3
   firebase_analytics: ^10.4.3
   loading_progress_indicator: ^0.1.6
-  salomon_bottom_bar: ^3.3.2
   dot_navigation_bar: ^1.0.1+4
+  liquid_pull_to_refresh: ^3.0.1
 
 dev_dependencies:
   build_runner: ^2.0.0
