@@ -59,12 +59,8 @@ class _HomePageState extends State<HomePage> {
     } else {
       return UpgradeAlert(
           upgrader: Upgrader(
-            //if no data found for minutesUntilAlertAgain, 1 day (1440 mins) is the default value
-            durationUntilAlertAgain: const Duration(
-                minutes:
-                1),
+            durationUntilAlertAgain: const Duration(minutes: 1),
             dialogStyle: UpgradeDialogStyle.material,
-            //force update is enabled by default
             showIgnore: false,
             showLater: true,),
         child: Scaffold(
