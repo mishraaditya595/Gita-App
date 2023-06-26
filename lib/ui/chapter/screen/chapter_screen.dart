@@ -6,10 +6,12 @@ import 'package:provider/provider.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/ui/homepage/provider/home_page_provider.dart';
 import 'package:sbg/ui/widgets/verse_card_widget.dart';
+import 'package:sbg/utils/colour_constants.dart';
 
 import '../../../objectbox.dart';
 import '../../../objectbox.g.dart';
 import '../../../services/db/database_service.dart';
+import '../../../utils/hexcolor.dart';
 import '../provider/chapter_screen_provider.dart';
 
 class ChapterScreen extends StatefulWidget {
@@ -40,6 +42,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
           });
           return Scaffold(
             appBar: AppBar(
+              backgroundColor: HexColor(ColourConstants.primaryColour),
               title: Text("Chapter ${widget.chapterNumber}"),
               centerTitle: true,
               leading: IconButton(
@@ -60,10 +63,10 @@ class _ChapterScreenState extends State<ChapterScreen> {
                           padding: const EdgeInsets.only(top: 12.0),
                           child: Text(
                             widget.chapterName.toUpperCase(),
-                            style: const TextStyle(
+                            style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.deepOrange),
+                                color: HexColor(ColourConstants.primaryDarker)),
                             textAlign: TextAlign.center,
                           ),
                         ),

@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:loading_progress_indicator/loading_progress_indicator.dart';
 import 'package:loading_progress_indicator/progress_indicator/ball_spin_fade_loader_progress_indicator.dart';
 import 'package:sbg/ui/loading/service/loading_service.dart';
+import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
 
 import '../../../services/remote_config_service.dart';
@@ -31,7 +32,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         }
 
         return Scaffold(
-        backgroundColor: HexColor("A2D9C7"),
+        backgroundColor: HexColor(ColourConstants.primaryLight),
         body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

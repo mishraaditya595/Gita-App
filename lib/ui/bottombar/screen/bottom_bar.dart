@@ -2,6 +2,8 @@ import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../utils/colour_constants.dart';
+import '../../../utils/hexcolor.dart';
 import '../../bookmark/provider/bookmark_provider.dart';
 import '../../bookmark/screen/bookmark_page.dart';
 import '../../chapter/provider/chapter_screen_provider.dart';
@@ -55,12 +57,12 @@ class _BottomBarState extends State<BottomBar> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: SizedBox(
-            height: AppBar().preferredSize.height * 0.85,
+            height: AppBar().preferredSize.height * 0.9,
             child: Image.asset(
                 "assets/images/bhagavad-gita.png"),
           ),
           centerTitle: true,
-          actions: [
+          actions: const [
             // Padding(
             //   padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 16.5),
             //   child: Image.asset(
@@ -79,7 +81,7 @@ class _BottomBarState extends State<BottomBar> {
           currentIndex: selectedIndex,
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white,
-          backgroundColor: Colors.orange,
+          backgroundColor: HexColor("#F79489"),
           onTap: _onItemTapped,
           items: [
             DotNavigationBarItem(

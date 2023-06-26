@@ -24,9 +24,9 @@ class LoadingService {
       return _checkForLoadingStatus();
     } else {
       DateTime lastModifiedDateTime = DateTime.fromMicrosecondsSinceEpoch(lastModifiedTime);
-      int differenceInHours = lastModifiedDateTime.difference(DateTime.now()).inHours;
+      int differenceInHours = DateTime.now().difference(lastModifiedDateTime).inHours;
 
-      if(differenceInHours > 24) {
+      if(differenceInHours >= 24) {
         await load();
         await setLastModifiedTime();
         return _checkForLoadingStatus();

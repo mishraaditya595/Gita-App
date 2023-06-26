@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/ui/bookmark/provider/bookmark_provider.dart';
 import 'package:sbg/ui/widgets/verse_card_widget.dart';
+import 'package:sbg/utils/colour_constants.dart';
+import 'package:sbg/utils/hexcolor.dart';
 
 class BookmarkPage extends StatefulWidget {
   const BookmarkPage({Key? key}) : super(key: key);
@@ -32,7 +34,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
                         top: 15, left: 15, right: 15, bottom: 0),
                     child: Column(
                       children: [
-                        const Align(
+                         Align(
                           alignment: Alignment.topCenter,
                           child: Padding(
                             padding: const EdgeInsets.only(top: 12.0),
@@ -41,7 +43,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
                               style: TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
-                                  color: Colors.deepOrange),
+                                  color: HexColor(ColourConstants.primaryDarker)),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -126,7 +128,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
                   ),
                 );
               } else {
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               }
             },
           );

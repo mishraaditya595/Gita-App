@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
       title: '',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.orange,
+        // primarySwatch: Colors.orange,
       ),
       home: const Padding(
         padding: EdgeInsets.all(8.0),
