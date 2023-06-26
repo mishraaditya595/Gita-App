@@ -32,7 +32,7 @@ class LoadingService {
         return _checkForLoadingStatus();
       }
 
-      await Future.delayed(const Duration(microseconds: 600));
+      await Future.delayed(const Duration(seconds: 1));
       return true;
     }
   }
