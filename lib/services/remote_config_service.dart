@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class RemoteConfigService {
   final remoteConfig = FirebaseRemoteConfig.instance;
 
-  void init() async {
+  Future<void> init() async {
     await remoteConfig.setConfigSettings(RemoteConfigSettings(
       fetchTimeout: const Duration(minutes: 1),
       minimumFetchInterval: const Duration(minutes: 1),
