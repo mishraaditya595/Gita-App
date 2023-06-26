@@ -60,7 +60,7 @@ class _HomePageState extends State<HomePage> {
           body: LiquidPullToRefresh(
             springAnimationDurationInMilliseconds: 300,
             backgroundColor: Colors.white70,
-            color: HexColor(ColourConstants.primaryColour),
+            color: HexColor(ColourConstants.fiord),
             showChildOpacityTransition: false,
             onRefresh: () async {
               LoadingService loadingService = GetIt.instance.get<LoadingService>();

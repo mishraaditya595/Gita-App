@@ -1,30 +1,13 @@
-import 'dart:convert';
-import 'dart:developer';
 
-import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get_it/get_it.dart';
-import 'package:provider/provider.dart';
 import 'package:sbg/injection.dart';
-import 'package:sbg/models/chapter_detailed_model.dart';
-import 'package:sbg/network/chapter_detailed_loader.dart';
-import 'package:sbg/network/chapter_summary_loader.dart';
 import 'package:sbg/services/db/database_service.dart';
 import 'package:sbg/services/notifications/firebase/firebase_messaging_service.dart';
-import 'package:sbg/services/remote_config_service.dart';
-import 'package:sbg/ui/bookmark/provider/bookmark_provider.dart';
-import 'package:sbg/ui/chapter/provider/chapter_screen_provider.dart';
-import 'package:sbg/ui/homepage/provider/home_page_provider.dart';
 import 'package:sbg/ui/loading/screen/loading_screen.dart';
-import 'package:sbg/ui/others/about_page.dart';
-import 'package:sbg/ui/homepage/screen/home_page.dart';
-import 'package:sbg/ui/bookmark/screen/bookmark_page.dart';
-import 'package:sbg/ui/verse/provider/verse_screen_provider.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'objectbox.dart';
 

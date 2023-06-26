@@ -3,8 +3,6 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
-import 'package:get_it/get_it.dart';
-import 'package:objectbox/objectbox.dart';
 import 'package:provider/provider.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
@@ -46,7 +44,7 @@ class _VerseScreenState extends State<VerseScreen> {
 
           return Scaffold(
             appBar: AppBar(
-              backgroundColor: HexColor(ColourConstants.primaryColour),
+              backgroundColor: HexColor(ColourConstants.fiord),
               title: Text(
                   "Verse ${provider.verseDetails.chapterNumber}.${provider.verseDetails.verseNumber}"),
               centerTitle: true,
@@ -212,7 +210,7 @@ class _VerseScreenState extends State<VerseScreen> {
                             children: [
                               CircleAvatar(
                                   radius: 20,
-                                  backgroundColor: HexColor(ColourConstants.primaryColour),
+                                  backgroundColor: HexColor(ColourConstants.fiord),
                                   child: IconButton(
                                     onPressed: () {
                                       provider.navigateVerses("PREVIOUS");
@@ -227,7 +225,7 @@ class _VerseScreenState extends State<VerseScreen> {
                                   )),
                               CircleAvatar(
                                   radius: 20,
-                                  backgroundColor: HexColor(ColourConstants.primaryColour),
+                                  backgroundColor: HexColor(ColourConstants.fiord),
                                   child: IconButton(
                                     onPressed: () {
                                       provider.navigateVerses("NEXT");
