@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sbg/utils/colour_constants.dart';
+import 'package:sbg/utils/hexcolor.dart';
 import '../chapter/screen/chapter_screen.dart';
 
 class ChapterWidgetCard extends StatefulWidget {
@@ -38,10 +40,10 @@ class _ChapterWidgetCardState extends State<ChapterWidgetCard> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Card(
-                  color: Colors.orangeAccent.shade100,
+                  color: HexColor("#F8AFA6"),//Colors.orangeAccent.shade100,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("${widget.chapterNumber}"),
+                    child: Text("${widget.chapterNumber}",),
                   )),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,

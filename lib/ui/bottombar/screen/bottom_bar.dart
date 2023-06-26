@@ -2,6 +2,8 @@ import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../../utils/colour_constants.dart';
+import '../../../utils/hexcolor.dart';
 import '../../bookmark/provider/bookmark_provider.dart';
 import '../../bookmark/screen/bookmark_page.dart';
 import '../../chapter/provider/chapter_screen_provider.dart';
@@ -79,7 +81,7 @@ class _BottomBarState extends State<BottomBar> {
           currentIndex: selectedIndex,
           selectedItemColor: Colors.white,
           unselectedItemColor: Colors.white,
-          backgroundColor: Colors.orange,
+          backgroundColor: HexColor("#F79489"),
           onTap: _onItemTapped,
           items: [
             DotNavigationBarItem(

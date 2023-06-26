@@ -1,19 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get_it/get_it.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
-import 'package:objectbox/objectbox.dart';
 import 'package:sbg/ui/homepage/provider/home_page_provider.dart';
 import 'package:sbg/ui/homepage/services/home_page_services.dart';
 import 'package:sbg/ui/loading/service/loading_service.dart';
 import 'package:sbg/ui/widgets/chapter_card_widget.dart';
-
+import 'package:sbg/utils/colour_constants.dart';
+import 'package:sbg/utils/hexcolor.dart';
 import '../../../models/chapter_detailed_model.dart';
-import '../../../models/chapter_summary_model.dart';
-import '../../../models/last_read_model.dart';
-import '../../../objectbox.g.dart';
-import '../../../services/db/database_service.dart';
 import 'package:device_information/device_information.dart';
 import 'package:provider/provider.dart';
 
@@ -63,8 +58,9 @@ class _HomePageState extends State<HomePage> {
     } else {
       return Scaffold(
           body: LiquidPullToRefresh(
+            springAnimationDurationInMilliseconds: 300,
             backgroundColor: Colors.white70,
-            color: Colors.deepOrange,
+            color: HexColor(ColourConstants.primaryColour),
             showChildOpacityTransition: false,
             onRefresh: () async {
               LoadingService loadingService = GetIt.instance.get<LoadingService>();
