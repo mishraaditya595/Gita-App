@@ -2,8 +2,6 @@ import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-
 import '../../bookmark/provider/bookmark_provider.dart';
 import '../../bookmark/screen/bookmark_page.dart';
 import '../../chapter/provider/chapter_screen_provider.dart';
@@ -55,12 +53,21 @@ class _BottomBarState extends State<BottomBar> {
       ],
       child: Scaffold(
         appBar: AppBar(
-          // backgroundColor: Colors.white,
-          title: const Text(
-            "Srimad Bhagwad Gita",
-            style: TextStyle(fontWeight: FontWeight.bold),
+          backgroundColor: Colors.white,
+          title: SizedBox(
+            height: AppBar().preferredSize.height * 0.85,
+            child: Image.asset(
+                "assets/images/bhagavad-gita.png"),
           ),
           centerTitle: true,
+          actions: [
+            // Padding(
+            //   padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 16.5),
+            //   child: Image.asset(
+            //   "assets/images/refresh.png",
+            //       height: 50, width: 30,),
+            // ),
+          ],
         ),
         body: pages[selectedIndex],
           extendBody: true,
