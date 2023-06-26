@@ -3,4 +3,5 @@ class ColourConstants {
   static String secondaryColour = "E1B6A2";
   static String blueVariant226 = "6250E2";
   static String primaryDarker = "FD7D6F";
+  static String primaryLight = "F0AAA1";
 }

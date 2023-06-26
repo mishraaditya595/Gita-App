@@ -57,12 +57,12 @@ class _BottomBarState extends State<BottomBar> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           title: SizedBox(
-            height: AppBar().preferredSize.height * 0.85,
+            height: AppBar().preferredSize.height * 0.9,
             child: Image.asset(
                 "assets/images/bhagavad-gita.png"),
           ),
           centerTitle: true,
-          actions: [
+          actions: const [
             // Padding(
             //   padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 16.5),
             //   child: Image.asset(

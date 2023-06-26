@@ -128,7 +128,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
                   ),
                 );
               } else {
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               }
             },
           );

@@ -40,10 +40,10 @@ class _ChapterWidgetCardState extends State<ChapterWidgetCard> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Card(
-                  color: HexColor("#F8AFA6"),//Colors.orangeAccent.shade100,
+                  color: HexColor(ColourConstants.primaryColour),//Colors.orangeAccent.shade100,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text("${widget.chapterNumber}",),
+                    child: Text("${widget.chapterNumber}", style: TextStyle(color: Colors.white),),
                   )),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
