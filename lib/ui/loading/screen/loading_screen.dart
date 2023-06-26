@@ -32,7 +32,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
         }
 
         return Scaffold(
-        backgroundColor: HexColor(ColourConstants.primaryLight),
+        // backgroundColor: HexColor(ColourConstants.primaryLight),
         body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -48,7 +48,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
                   child: LoadingProgressIndicator(
                     indicator: BallSpinFadeLoaderProgressIndicator(),
                     size: 70,
-                    color: Colors.white,
+                    color: HexColor(ColourConstants.primaryDarker),
                   ),
                 ),
                 Container(
