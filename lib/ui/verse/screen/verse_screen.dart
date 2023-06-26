@@ -89,10 +89,10 @@ class _VerseScreenState extends State<VerseScreen> {
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
                                   provider.verseDetails.text ?? '',
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
-                                    color: Colors.deepOrange,
+                                    color: HexColor(ColourConstants.primaryDarker),
                                   ),
                                   textAlign: TextAlign.center,
                                 ),

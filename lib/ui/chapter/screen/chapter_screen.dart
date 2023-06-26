@@ -66,7 +66,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
-                                color: HexColor(ColourConstants.primaryColour)),
+                                color: HexColor(ColourConstants.primaryDarker)),
                             textAlign: TextAlign.center,
                           ),
                         ),
