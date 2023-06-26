@@ -6,6 +6,7 @@ import 'package:loading_progress_indicator/progress_indicator/ball_spin_fade_loa
 import 'package:sbg/ui/loading/service/loading_service.dart';
 import 'package:sbg/utils/hexcolor.dart';
 
+import '../../../services/remote_config_service.dart';
 import '../../bottombar/screen/bottom_bar.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -18,61 +19,63 @@ class LoadingScreen extends StatefulWidget {
 class _LoadingScreenState extends State<LoadingScreen> {
 
   @override
-  void initState()  {
-    loadAll();
-    super.initState();
+  Widget build(BuildContext context) {
+    RemoteConfigService remoteConfigService = GetIt.instance.get<RemoteConfigService>();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    return FutureBuilder(
+      future: remoteConfigService.init(),
+        builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
+
+        if(snapshot.connectionState == ConnectionState.done) {
+          loadAll();
+        }
+
+        return Scaffold(
+        backgroundColor: HexColor("A2D9C7"),
+        body: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 150,
+                  height: 150,
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.asset("assets/images/bhagavad-gita.png"),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: LoadingProgressIndicator(
+                    indicator: BallSpinFadeLoaderProgressIndicator(),
+                    size: 70,
+                    color: Colors.white,
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  padding: EdgeInsets.all(15.0),
+                  child: const Text(
+                    "Loading...",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              ],
+            )
+        ),
+      );
 
     });
+
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: HexColor("A2D9C7"),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 150,
-              height: 150,
-              padding: const EdgeInsets.all(8.0),
-              child: Image.asset("assets/images/bhagavad-gita.png"),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: LoadingProgressIndicator(
-                indicator: BallSpinFadeLoaderProgressIndicator(),
-                size: 70,
-                color: Colors.white,
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width * 0.9,
-              padding: EdgeInsets.all(15.0),
-              child: const Text(
-                  "Loading...",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            )
-          ],
-        )
-      ),
-    );
-  }
-
-  Future<void> loadAll() async {
+    Future<void> loadAll() async {
     LoadingService loadingService = GetIt.instance.get<LoadingService>();
 
     bool loadingStatus = await loadingService.fetchAllLoaders();
-
 
     if (loadingStatus) {
       Navigator.of(context).pushReplacement(MaterialPageRoute(

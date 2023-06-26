@@ -50,8 +50,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    RemoteConfigService remoteConfigService = GetIt.instance.get<RemoteConfigService>();
-    remoteConfigService.init();
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
     databaseService.init();
 
@@ -64,6 +62,7 @@ class _MyAppState extends State<MyApp> {
 
     super.initState();
   }
+
 
   @override
   void setState(VoidCallback fn) {
@@ -81,14 +80,9 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.orange,
       ),
-      home: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: AnimatedSplashScreen(
-          duration: 2,
-          splash: Image.asset("assets/images/gita.jpg"),
-          backgroundColor: Colors.white,
-          nextScreen: const LoadingScreen()
-        ),
+      home: const Padding(
+        padding: EdgeInsets.all(8.0),
+        child:  LoadingScreen()
       ),
     ));
   }

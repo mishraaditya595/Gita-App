@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sbg/models/data_sync_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../network/chapter_detailed_loader.dart';
 import '../../../network/chapter_summary_loader.dart';
@@ -14,12 +15,39 @@ class LoadingService {
   LoadingService(this.databaseService);
 
   Future<bool> fetchAllLoaders() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    int? lastModifiedTime = preferences.getInt("LAST_MODIFIED_TIME");
+
+    if(lastModifiedTime == null) {
+      await load();
+      await setLastModifiedTime();
+      return _checkForLoadingStatus();
+    } else {
+      DateTime lastModifiedDateTime = DateTime.fromMicrosecondsSinceEpoch(lastModifiedTime);
+      int differenceInHours = lastModifiedDateTime.difference(DateTime.now()).inHours;
+
+      if(differenceInHours > 24) {
+        await load();
+        await setLastModifiedTime();
+        return _checkForLoadingStatus();
+      }
+
+      await Future.delayed(const Duration(microseconds: 600));
+      return true;
+    }
+  }
+
+  Future<void> load() async {
     Store store = databaseService.getStore()!;
     store.box<DataSyncModel>().removeAll();
     await ChapterSummaryLoader().getDataFromDB();
     await ChapterDetailedLoader().getDataFromDB();
+  }
 
-    return _checkForLoadingStatus() ;
+  Future<void> setLastModifiedTime() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    int currentDateTime = DateTime.now().microsecondsSinceEpoch;
+    preferences.setInt("LAST_MODIFIED_TIME", currentDateTime);
   }
 
   bool _checkForLoadingStatus() {
