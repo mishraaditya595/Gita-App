@@ -1,7 +1,10 @@
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:in_app_review/in_app_review.dart';
 import 'package:provider/provider.dart';
+import 'package:sbg/ui/bottombar/services/in_app_review_service.dart';
 import '../../../utils/colour_constants.dart';
 import '../../../utils/hexcolor.dart';
 import '../../bookmark/provider/bookmark_provider.dart';
@@ -82,19 +85,16 @@ class _BottomBarState extends State<BottomBar> {
               icon: selectedIndex == 0
                   ? const Icon(Icons.home)
                   : const Icon(Icons.home_outlined) ,
-
             ),
             DotNavigationBarItem(
               icon: selectedIndex == 1
                   ? const Icon(Icons.bookmark)
                   : const Icon(Icons.bookmark_outline),
-
             ),
             DotNavigationBarItem(
               icon: selectedIndex == 2
                   ? const Icon(Icons.info)
                   : const Icon(Icons.info_outline),
-
             ),
           ],
         ),
