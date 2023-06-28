@@ -13,6 +13,7 @@ import '../../../models/chapter_detailed_model.dart';
 import 'package:device_information/device_information.dart';
 import 'package:provider/provider.dart';
 
+import '../../bottombar/services/in_app_review_service.dart';
 import '../../verse/screen/verse_screen.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,6 +31,9 @@ class _HomePageState extends State<HomePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       homePageProvider = Provider.of<HomePageProvider>(context, listen: false);
       homePageProvider.fetchAll();
+
+      InAppReviewService inAppReviewService = GetIt.instance.get<InAppReviewService>();
+      inAppReviewService.showReviewAlert();
     });
     super.initState();
   }

@@ -199,54 +199,55 @@ class _VerseScreenState extends State<VerseScreen> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CircleAvatar(
-                                  radius: 20,
-                                  backgroundColor: HexColor(ColourConstants.fiord),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      provider.navigateVerses("PREVIOUS");
-                                      if (listScrollController.hasClients) {
-                                        final position = listScrollController
-                                            .position.minScrollExtent;
-                                        listScrollController.jumpTo(position);
-                                      }
-                                    },
-                                    icon: Icon(Icons.navigate_before),
-                                    color: Colors.white,
-                                  )),
-                              CircleAvatar(
-                                  radius: 20,
-                                  backgroundColor: HexColor(ColourConstants.fiord),
-                                  child: IconButton(
-                                    onPressed: () {
-                                      provider.navigateVerses("NEXT");
-                                      if (listScrollController.hasClients) {
-                                        final position = listScrollController
-                                            .position.minScrollExtent;
-                                        listScrollController.jumpTo(position);
-                                      }
-                                    },
-                                    icon: Icon(Icons.navigate_next),
-                                    color: Colors.white,
-                                  )),
-                            ],
-                          ),
-                        ),
-                      ),
-                    )
                   ],
                 ),
               ),
             ]),
+            bottomNavigationBar: Material(
+              elevation: 10,
+              child: Container(
+                color: HexColor(ColourConstants.fiord),
+                width: MediaQuery.of(context).size.width,
+                height: 45,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CircleAvatar(
+                        radius: 16,
+                        backgroundColor: HexColor(ColourConstants.offWhite),
+                        child: IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () {
+                            provider.navigateVerses("PREVIOUS");
+                            if (listScrollController.hasClients) {
+                              final position = listScrollController
+                                  .position.minScrollExtent;
+                              listScrollController.jumpTo(position);
+                            }
+                          },
+                          icon: Icon(Icons.navigate_before),
+                          color: HexColor(ColourConstants.fiord)
+                        )),
+                    CircleAvatar(
+                        radius: 16,
+                        backgroundColor: HexColor(ColourConstants.offWhite),
+                        child: IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: () {
+                            provider.navigateVerses("NEXT");
+                            if (listScrollController.hasClients) {
+                              final position = listScrollController
+                                  .position.minScrollExtent;
+                              listScrollController.jumpTo(position);
+                            }
+                          },
+                          icon: Icon(Icons.navigate_next),
+                          color: HexColor(ColourConstants.fiord),
+                        )),
+                  ],
+                ),
+              ),
+            ),
           );
         }));
   }
