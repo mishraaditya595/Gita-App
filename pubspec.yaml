@@ -58,6 +58,9 @@ dependencies:
   dot_navigation_bar: ^1.0.1+4
   liquid_pull_to_refresh: ^3.0.1
   upgrader: ^6.5.0
+  firebase_crashlytics: ^3.3.3
+  firebase_performance: ^0.9.2+3
+  device_info_plus: ^9.0.2
 
 dev_dependencies:
   build_runner: ^2.0.0
