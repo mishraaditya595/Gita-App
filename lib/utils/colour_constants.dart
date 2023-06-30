@@ -5,4 +5,5 @@ class ColourConstants {
   static String cornFlowerBlue = "#739CF7";
   static String scampi = "#6864B1";
   static String offWhite = "#DEDEDE";
+  static String backgroundWhite = "#f7f2f9";
 }
