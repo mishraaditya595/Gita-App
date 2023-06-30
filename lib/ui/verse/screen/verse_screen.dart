@@ -46,13 +46,13 @@ class _VerseScreenState extends State<VerseScreen> {
             appBar: AppBar(
               backgroundColor: HexColor(ColourConstants.fiord),
               title: Text(
-                  "Verse ${provider.verseDetails.chapterNumber}.${provider.verseDetails.verseNumber}"),
+                  "Verse ${provider.verseDetails.chapterNumber}.${provider.verseDetails.verseNumber}", style: TextStyle(color: HexColor(ColourConstants.backgroundWhite)),),
               centerTitle: true,
               leading: IconButton(
                   onPressed: () {
                     Navigator.pop(context, true);
                   },
-                  icon: const Icon(Icons.arrow_back_ios_new)),
+                  icon: Icon(Icons.arrow_back_ios_new, color: HexColor(ColourConstants.backgroundWhite))),
               actions: [
                 IconButton(
                     onPressed: () {
@@ -63,7 +63,7 @@ class _VerseScreenState extends State<VerseScreen> {
 
                       provider.addOrRemoveBookmarks(provider.verseDetails);
                     },
-                    icon: Icon(provider.fabIcon))
+                    icon: Icon(provider.fabIcon, color: HexColor(ColourConstants.backgroundWhite)))
               ],
             ),
             body: ListView(controller: listScrollController, children: [
@@ -99,8 +99,8 @@ class _VerseScreenState extends State<VerseScreen> {
                             const SizedBox(
                               height: 20,
                             ),
-                            const Divider(
-                              color: Colors.orangeAccent,
+                            Divider(
+                              color: HexColor(ColourConstants.primaryDarker),
                             ),
                             const SizedBox(
                               height: 20,
@@ -122,8 +122,8 @@ class _VerseScreenState extends State<VerseScreen> {
                             const SizedBox(
                               height: 20,
                             ),
-                            const Divider(
-                              color: Colors.orangeAccent,
+                            Divider(
+                              color: HexColor(ColourConstants.primaryDarker),
                             ),
                             const SizedBox(
                               height: 20,
@@ -144,8 +144,8 @@ class _VerseScreenState extends State<VerseScreen> {
                             const SizedBox(
                               height: 20,
                             ),
-                            const Divider(
-                              color: Colors.orangeAccent,
+                            Divider(
+                              color: HexColor(ColourConstants.primaryDarker),
                             ),
                             const SizedBox(
                               height: 20,
@@ -214,7 +214,7 @@ class _VerseScreenState extends State<VerseScreen> {
                   children: [
                     CircleAvatar(
                         radius: 16,
-                        backgroundColor: HexColor(ColourConstants.offWhite),
+                        backgroundColor: HexColor(ColourConstants.backgroundWhite),
                         child: IconButton(
                           padding: EdgeInsets.zero,
                           onPressed: () {
@@ -230,7 +230,7 @@ class _VerseScreenState extends State<VerseScreen> {
                         )),
                     CircleAvatar(
                         radius: 16,
-                        backgroundColor: HexColor(ColourConstants.offWhite),
+                        backgroundColor: HexColor(ColourConstants.backgroundWhite),
                         child: IconButton(
                           padding: EdgeInsets.zero,
                           onPressed: () {

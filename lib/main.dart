@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
 
       theme: ThemeData(
         useMaterial3: true,
-        scaffoldBackgroundColor: HexColor(ColourConstants.backgroundWhite)
+        scaffoldBackgroundColor: HexColor(ColourConstants.backgroundWhite),
       ),
       home: const Padding(
         padding: EdgeInsets.all(8.0),

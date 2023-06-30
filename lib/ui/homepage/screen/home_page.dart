@@ -70,8 +70,8 @@ class _HomePageState extends State<HomePage> {
         child: Scaffold(
             body: LiquidPullToRefresh(
               springAnimationDurationInMilliseconds: 300,
-              backgroundColor: Colors.white70,
-              color: HexColor(ColourConstants.fiord),
+              color: HexColor(ColourConstants.backgroundWhite),
+              backgroundColor: HexColor(ColourConstants.fiord),
               showChildOpacityTransition: false,
               onRefresh: () async {
                 LoadingService loadingService = GetIt.instance.get<LoadingService>();

@@ -43,6 +43,9 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -60,7 +63,11 @@ class _BottomBarState extends State<BottomBar> {
       ],
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: HexColor(ColourConstants.offWhite),
+          flexibleSpace:  Container(
+            decoration:
+            BoxDecoration(gradient: ColourConstants.homePageAppBarGradient),
+          ),
+          // backgroundColor: HexColor(ColourConstants.backgroundWhite),
           title: SizedBox(
             height: AppBar().preferredSize.height * 0.9,
             child: Image.asset("assets/images/bhagavad-gita.png"),
@@ -70,61 +77,36 @@ class _BottomBarState extends State<BottomBar> {
         ),
         body: pages[selectedIndex],
         extendBody: false,
-        bottomNavigationBar: CurvedNavigationBar(
-            height: kBottomNavigationBarHeight,
-            backgroundColor: HexColor(ColourConstants.antiqueBrass),
-            iconPadding: 8,
-            items: [
-              CurvedNavigationBarItem(
-                child: selectedIndex == 0
-                    ? const Icon(Icons.home_filled)
-                    : const Icon(Icons.home_outlined),
-                label: 'Home',
-              ),
-              CurvedNavigationBarItem(
-                child: selectedIndex == 1
-                    ? const Icon(Icons.bookmark)
-                    : const Icon(Icons.bookmark_outline),
-                label: 'My Bookmarks',
-              ),
-              CurvedNavigationBarItem(
-                child: selectedIndex == 2
-                    ? const Icon(Icons.info)
-                    : const Icon(Icons.info_outline),
-                label: 'Info',
-              ),
-            ],
-            onTap: _onItemTapped),
-
-        // DotNavigationBar(
-        //   borderRadius: 20,
-        //   // marginR : const EdgeInsets.symmetric(horizontal: 50, vertical: 8),
-        //   // paddingR : const EdgeInsets.only(bottom: 3, top: 3),
-        //   //
-        //   enablePaddingAnimation: false,
-        //   currentIndex: selectedIndex,
-        //   selectedItemColor: Colors.white,
-        //   unselectedItemColor: Colors.white,
-        //   backgroundColor: HexColor(ColourConstants.fiord),
-        //   onTap: _onItemTapped,
-        //   items: [
-        //     DotNavigationBarItem(
-        //       icon: selectedIndex == 0
-        //           ? const Icon(Icons.home)
-        //           : const Icon(Icons.home_outlined) ,
-        //     ),
-        //     DotNavigationBarItem(
-        //       icon: selectedIndex == 1
-        //           ? const Icon(Icons.bookmark)
-        //           : const Icon(Icons.bookmark_outline),
-        //     ),
-        //     DotNavigationBarItem(
-        //       icon: selectedIndex == 2
-        //           ? const Icon(Icons.info)
-        //           : const Icon(Icons.info_outline),
-        //     ),
-        //   ],
-        // ),
+        bottomNavigationBar: Material(
+          elevation: 10,
+          child: CurvedNavigationBar(
+              height: 45,
+              color: HexColor(ColourConstants.backgroundWhite),
+              backgroundColor: HexColor(ColourConstants.antiqueBrass),
+              buttonBackgroundColor: HexColor(ColourConstants.antiqueBrass),
+              iconPadding: 8,
+              items: [
+                CurvedNavigationBarItem(
+                  child: selectedIndex == 0
+                      ? Icon(Icons.home_filled, color: HexColor(ColourConstants.backgroundWhite),)
+                      : const Icon(Icons.home_outlined),
+                  // label: 'Home',
+                ),
+                CurvedNavigationBarItem(
+                  child: selectedIndex == 1
+                      ? Icon(Icons.bookmark, color: HexColor(ColourConstants.backgroundWhite),)
+                      : const Icon(Icons.bookmark_outline),
+                  // label: 'My Bookmarks',
+                ),
+                CurvedNavigationBarItem(
+                  child: selectedIndex == 2
+                      ? Icon(Icons.info, color: HexColor(ColourConstants.backgroundWhite),)
+                      : const Icon(Icons.info_outline),
+                  // label: 'Info',
+                ),
+              ],
+              onTap: _onItemTapped),
+        ),
       ),
     );
   }

@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../../utils/colour_constants.dart';
+import '../../utils/hexcolor.dart';
+
 class AboutPage extends StatelessWidget {
   const AboutPage({Key? key}) : super(key: key);
 
@@ -52,8 +55,8 @@ class AboutPage extends StatelessWidget {
       Container(
           margin: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width / 10),
-          child: const Divider(
-            color: Colors.orangeAccent,
+          child: Divider(
+            color: HexColor(ColourConstants.primaryDarker),
           )),
       Padding(
         padding: const EdgeInsets.all(25),
@@ -73,8 +76,8 @@ class AboutPage extends StatelessWidget {
       Container(
           margin: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width / 10),
-          child: const Divider(
-            color: Colors.orangeAccent,
+          child: Divider(
+            color: HexColor(ColourConstants.primaryDarker),
           )),
       Padding(
         padding: const EdgeInsets.all(25),
@@ -108,8 +111,8 @@ class AboutPage extends StatelessWidget {
       Container(
           margin: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width / 10),
-          child: const Divider(
-            color: Colors.orangeAccent,
+          child: Divider(
+            color: HexColor(ColourConstants.primaryDarker),
           )),
       Padding(
         padding: const EdgeInsets.all(25),
@@ -129,8 +132,8 @@ class AboutPage extends StatelessWidget {
       Container(
           margin: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width / 10),
-          child: const Divider(
-            color: Colors.orangeAccent,
+          child: Divider(
+            color: HexColor(ColourConstants.primaryDarker),
           )),
       Padding(
         padding: const EdgeInsets.all(25),
@@ -150,8 +153,8 @@ class AboutPage extends StatelessWidget {
       Container(
           margin: EdgeInsets.symmetric(
               horizontal: MediaQuery.of(context).size.width / 10),
-          child: const Divider(
-            color: Colors.orangeAccent,
+          child: Divider(
+            color: HexColor(ColourConstants.primaryDarker),
           )),
     ]));
   }
