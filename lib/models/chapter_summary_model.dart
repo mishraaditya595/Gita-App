@@ -1,9 +1,10 @@
-import 'package:objectbox/objectbox.dart';
+import 'package:isar/isar.dart';
 
-@Entity()
+part 'chapter_summary_model.g.dart';
+
+@collection
 class ChapterSummaryModel {
-  @Id()
-  int id;
+  Id id = Isar.autoIncrement;
   String chapterNumber;
   int chapterNumberInt;
   String name;

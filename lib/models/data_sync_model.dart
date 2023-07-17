@@ -1,9 +1,10 @@
-import 'package:objectbox/objectbox.dart';
+import 'package:isar/isar.dart';
 
-@Entity()
+part 'data_sync_model.g.dart';
+
+@collection
 class DataSyncModel {
-  @Id()
-  int id;
+  Id id = Isar.autoIncrement;
   String name;
   bool successStatus;
 

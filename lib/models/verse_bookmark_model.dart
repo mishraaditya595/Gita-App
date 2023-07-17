@@ -1,9 +1,11 @@
-import 'package:objectbox/objectbox.dart';
 
-@Entity()
+import 'package:isar/isar.dart';
+
+part 'verse_bookmark_model.g.dart';
+
+@collection
 class VerseBookmarkModel {
-  @Id()
-  int id;
+  Id id = Isar.autoIncrement;
   String verseNumber;
   String chapterNumber;
   String text;

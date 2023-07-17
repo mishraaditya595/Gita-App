@@ -1,9 +1,12 @@
-import 'package:objectbox/objectbox.dart';
+import 'package:isar/isar.dart' as isar;
+import 'package:isar/isar.dart';
 
-@Entity()
+part 'chapter_detailed_model.g.dart';
+
+
+@isar.collection
 class ChapterDetailedModel {
-  @Id()
-  int id;
+  isar.Id id = isar.Isar.autoIncrement; // you can also use id = null to auto increment
   String verseNumber;
   String chapterNumber;
   String text;
