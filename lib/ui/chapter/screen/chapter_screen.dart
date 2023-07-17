@@ -37,13 +37,13 @@ class _ChapterScreenState extends State<ChapterScreen> {
           return Scaffold(
             appBar: AppBar(
               backgroundColor: HexColor(ColourConstants.fiord),
-              title: Text("Chapter ${widget.chapterNumber}"),
+              title: Text("Chapter ${widget.chapterNumber}", style: TextStyle(color: HexColor(ColourConstants.backgroundWhite)),),
               centerTitle: true,
               leading: IconButton(
                   onPressed: () {
                     Navigator.pop(context, true);
                   },
-                  icon: const Icon(Icons.arrow_back_ios_new)),
+                  icon: Icon(Icons.arrow_back_ios_new, color: HexColor(ColourConstants.backgroundWhite))),
             ),
             body: ListView(
               children: [

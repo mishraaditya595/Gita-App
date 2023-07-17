@@ -1,3 +1,5 @@
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
+import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
 import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +43,9 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
+
+
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -58,45 +63,49 @@ class _BottomBarState extends State<BottomBar> {
       ],
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: HexColor(ColourConstants.offWhite),
+          flexibleSpace:  Container(
+            decoration:
+            BoxDecoration(gradient: ColourConstants.homePageAppBarGradient),
+          ),
+          // backgroundColor: HexColor(ColourConstants.backgroundWhite),
           title: SizedBox(
             height: AppBar().preferredSize.height * 0.9,
-            child: Image.asset(
-                "assets/images/bhagavad-gita.png"),
+            child: Image.asset("assets/images/bhagavad-gita.png"),
           ),
           centerTitle: true,
-          actions: const [
-          ],
+          actions: const [],
         ),
         body: pages[selectedIndex],
-          extendBody: true,
-        bottomNavigationBar: DotNavigationBar(
-          borderRadius: 20,
-          marginR : const EdgeInsets.symmetric(horizontal: 50, vertical: 8),
-          paddingR : const EdgeInsets.only(bottom: 3, top: 3),
-          enablePaddingAnimation: false,
-          currentIndex: selectedIndex,
-          selectedItemColor: Colors.white,
-          unselectedItemColor: Colors.white,
-          backgroundColor: HexColor(ColourConstants.fiord),
-          onTap: _onItemTapped,
-          items: [
-            DotNavigationBarItem(
-              icon: selectedIndex == 0
-                  ? const Icon(Icons.home)
-                  : const Icon(Icons.home_outlined) ,
-            ),
-            DotNavigationBarItem(
-              icon: selectedIndex == 1
-                  ? const Icon(Icons.bookmark)
-                  : const Icon(Icons.bookmark_outline),
-            ),
-            DotNavigationBarItem(
-              icon: selectedIndex == 2
-                  ? const Icon(Icons.info)
-                  : const Icon(Icons.info_outline),
-            ),
-          ],
+        extendBody: false,
+        bottomNavigationBar: Material(
+          elevation: 10,
+          child: CurvedNavigationBar(
+              height: 45,
+              color: HexColor(ColourConstants.backgroundWhite),
+              backgroundColor: HexColor(ColourConstants.antiqueBrass),
+              buttonBackgroundColor: HexColor(ColourConstants.antiqueBrass),
+              iconPadding: 8,
+              items: [
+                CurvedNavigationBarItem(
+                  child: selectedIndex == 0
+                      ? Icon(Icons.home_filled, color: HexColor(ColourConstants.backgroundWhite),)
+                      : const Icon(Icons.home_outlined),
+                  // label: 'Home',
+                ),
+                CurvedNavigationBarItem(
+                  child: selectedIndex == 1
+                      ? Icon(Icons.bookmark, color: HexColor(ColourConstants.backgroundWhite),)
+                      : const Icon(Icons.bookmark_outline),
+                  // label: 'My Bookmarks',
+                ),
+                CurvedNavigationBarItem(
+                  child: selectedIndex == 2
+                      ? Icon(Icons.info, color: HexColor(ColourConstants.backgroundWhite),)
+                      : const Icon(Icons.info_outline),
+                  // label: 'Info',
+                ),
+              ],
+              onTap: _onItemTapped),
         ),
       ),
     );

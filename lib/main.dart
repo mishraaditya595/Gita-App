@@ -11,6 +11,8 @@ import 'package:sbg/injection.dart';
 import 'package:sbg/services/db/database_service.dart';
 import 'package:sbg/services/notifications/firebase/firebase_messaging_service.dart';
 import 'package:sbg/ui/loading/screen/loading_screen.dart';
+import 'package:sbg/utils/colour_constants.dart';
+import 'package:sbg/utils/hexcolor.dart';
 
 import 'objectbox.dart';
 
@@ -73,8 +75,11 @@ class _MyAppState extends State<MyApp> {
         child: MaterialApp(
       title: '',
       debugShowCheckedModeBanner: false,
+
       theme: ThemeData(
-        // primarySwatch: Colors.orange,
+        useMaterial3: true,
+        scaffoldBackgroundColor: HexColor(ColourConstants.backgroundWhite),
+        cardColor: HexColor(ColourConstants.backgroundWhite)
       ),
       home: const Padding(
         padding: EdgeInsets.all(8.0),

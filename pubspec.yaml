@@ -58,6 +58,7 @@ dependencies:
   firebase_performance: ^0.9.2+3
   device_info_plus: ^9.0.2
   in_app_review: ^2.0.6
+  curved_labeled_navigation_bar: ^2.0.2
 
 dev_dependencies:
   build_runner: ^2.0.0
