@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
+import 'package:isar/isar.dart';
 
 import '../../../models/verse_bookmark_model.dart';
-import '../../../objectbox.g.dart';
 import '../../../services/db/database_service.dart';
 
 @Singleton()
@@ -10,30 +10,21 @@ class BookmarkService {
 
   BookmarkService(this.databaseService);
 
-  List<VerseBookmarkModel> fetchAllBookmarks() {
-    Store store = databaseService.getStore()!;
-    Box<VerseBookmarkModel> chapterDetailedModelBox =
-    store.box<VerseBookmarkModel>();
-    List<VerseBookmarkModel>? verseBookmarkModelList =
-    chapterDetailedModelBox.getAll();
-
+  Future<List<VerseBookmarkModel>> fetchAllBookmarks() async {
+    Isar isar = databaseService.getStore()!;
+    List<VerseBookmarkModel> verseBookmarkModelList = await isar.verseBookmarkModels.where().findAll();
     return verseBookmarkModelList;
   }
 
-  List<VerseBookmarkModel> removeBookmark(String verseNumber, String chapterNumber) {
-    Store store = databaseService.getStore()!;
-    Box<VerseBookmarkModel> verseBookmarkModelBox =
-    store.box<VerseBookmarkModel>();
-    QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
-        VerseBookmarkModel_.verseNumber.equals(verseNumber) &
-        VerseBookmarkModel_.chapterNumber.equals(chapterNumber));
-    Query<VerseBookmarkModel> query = queryBuilder.build();
-    List<VerseBookmarkModel>? bookmarkList = query.find();
+  Future<List<VerseBookmarkModel>> removeBookmark(String verseNumber, String chapterNumber) async {
+    Isar isar = databaseService.getStore()!;
 
+    await isar.verseBookmarkModels.filter()
+        .verseNumberEqualTo(verseNumber)
+        .and()
+    .chapterNumberEqualTo(chapterNumber).deleteAll();
 
-    verseBookmarkModelBox.remove(bookmarkList[0].id);
-
-    bookmarkList = verseBookmarkModelBox.getAll();
+    List<VerseBookmarkModel> bookmarkList = await isar.verseBookmarkModels.where().findAll();
 
     return bookmarkList;
   }
