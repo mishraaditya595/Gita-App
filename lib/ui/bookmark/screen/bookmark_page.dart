@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/ui/bookmark/provider/bookmark_provider.dart';
 import 'package:sbg/ui/widgets/verse_card_widget.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
+
+import '../../../models/ui/chapter_detailed_model_ui.dart';
 
 class BookmarkPage extends StatefulWidget {
   const BookmarkPage({Key? key}) : super(key: key);
@@ -115,10 +116,10 @@ class _BookmarkPageState extends State<BookmarkPage> {
                                     provider.removeBookmark(
                                         provider
                                             .verseBookmarkModelList[position]
-                                            .verseNumber,
+                                            .verseNumber ?? "",
                                         provider
                                             .verseBookmarkModelList[position]
-                                            .chapterNumber);
+                                            .chapterNumber ?? "");
                                   },
                                 );
                               }),

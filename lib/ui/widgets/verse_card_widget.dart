@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../models/chapter_detailed_model.dart';
+import '../../models/ui/chapter_detailed_model_ui.dart';
 import '../verse/screen/verse_screen.dart';
 
 class VerseCardWidget extends StatefulWidget {
@@ -26,8 +26,8 @@ class _VerseCardWidgetState extends State<VerseCardWidget> {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: InkWell(
-        onTap: () => onCardTapped(int.parse(widget.verseDetails.chapterNumber),
-            int.parse(widget.verseDetails.verseNumber)),
+        onTap: () => onCardTapped(int.parse(widget.verseDetails.chapterNumber ?? "-1"),
+            int.parse(widget.verseDetails.verseNumber ?? "-1" )),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: Column(
@@ -52,7 +52,7 @@ class _VerseCardWidgetState extends State<VerseCardWidget> {
                 alignment: Alignment.centerLeft,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.verseDetails.translation),
+                  child: Text(widget.verseDetails.translation ?? ""),
                 ),
               )
             ],

@@ -2,17 +2,16 @@ import 'package:injectable/injectable.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../../objectbox.g.dart';
 import 'dbstore.dart';
 
 @Singleton()
 class DatabaseService<T> {
-  late DBStore dbStore;
+  // late DBStore dbStore;
   Isar? _store = null;
 
   // Store? get store => _store;
 
-  DatabaseService(this.dbStore);
+  // DatabaseService(this.dbStore);
 
   Isar? getStore() {
     return _store;
