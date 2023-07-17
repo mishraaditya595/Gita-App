@@ -9,10 +9,10 @@ import 'package:sbg/ui/widgets/chapter_card_widget.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
 import 'package:upgrader/upgrader.dart';
-import '../../../models/chapter_detailed_model.dart';
 import 'package:device_information/device_information.dart';
 import 'package:provider/provider.dart';
 
+import '../../../models/ui/chapter_detailed_model_ui.dart';
 import '../../bottombar/services/in_app_review_service.dart';
 import '../../verse/screen/verse_screen.dart';
 
@@ -171,11 +171,11 @@ class _HomePageState extends State<HomePage> {
                       itemCount: homePageProvider.chapterSummaryList.length,
                       itemBuilder: (context, position) {
                         String name = homePageProvider
-                            .chapterSummaryList[position].nameTranslated;
+                            .chapterSummaryList[position].nameTranslated ?? "";
                         int verseCount = homePageProvider
-                            .chapterSummaryList[position].verseCount;
+                            .chapterSummaryList[position].verseCount ?? 0;
                         String chapterSummary =
-                            homePageProvider.chapterSummaryList[position].summary;
+                            homePageProvider.chapterSummaryList[position].summary ?? "";
                         return ChapterWidgetCard(
                           chapterNumber: position + 1,
                           chapterName: name,
@@ -203,7 +203,7 @@ class _HomePageState extends State<HomePage> {
                   verseNumber: verseNumber,
                   verseDetails: ChapterDetailedModel(
                     verseNumber:
-                        homePageProvider.chapterDetailedList[0].verseNumber,
+                        homePageProvider.chapterDetailedList[0].verseNumber ?? "",
                     chapterNumber:
                         homePageProvider.chapterDetailedList[0].chapterNumber,
                     text: homePageProvider.chapterDetailedList[0].text,

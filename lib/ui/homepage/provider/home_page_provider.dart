@@ -19,21 +19,21 @@ class HomePageProvider with ChangeNotifier {
   Future<void> fetchAll() async {
     changeLoadingState();
     HomePageServices homePageServices = GetIt.instance.get<HomePageServices>();
-    chapterSummaryList = homePageServices.getAllChapters();
+    chapterSummaryList = await homePageServices.getAllChapters();
 
-    List<LastReadModel> lastReadList = homePageServices.getLastReadVerse();
+    List<LastReadModel> lastReadList = await homePageServices.getLastReadVerse();
 
     if (lastReadList.isNotEmpty) {
       // debugPrint("Last Read Found: ${lastReadList[0].lastReadVerseText}");
-      lastReadVerseText = lastReadList[0].lastReadVerseText;
-      lastReadVerseNum = lastReadList[0].lastReadVerseNum;
+      lastReadVerseText = lastReadList[0].lastReadVerseText ?? "";
+      lastReadVerseNum = lastReadList[0].lastReadVerseNum ?? "";
       isLastReadAvailable = true;
-      lastReadChapterInt = lastReadList.first.chapterNumber;
-      lastReadVerseInt = lastReadList.first.verseNumber;
+      lastReadChapterInt = lastReadList.first.chapterNumber ?? 0;
+      lastReadVerseInt = lastReadList.first.verseNumber ?? 0;
 
-      List<ChapterDetailedModel>? queryList =
+      List<ChapterDetailedModel>? queryList = await
           homePageServices.getChapterDetailedList(
-              lastReadList[0].chapterNumber, lastReadList[0].verseNumber);
+              lastReadList[0].chapterNumber ?? 0, lastReadList[0].verseNumber ?? 0);
       chapterDetailedList.addAll(queryList);
     }
     changeLoadingState();
