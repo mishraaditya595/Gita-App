@@ -1,11 +1,12 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:isar/isar.dart';
 import 'package:sbg/models/data_sync_model.dart';
+import 'package:sbg/models/verse_bookmark_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../network/chapter_detailed_loader.dart';
 import '../../../network/chapter_summary_loader.dart';
-import '../../../objectbox.g.dart';
 import '../../../services/db/database_service.dart';
 
 @Singleton()
@@ -21,7 +22,7 @@ class LoadingService {
     if(lastModifiedTime == null) {
       await load();
       await setLastModifiedTime();
-      return _checkForLoadingStatus();
+      return await _checkForLoadingStatus();
     } else {
       DateTime lastModifiedDateTime = DateTime.fromMicrosecondsSinceEpoch(lastModifiedTime);
       int differenceInHours = DateTime.now().difference(lastModifiedDateTime).inHours;
@@ -29,7 +30,7 @@ class LoadingService {
       if(differenceInHours >= 24) {
         await load();
         await setLastModifiedTime();
-        return _checkForLoadingStatus();
+        return await _checkForLoadingStatus();
       }
 
       await Future.delayed(const Duration(seconds: 1));
@@ -38,8 +39,10 @@ class LoadingService {
   }
 
   Future<void> load() async {
-    Store store = databaseService.getStore()!;
-    store.box<DataSyncModel>().removeAll();
+    Isar isar = databaseService.getStore()!;
+
+    await isar.dataSyncModels.where().deleteAll();
+
     await ChapterSummaryLoader().getDataFromDB();
     await ChapterDetailedLoader().getDataFromDB();
   }
@@ -50,15 +53,11 @@ class LoadingService {
     preferences.setInt("LAST_MODIFIED_TIME", currentDateTime);
   }
 
-  bool _checkForLoadingStatus() {
-    Store store = databaseService.getStore()!;
-    Box<DataSyncModel> box =
-    store.box<DataSyncModel>();
-    QueryBuilder<DataSyncModel> queryBuilder = box
-        .query(DataSyncModel_.successStatus.equals(true));
-    Query<DataSyncModel> query = queryBuilder.build();
-    List<DataSyncModel> dataSyncList = query.find();
+  Future<bool> _checkForLoadingStatus() async {
+    Isar isar = databaseService.getStore()!;
 
+    List<DataSyncModel> dataSyncList = await isar.dataSyncModels.filter()
+        .successStatusEqualTo(true).findAll();
     return dataSyncList.length == 2 ? true : false;
   }
 }
