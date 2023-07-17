@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
+import 'package:isar/isar.dart';
 
 import '../../../models/chapter_detailed_model.dart';
-import '../../../objectbox.g.dart';
 import '../../../services/db/database_service.dart';
 
 @Singleton()
@@ -10,15 +10,13 @@ class ChapterScreenService {
 
   ChapterScreenService(this.databaseService);
 
-  List<ChapterDetailedModel> getChapterDetailedList(int chapterNumber) {
-    Store store = databaseService.getStore()!;
-    Box<ChapterDetailedModel> chapterDetailedModelBox =
-        store.box<ChapterDetailedModel>();
-    QueryBuilder<ChapterDetailedModel> queryBuilder = chapterDetailedModelBox
-        .query(ChapterDetailedModel_.chapterNumber.equals("$chapterNumber"))
-      ..order(ChapterDetailedModel_.verseNumberInt);
-    Query<ChapterDetailedModel> query = queryBuilder.build();
-    List<ChapterDetailedModel>? chapterDetailedList = query.find();
+  Future<List<ChapterDetailedModel>> getChapterDetailedList(int chapterNumber) async {
+    Isar isar = databaseService.getStore()!;
+
+    List<ChapterDetailedModel>? chapterDetailedList = await isar.chapterDetailedModels.filter()
+        .chapterNumberEqualTo("$chapterNumber")
+        .sortByVerseNumberInt()
+        .findAll();
 
     return chapterDetailedList;
   }

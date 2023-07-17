@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:get_it/get_it.dart';
 
-import '../../../models/chapter_detailed_model.dart';
+import '../../../models/ui/chapter_detailed_model_ui.dart';
 import '../../../models/verse_bookmark_model.dart';
-import '../../../objectbox.g.dart';
 import '../../../services/db/database_service.dart';
 import '../services/verse_screen_service.dart';
 
@@ -34,7 +33,7 @@ class VerseScreenProvider extends ChangeNotifier {
       chapterNumber = chapNum;
       verseNumber = verseNum;
       firstTime = !firstTime;
-      fetchBookmarkDetails(verse.chapterNumber, verse.verseNumber);
+      fetchBookmarkDetails(verse.chapterNumber ?? "", verse.verseNumber ?? "");
     }
   }
 

@@ -1,11 +1,11 @@
 import 'package:injectable/injectable.dart';
+import 'package:isar/isar.dart';
 import 'package:sbg/services/db/database_service.dart';
 
 import '../../../models/chapter_detailed_model.dart';
 import '../../../models/chapter_summary_model.dart';
 import '../../../models/last_read_model.dart';
 import '../../../models/verse_bookmark_model.dart';
-import '../../../objectbox.g.dart';
 
 @Singleton()
 class VerseScreenService {
@@ -13,31 +13,33 @@ class VerseScreenService {
 
   VerseScreenService(this.databaseService);
 
-  List<VerseBookmarkModel> fetchBookmarkDetails(
-      String chapterNumber, String verseNumber) {
-    Store store = databaseService.getStore()!;
-    Box<VerseBookmarkModel> verseBookmarkModelBox =
-        store.box<VerseBookmarkModel>();
-    QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
-        VerseBookmarkModel_.verseNumber.equals(verseNumber) &
-            VerseBookmarkModel_.chapterNumber.equals(chapterNumber));
-    Query<VerseBookmarkModel> query = queryBuilder.build();
-    List<VerseBookmarkModel> bookmarkList = query.find();
+  Future<List<VerseBookmarkModel>> fetchBookmarkDetails(
+      String chapterNumber, String verseNumber) async {
+    Isar isar = databaseService.getStore()!;
+
+    List<VerseBookmarkModel> bookmarkList = await isar.verseBookmarkModels.filter()
+        .verseNumberEqualTo(verseNumber)
+        .and()
+        .chapterNumberEqualTo(chapterNumber)
+        .findAll();
 
     return bookmarkList;
   }
 
   void addVerseToLastRead(
       String translation, String chapterNumber, String verseNumber) {
-    Store store = databaseService.getStore()!;
-    Box<LastReadModel> lastReadModelBox = store.box<LastReadModel>();
-    lastReadModelBox.removeAll();
-    lastReadModelBox.put(LastReadModel(
-      lastReadVerseText: translation,
-      lastReadVerseNum: "$chapterNumber.$verseNumber",
-      verseNumber: int.parse(verseNumber),
-      chapterNumber: int.parse(chapterNumber),
-    ));
+    Isar isar = databaseService.getStore()!;
+
+    isar.lastReadModels.where().deleteAll();
+
+    isar.writeTxn(() async {
+      await isar.lastReadModels.put(LastReadModel()
+          ..chapterNumber = int.parse(chapterNumber)
+          ..verseNumber = int.parse(verseNumber)
+          ..lastReadVerseText = translation
+          ..lastReadVerseNum = "$chapterNumber.$verseNumber"
+      );
+    });
   }
 
   ChapterDetailedModel? navigateVerses(
@@ -60,19 +62,16 @@ class VerseScreenService {
     }
   }
 
-  List<ChapterDetailedModel> navigateToNextVerse(
-      int currentChapter, int currentVerse) {
-    Store store = databaseService.getStore()!;
+  Future<List<ChapterDetailedModel>> navigateToNextVerse(
+      int currentChapter, int currentVerse) async {
+    Isar isar = databaseService.getStore()!;
     int nextChapter = currentChapter;
     int nextVerse = currentVerse + 1;
 
-    Box<ChapterSummaryModel> chapterSummaryModelBox =
-        store.box<ChapterSummaryModel>();
-    QueryBuilder<ChapterSummaryModel> queryBuilder =
-        chapterSummaryModelBox.query(ChapterSummaryModel_.chapterNumber
-            .equals((currentChapter).toString()));
-    Query<ChapterSummaryModel> query = queryBuilder.build();
-    List<ChapterSummaryModel>? chapterSummaryList = query.find();
+    List<ChapterSummaryModel>? chapterSummaryList = await isar.chapterSummaryModels.filter()
+        .chapterNumberEqualTo("$currentChapter")
+        .findAll();
+
     var verseCount = chapterSummaryList.first.verseCount;
 
     if (verseCount == currentVerse) {
@@ -80,19 +79,13 @@ class VerseScreenService {
       nextVerse = 1;
     }
 
-    int totalChapter = store.box<ChapterSummaryModel>().getAll().length;
+    int totalChapter = await isar.chapterSummaryModels.count();
 
     List<ChapterDetailedModel> chapterDetailedList = [];
     if (nextChapter > totalChapter == false) {
-      Box<ChapterDetailedModel> chapterDetailedModelBox =
-          store.box<ChapterDetailedModel>();
-      QueryBuilder<ChapterDetailedModel> queryBuilder2 =
-          chapterDetailedModelBox.query(
-              ChapterDetailedModel_.verseNumber.equals((nextVerse).toString()) &
-                  ChapterDetailedModel_.chapterNumber
-                      .equals((nextChapter).toString()));
-      Query<ChapterDetailedModel> query2 = queryBuilder2.build();
-      chapterDetailedList = query2.find();
+      chapterDetailedList = await isar.chapterDetailedModels.filter()
+          .verseNumberEqualTo("$nextChapter")
+          .findAll();
     }
 
     return chapterDetailedList;
@@ -175,22 +168,13 @@ class VerseScreenService {
   }
 
   void removeBookmark(ChapterDetailedModel verseDetails) {
-    Store store = databaseService.getStore()!;
-    Box<VerseBookmarkModel> verseBookmarkModelBox =
-        store.box<VerseBookmarkModel>();
-    QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
-        VerseBookmarkModel_.verseNumber.equals(verseDetails.verseNumber) &
-            VerseBookmarkModel_.chapterNumber
-                .equals(verseDetails.chapterNumber));
-    Query<VerseBookmarkModel> query = queryBuilder.build();
-    List<VerseBookmarkModel>? bookmarkList = query.find();
+    Isar isar = databaseService.getStore()!;
 
-    // debugPrint("Bookmark to be removed: ${bookmarkList[0].id}");
-    // debugPrint(
-    //     "Bookmark length before removal: ${verseBookmarkModelBox.count()}");
+    isar.verseBookmarkModels.filter()
+    .verseNumberEqualTo(verseDetails.verseNumber)
+    .and()
+    .chapterNumberEqualTo(verseDetails.chapterNumber)
+    .deleteAll();
 
-    verseBookmarkModelBox.remove(bookmarkList[0].id);
-    // debugPrint(
-    //     "Bookmark length after removal: ${verseBookmarkModelBox.count()}");
   }
 }

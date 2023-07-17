@@ -9,10 +9,10 @@ class ChapterScreenProvider extends ChangeNotifier {
   bool isNotExpanded = true;
   String expandSummaryText = "READ MORE";
 
-  fetchAll(int chapterNumber) {
+  fetchAll(int chapterNumber) async {
     ChapterScreenService chapterScreenService =
         GetIt.instance.get<ChapterScreenService>();
-    chapterDetailedList =
+    chapterDetailedList = await
         chapterScreenService.getChapterDetailedList(chapterNumber);
     notifyListeners();
   }
