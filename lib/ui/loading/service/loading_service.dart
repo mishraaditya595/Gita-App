@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:isar/isar.dart';
+import 'package:sbg/models/chapter_detailed_model.dart';
+import 'package:sbg/models/chapter_summary_model.dart';
 import 'package:sbg/models/data_sync_model.dart';
 import 'package:sbg/models/verse_bookmark_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +21,12 @@ class LoadingService {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     int? lastModifiedTime = preferences.getInt("LAST_MODIFIED_TIME");
 
-    if(lastModifiedTime == null) {
+    Isar isar = databaseService.getStore()!;
+
+    int chapterCount = await isar.chapterSummaryModels.count();
+    int verseCount = await isar.chapterDetailedModels.count();
+
+    if(lastModifiedTime == null || chapterCount == 0 || verseCount == 0) {
       await load();
       await setLastModifiedTime();
       return await _checkForLoadingStatus();
