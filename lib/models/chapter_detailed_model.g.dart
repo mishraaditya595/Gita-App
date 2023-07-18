@@ -146,16 +146,17 @@ ChapterDetailedModel _chapterDetailedModelDeserialize(
   List<int> offsets,
   Map<Type, List<int>> allOffsets,
 ) {
-  final object = ChapterDetailedModel();
-  object.chapterNumber = reader.readStringOrNull(offsets[0]);
-  object.commentary = reader.readStringOrNull(offsets[1]);
+  final object = ChapterDetailedModel(
+    reader.readStringOrNull(offsets[5]),
+    reader.readStringOrNull(offsets[0]),
+    reader.readStringOrNull(offsets[2]),
+    reader.readStringOrNull(offsets[4]),
+    reader.readStringOrNull(offsets[7]),
+    reader.readStringOrNull(offsets[3]),
+    reader.readStringOrNull(offsets[1]),
+    reader.readLongOrNull(offsets[6]),
+  );
   object.id = id;
-  object.text = reader.readStringOrNull(offsets[2]);
-  object.translation = reader.readStringOrNull(offsets[3]);
-  object.transliteration = reader.readStringOrNull(offsets[4]);
-  object.verseNumber = reader.readStringOrNull(offsets[5]);
-  object.verseNumberInt = reader.readLongOrNull(offsets[6]);
-  object.wordMeanings = reader.readStringOrNull(offsets[7]);
   return object;
 }
 

@@ -14,9 +14,6 @@ import 'package:sbg/ui/loading/screen/loading_screen.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
 
-import 'objectbox.dart';
-
-late ObjectBox objectBox;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

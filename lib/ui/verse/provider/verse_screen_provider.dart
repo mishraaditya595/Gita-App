@@ -37,10 +37,10 @@ class VerseScreenProvider extends ChangeNotifier {
     }
   }
 
-  void fetchBookmarkDetails(String chapterNumber, String verseNumber) {
+  Future<void> fetchBookmarkDetails(String chapterNumber, String verseNumber) async {
     VerseScreenService verseScreenService =
         GetIt.instance.get<VerseScreenService>();
-    List<VerseBookmarkModel>? bookmarkList =
+    List<VerseBookmarkModel>? bookmarkList = await
         verseScreenService.fetchBookmarkDetails(chapterNumber, verseNumber);
 
     if (bookmarkList.isNotEmpty) {
@@ -61,27 +61,27 @@ class VerseScreenProvider extends ChangeNotifier {
         translation, chapterNumber, verseNumber);
   }
 
-  navigateVerses(String operator) {
+  navigateVerses(String operator) async {
     VerseScreenService verseScreenService =
         GetIt.instance.get<VerseScreenService>();
-    ChapterDetailedModel? verse = verseScreenService.navigateVerses(
+    ChapterDetailedModel? verse = await verseScreenService.navigateVerses(
         operator, chapterNumber.toString(), verseNumber.toString());
     if (verse != null) {
       _verseDetails = verse;
-      this.chapterNumber = int.parse(_verseDetails!.chapterNumber);
-      this.verseNumber = int.parse(_verseDetails!.verseNumber);
+      this.chapterNumber = int.parse(_verseDetails!.chapterNumber ?? "0");
+      this.verseNumber = int.parse(_verseDetails!.verseNumber ?? "0");
 
-      if (_verseDetails!.commentary == null ||
-          _verseDetails!.commentary.isEmpty) {
-        isCommentaryAvailable = false;
-      } else {
+      if (_verseDetails!.commentary != null &&
+          _verseDetails!.commentary!.isNotEmpty) {
         isCommentaryAvailable = true;
+      } else {
+        isCommentaryAvailable = false;
       }
 
-      addToLastRead(_verseDetails!.translation, _verseDetails!.chapterNumber,
-          _verseDetails!.verseNumber);
+      addToLastRead(_verseDetails!.translation ?? "", _verseDetails!.chapterNumber ?? "",
+          _verseDetails!.verseNumber ?? "");
       fetchBookmarkDetails(
-          _verseDetails!.chapterNumber, _verseDetails!.verseNumber);
+          _verseDetails!.chapterNumber ?? "", _verseDetails!.verseNumber ?? "");
       notifyListeners();
     }
   }

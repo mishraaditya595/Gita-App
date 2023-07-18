@@ -1,6 +1,11 @@
 import 'package:injectable/injectable.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sbg/models/chapter_detailed_model.dart';
+import 'package:sbg/models/chapter_summary_model.dart';
+import 'package:sbg/models/data_sync_model.dart';
+import 'package:sbg/models/last_read_model.dart';
+import 'package:sbg/models/verse_bookmark_model.dart';
 
 import 'dbstore.dart';
 
@@ -29,7 +34,13 @@ class DatabaseService<T> {
     // }
     final dir = await getApplicationDocumentsDirectory();
     _store = await Isar.open(
-      [],
+      [
+        ChapterDetailedModelSchema,
+        ChapterSummaryModelSchema,
+        DataSyncModelSchema,
+        LastReadModelSchema,
+        VerseBookmarkModelSchema
+      ],
       directory: dir.path,
     );
   }

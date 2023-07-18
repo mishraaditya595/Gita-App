@@ -1,7 +1,7 @@
 import 'package:injectable/injectable.dart';
 import 'package:isar/isar.dart';
 import 'package:sbg/services/db/database_service.dart';
-
+import '../../../models/ui/chapter_detailed_model_ui.dart' as UiModel;
 import '../../../models/chapter_detailed_model.dart';
 import '../../../models/chapter_summary_model.dart';
 import '../../../models/last_read_model.dart';
@@ -42,7 +42,7 @@ class VerseScreenService {
     });
   }
 
-  Future<ChapterDetailedModel?> navigateVerses(
+  Future<UiModel.ChapterDetailedModel?> navigateVerses(
       String operator, String chapterNumber, String verseNumber) async {
     int currentChapter = int.parse(chapterNumber);
     int currentVerse = int.parse(verseNumber);
@@ -55,8 +55,19 @@ class VerseScreenService {
         navigatedVerse = await navigateToPreviousVerse(currentChapter, currentVerse);
         break;
     }
+
+
     if (navigatedVerse.isNotEmpty) {
-      return navigatedVerse.first;
+      return  UiModel.ChapterDetailedModel(
+        verseNumber: navigatedVerse.first.verseNumber,
+        chapterNumber: navigatedVerse.first.chapterNumber,
+        text: navigatedVerse.first.text,
+        transliteration: navigatedVerse.first.transliteration,
+        wordMeanings: navigatedVerse.first.wordMeanings,
+        translation: navigatedVerse.first.translation,
+        commentary: navigatedVerse.first.commentary,
+        verseNumberInt: navigatedVerse.first.verseNumberInt,
+      );
     } else {
       return null;
     }
@@ -127,7 +138,7 @@ class VerseScreenService {
     return chapterDetailedList;
   }
 
-  Future<void> addBookmark(ChapterDetailedModel verseDetails) async {
+  Future<void> addBookmark(UiModel.ChapterDetailedModel verseDetails) async {
     Isar isar = databaseService.getStore()!;
     DateTime currentDateTime = DateTime.now();
 
@@ -154,7 +165,7 @@ class VerseScreenService {
     }
   }
 
-  void removeBookmark(ChapterDetailedModel verseDetails) {
+  void removeBookmark(UiModel.ChapterDetailedModel verseDetails) {
     Isar isar = databaseService.getStore()!;
 
     isar.verseBookmarkModels.filter()
