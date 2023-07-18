@@ -62,7 +62,9 @@ class ChapterDetailedLoader {
     if (res.statusCode == 200) {
       var jsonResp = jsonDecode(res.body);
       // store.box<ChapterDetailedModel>().removeAll();
-      final count = await isar.chapterDetailedModels.clear();
+      if(await isar.chapterDetailedModels.count() > 0) {
+        final count = await isar.chapterDetailedModels.clear();
+      }
       for (int i = 0; i < jsonResp.length; i++) {
         var chapterDetailed = jsonResp[i];
         chapterDetailedList.add(toChapterDetailedModel(chapterDetailed));

@@ -54,7 +54,9 @@ class ChapterSummaryLoader {
     Isar isar = databaseService.getStore()!;
     List<ChapterSummaryModel> chapterSummaryList = [];
     if (res.statusCode == 200) {
-      await isar.chapterSummaryModels.clear();
+      if(await isar.chapterSummaryModels.count() > 0) {
+        await isar.chapterSummaryModels.clear();
+      }
       var jsonResp = jsonDecode(res.body);
       for (int i = 0; i < jsonResp.length; i++) {
         var chapterSummary = jsonResp[i];

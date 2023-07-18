@@ -29,7 +29,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
 
         if(snapshot.connectionState == ConnectionState.done) {
-          FirebasePerformanceService.logTrace("Initial Loader", () => loadAll());
+          // FirebasePerformanceService.logTrace("Initial Loader", () => loadAll());
+          loadAll();
         }
 
         return Scaffold(
