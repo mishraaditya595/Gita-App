@@ -42,17 +42,17 @@ class VerseScreenService {
     });
   }
 
-  ChapterDetailedModel? navigateVerses(
-      String operator, String chapterNumber, String verseNumber) {
+  Future<ChapterDetailedModel?> navigateVerses(
+      String operator, String chapterNumber, String verseNumber) async {
     int currentChapter = int.parse(chapterNumber);
     int currentVerse = int.parse(verseNumber);
     List<ChapterDetailedModel> navigatedVerse = [];
     switch (operator) {
       case "NEXT":
-        navigatedVerse = navigateToNextVerse(currentChapter, currentVerse);
+        navigatedVerse = await navigateToNextVerse(currentChapter, currentVerse);
         break;
       case "PREVIOUS":
-        navigatedVerse = navigateToPreviousVerse(currentChapter, currentVerse);
+        navigatedVerse = await navigateToPreviousVerse(currentChapter, currentVerse);
         break;
     }
     if (navigatedVerse.isNotEmpty) {
@@ -91,79 +91,66 @@ class VerseScreenService {
     return chapterDetailedList;
   }
 
-  List<ChapterDetailedModel> navigateToPreviousVerse(
-      int currentChapter, int currentVerse) {
-    Store store = databaseService.getStore()!;
+  Future<List<ChapterDetailedModel>> navigateToPreviousVerse(
+      int currentChapter, int currentVerse) async {
+    Isar isar = databaseService.getStore()!;
     int previousChapter = currentChapter;
     int previousVerse = currentVerse - 1;
 
-    Box<ChapterSummaryModel> chapterSummaryModelBox =
-        store.box<ChapterSummaryModel>();
-    QueryBuilder<ChapterSummaryModel> queryBuilder =
-        chapterSummaryModelBox.query(ChapterSummaryModel_.chapterNumber
-            .equals((previousChapter).toString()));
-    Query<ChapterSummaryModel> query = queryBuilder.build();
-    List<ChapterSummaryModel>? chapterSummaryList = query.find();
-    // var verseCount = chapterSummaryList.first.verseCount;
+
+    List<ChapterSummaryModel>? chapterSummaryList = await isar.chapterSummaryModels
+        .filter()
+        .chapterNumberEqualTo("$previousChapter")
+        .findAll();
 
     if (currentVerse == 1) {
       previousChapter = currentChapter - 1;
-      // if(previousVerse != 0) {
-      Box<ChapterSummaryModel> chapterSummaryModelBox =
-          store.box<ChapterSummaryModel>();
-      QueryBuilder<ChapterSummaryModel> queryBuilder =
-          chapterSummaryModelBox.query(ChapterSummaryModel_.chapterNumber
-              .equals((previousChapter).toString()));
-      Query<ChapterSummaryModel> query = queryBuilder.build();
-      List<ChapterSummaryModel>? chapterSummaryList = query.find();
+
+      List<ChapterSummaryModel>? chapterSummaryList = await isar.chapterSummaryModels
+          .filter()
+          .chapterNumberEqualTo("$previousChapter")
+          .findAll();
+
       if (chapterSummaryList.isNotEmpty) {
-        previousVerse = chapterSummaryList.first.verseCount;
+        previousVerse = chapterSummaryList.first.verseCount ?? -1;
       }
-      // }
     }
 
     List<ChapterDetailedModel> chapterDetailedList = [];
     if (previousChapter != 0) {
-      Box<ChapterDetailedModel> chapterDetailedModelBox =
-          store.box<ChapterDetailedModel>();
-      QueryBuilder<ChapterDetailedModel> queryBuilder2 =
-          chapterDetailedModelBox.query(ChapterDetailedModel_.verseNumber
-                  .equals((previousVerse).toString()) &
-              ChapterDetailedModel_.chapterNumber
-                  .equals((previousChapter).toString()));
-      Query<ChapterDetailedModel> query2 = queryBuilder2.build();
-      chapterDetailedList = query2.find();
+      chapterDetailedList = await isar.chapterDetailedModels.filter()
+          .verseNumberEqualTo("$previousVerse")
+          .and()
+          .chapterNumberEqualTo("$previousChapter")
+          .findAll();
     }
     return chapterDetailedList;
   }
 
-  void addBookmark(ChapterDetailedModel verseDetails) {
-    Store store = databaseService.getStore()!;
+  Future<void> addBookmark(ChapterDetailedModel verseDetails) async {
+    Isar isar = databaseService.getStore()!;
     DateTime currentDateTime = DateTime.now();
-    Box<VerseBookmarkModel> VerseBookmarkModelBox =
-        store.box<VerseBookmarkModel>();
 
-    Box<VerseBookmarkModel> verseBookmarkModelBox =
-        store.box<VerseBookmarkModel>();
-    QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
-        VerseBookmarkModel_.verseNumber.equals(verseDetails.verseNumber) &
-            VerseBookmarkModel_.chapterNumber
-                .equals(verseDetails.chapterNumber));
-    Query<VerseBookmarkModel> query = queryBuilder.build();
-    List<VerseBookmarkModel>? bookmarkList = query.find();
-    // debugPrint("Bookmark List length: ${bookmarkList.length}");
+    List<VerseBookmarkModel>? bookmarkList = await isar.verseBookmarkModels.filter()
+        .verseNumberEqualTo(verseDetails.verseNumber)
+        .and()
+        .chapterNumberEqualTo(verseDetails.chapterNumber).findAll();
+
     if (bookmarkList.isEmpty) {
       // <--- add bookmark to the table as it is not present already --->
-      VerseBookmarkModelBox.put(VerseBookmarkModel(
-          verseNumber: verseDetails.verseNumber,
-          chapterNumber: verseDetails.chapterNumber,
-          text: verseDetails.text,
-          transliteration: verseDetails.transliteration,
-          wordMeanings: verseDetails.wordMeanings,
-          translation: verseDetails.translation,
-          commentary: verseDetails.commentary,
-          verseNumberInt: verseDetails.verseNumberInt,
-          creationTime: currentDateTime.microsecondsSinceEpoch));
+      isar.writeTxn(() async {
+        await isar.verseBookmarkModels.put(
+            VerseBookmarkModel()
+                ..verseNumber = verseDetails.verseNumber
+            ..chapterNumber = verseDetails.chapterNumber
+            ..text = verseDetails.text
+            ..transliteration = verseDetails.transliteration
+            ..wordMeanings = verseDetails.wordMeanings
+            ..translation = verseDetails.translation
+            ..commentary = verseDetails.commentary
+            ..verseNumberInt = verseDetails.verseNumberInt
+            ..creationTime = currentDateTime.microsecondsSinceEpoch);
+      });
     }
   }
 
