@@ -170,11 +170,13 @@ class VerseScreenService {
   void removeBookmark(UiModel.ChapterDetailedModel verseDetails) {
     Isar isar = databaseService.getStore()!;
 
-    isar.verseBookmarkModels.filter()
-    .verseNumberEqualTo(verseDetails.verseNumber)
-    .and()
-    .chapterNumberEqualTo(verseDetails.chapterNumber)
-    .deleteAll();
+    isar.writeTxn(() async {
+      await isar.verseBookmarkModels.filter()
+          .verseNumberEqualTo(verseDetails.verseNumber)
+          .and()
+          .chapterNumberEqualTo(verseDetails.chapterNumber)
+          .deleteAll();
+    });
 
   }
 }
