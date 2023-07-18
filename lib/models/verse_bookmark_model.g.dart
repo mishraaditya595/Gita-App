@@ -14,52 +14,52 @@ extension GetVerseBookmarkModelCollection on Isar {
       this.collection();
 }
 
-const VerseBookmarkModelSchema = CollectionSchema(
+final VerseBookmarkModelSchema = CollectionSchema(
   name: r'VerseBookmarkModel',
-  id: -2019871168349878730,
+  id: BigInt.parse("-2019871168349878730").toInt(),
   properties: {
     r'chapterNumber': PropertySchema(
-      id: 0,
+      id: BigInt.parse("0").toInt(),
       name: r'chapterNumber',
       type: IsarType.string,
     ),
     r'commentary': PropertySchema(
-      id: 1,
+      id: BigInt.parse("1").toInt(),
       name: r'commentary',
       type: IsarType.string,
     ),
     r'creationTime': PropertySchema(
-      id: 2,
+      id: BigInt.parse("2").toInt(),
       name: r'creationTime',
       type: IsarType.long,
     ),
     r'text': PropertySchema(
-      id: 3,
+      id: BigInt.parse("3").toInt(),
       name: r'text',
       type: IsarType.string,
     ),
     r'translation': PropertySchema(
-      id: 4,
+      id: BigInt.parse("4").toInt(),
       name: r'translation',
       type: IsarType.string,
     ),
     r'transliteration': PropertySchema(
-      id: 5,
+      id: BigInt.parse("5").toInt(),
       name: r'transliteration',
       type: IsarType.string,
     ),
     r'verseNumber': PropertySchema(
-      id: 6,
+      id: BigInt.parse("6").toInt(),
       name: r'verseNumber',
       type: IsarType.string,
     ),
     r'verseNumberInt': PropertySchema(
-      id: 7,
+      id: BigInt.parse("7").toInt(),
       name: r'verseNumberInt',
       type: IsarType.long,
     ),
     r'wordMeanings': PropertySchema(
-      id: 8,
+      id: BigInt.parse("8").toInt(),
       name: r'wordMeanings',
       type: IsarType.string,
     )
@@ -75,7 +75,7 @@ const VerseBookmarkModelSchema = CollectionSchema(
   getId: _verseBookmarkModelGetId,
   getLinks: _verseBookmarkModelGetLinks,
   attach: _verseBookmarkModelAttach,
-  version: '3.1.0+1',
+  version: '3.1.0',
 );
 
 int _verseBookmarkModelEstimateSize(

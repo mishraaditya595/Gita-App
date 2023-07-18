@@ -13,27 +13,27 @@ extension GetLastReadModelCollection on Isar {
   IsarCollection<LastReadModel> get lastReadModels => this.collection();
 }
 
-const LastReadModelSchema = CollectionSchema(
+final LastReadModelSchema = CollectionSchema(
   name: r'LastReadModel',
-  id: 8180444031845871040,
+  id: BigInt.parse("8180444031845871040").toInt(),
   properties: {
     r'chapterNumber': PropertySchema(
-      id: 0,
+      id: BigInt.parse("0").toInt(),
       name: r'chapterNumber',
       type: IsarType.long,
     ),
     r'lastReadVerseNum': PropertySchema(
-      id: 1,
+      id: BigInt.parse("1").toInt(),
       name: r'lastReadVerseNum',
       type: IsarType.string,
     ),
     r'lastReadVerseText': PropertySchema(
-      id: 2,
+      id: BigInt.parse("2").toInt(),
       name: r'lastReadVerseText',
       type: IsarType.string,
     ),
     r'verseNumber': PropertySchema(
-      id: 3,
+      id: BigInt.parse("3").toInt(),
       name: r'verseNumber',
       type: IsarType.long,
     )
@@ -49,7 +49,7 @@ const LastReadModelSchema = CollectionSchema(
   getId: _lastReadModelGetId,
   getLinks: _lastReadModelGetLinks,
   attach: _lastReadModelAttach,
-  version: '3.1.0+1',
+  version: '3.1.0',
 );
 
 int _lastReadModelEstimateSize(

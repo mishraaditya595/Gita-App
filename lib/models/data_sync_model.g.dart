@@ -13,17 +13,17 @@ extension GetDataSyncModelCollection on Isar {
   IsarCollection<DataSyncModel> get dataSyncModels => this.collection();
 }
 
-const DataSyncModelSchema = CollectionSchema(
+final DataSyncModelSchema = CollectionSchema(
   name: r'DataSyncModel',
-  id: 1492458100214030889,
+  id: BigInt.parse("1492458100214030889").toInt(),
   properties: {
     r'name': PropertySchema(
-      id: 0,
+      id: BigInt.parse("0").toInt(),
       name: r'name',
       type: IsarType.string,
     ),
     r'successStatus': PropertySchema(
-      id: 1,
+      id: BigInt.parse("1").toInt(),
       name: r'successStatus',
       type: IsarType.bool,
     )
@@ -39,7 +39,7 @@ const DataSyncModelSchema = CollectionSchema(
   getId: _dataSyncModelGetId,
   getLinks: _dataSyncModelGetLinks,
   attach: _dataSyncModelAttach,
-  version: '3.1.0+1',
+  version: '3.1.0',
 );
 
 int _dataSyncModelEstimateSize(

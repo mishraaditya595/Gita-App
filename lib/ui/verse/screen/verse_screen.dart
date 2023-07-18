@@ -9,7 +9,6 @@ import 'package:sbg/utils/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/ui/chapter_detailed_model_ui.dart';
-import '../../../objectbox.dart';
 import '../../../services/db/database_service.dart';
 import '../provider/verse_screen_provider.dart';
 

@@ -14,47 +14,47 @@ extension GetChapterSummaryModelCollection on Isar {
       this.collection();
 }
 
-const ChapterSummaryModelSchema = CollectionSchema(
+final ChapterSummaryModelSchema = CollectionSchema(
   name: r'ChapterSummaryModel',
-  id: -4973645032933431852,
+  id: BigInt.parse("-4973645032933431852").toInt(),
   properties: {
     r'chapterNumber': PropertySchema(
-      id: 0,
+      id: BigInt.parse("0").toInt(),
       name: r'chapterNumber',
       type: IsarType.string,
     ),
     r'chapterNumberInt': PropertySchema(
-      id: 1,
+      id: BigInt.parse("1").toInt(),
       name: r'chapterNumberInt',
       type: IsarType.long,
     ),
     r'name': PropertySchema(
-      id: 2,
+      id: BigInt.parse("2").toInt(),
       name: r'name',
       type: IsarType.string,
     ),
     r'nameMeaning': PropertySchema(
-      id: 3,
+      id: BigInt.parse("3").toInt(),
       name: r'nameMeaning',
       type: IsarType.string,
     ),
     r'nameTranslated': PropertySchema(
-      id: 4,
+      id: BigInt.parse("4").toInt(),
       name: r'nameTranslated',
       type: IsarType.string,
     ),
     r'summary': PropertySchema(
-      id: 5,
+      id: BigInt.parse("5").toInt(),
       name: r'summary',
       type: IsarType.string,
     ),
     r'summaryHindi': PropertySchema(
-      id: 6,
+      id: BigInt.parse("6").toInt(),
       name: r'summaryHindi',
       type: IsarType.string,
     ),
     r'verseCount': PropertySchema(
-      id: 7,
+      id: BigInt.parse("7").toInt(),
       name: r'verseCount',
       type: IsarType.long,
     )
@@ -70,7 +70,7 @@ const ChapterSummaryModelSchema = CollectionSchema(
   getId: _chapterSummaryModelGetId,
   getLinks: _chapterSummaryModelGetLinks,
   attach: _chapterSummaryModelAttach,
-  version: '3.1.0+1',
+  version: '3.1.0',
 );
 
 int _chapterSummaryModelEstimateSize(

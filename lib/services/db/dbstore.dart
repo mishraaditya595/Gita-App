@@ -1,5 +1,4 @@
 import 'package:injectable/injectable.dart';
-import 'package:objectbox/objectbox.dart';
 
 
 // @Singleton()

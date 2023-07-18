@@ -14,47 +14,47 @@ extension GetChapterDetailedModelCollection on Isar {
       this.collection();
 }
 
-const ChapterDetailedModelSchema = CollectionSchema(
+final ChapterDetailedModelSchema = CollectionSchema(
   name: r'ChapterDetailedModel',
-  id: -8535983497663087275,
+  id: BigInt.parse("-8535983497663087275").toInt(),
   properties: {
     r'chapterNumber': PropertySchema(
-      id: 0,
+      id: BigInt.parse("0").toInt(),
       name: r'chapterNumber',
       type: IsarType.string,
     ),
     r'commentary': PropertySchema(
-      id: 1,
+      id: BigInt.parse("1").toInt(),
       name: r'commentary',
       type: IsarType.string,
     ),
     r'text': PropertySchema(
-      id: 2,
+      id: BigInt.parse("2").toInt(),
       name: r'text',
       type: IsarType.string,
     ),
     r'translation': PropertySchema(
-      id: 3,
+      id: BigInt.parse("3").toInt(),
       name: r'translation',
       type: IsarType.string,
     ),
     r'transliteration': PropertySchema(
-      id: 4,
+      id: BigInt.parse("4").toInt(),
       name: r'transliteration',
       type: IsarType.string,
     ),
     r'verseNumber': PropertySchema(
-      id: 5,
+      id: BigInt.parse("5").toInt(),
       name: r'verseNumber',
       type: IsarType.string,
     ),
     r'verseNumberInt': PropertySchema(
-      id: 6,
+      id: BigInt.parse("6").toInt(),
       name: r'verseNumberInt',
       type: IsarType.long,
     ),
     r'wordMeanings': PropertySchema(
-      id: 7,
+      id: BigInt.parse("7").toInt(),
       name: r'wordMeanings',
       type: IsarType.string,
     )
@@ -70,7 +70,7 @@ const ChapterDetailedModelSchema = CollectionSchema(
   getId: _chapterDetailedModelGetId,
   getLinks: _chapterDetailedModelGetLinks,
   attach: _chapterDetailedModelAttach,
-  version: '3.1.0+1',
+  version: '3.1.0',
 );
 
 int _chapterDetailedModelEstimateSize(

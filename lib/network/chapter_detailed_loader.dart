@@ -5,10 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:isar/isar.dart';
-// import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
-import 'package:sbg/models/chapter_summary_model.dart';
-// import 'package:sbg/objectbox.dart';
 import 'package:sbg/services/db/database_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
