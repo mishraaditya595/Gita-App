@@ -95,7 +95,9 @@ class VerseScreenService {
     List<ChapterDetailedModel> chapterDetailedList = [];
     if (nextChapter > totalChapter == false) {
       chapterDetailedList = await isar.chapterDetailedModels.filter()
-          .verseNumberEqualTo("$nextChapter")
+          .verseNumberEqualTo("$nextVerse")
+      .and()
+      .chapterNumberEqualTo("$nextChapter")
           .findAll();
     }
 
