@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/chapter_summary_model.dart';
 import 'package:sbg/models/data_sync_model.dart';
-import 'package:sbg/objectbox.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../services/db/database_service.dart';
@@ -17,10 +17,11 @@ class ChapterSummaryLoader {
 
   getDataFromDB() async {
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
-    Store store = databaseService.getStore()!;
 
-    Box<DataSyncModel> dataSyncBox = store.box<DataSyncModel>();
-    dataSyncBox.put(DataSyncModel(name: tableName, successStatus: false));
+    Box<DataSyncModel> dataSyncBox =
+    databaseService.getStore<DataSyncModel>(describeEnum(DbModel.DataSyncModel));
+
+    dataSyncBox.add(DataSyncModel(name: tableName, successStatus: false));
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? baseUri = prefs.getString("SUPABASE_URI");
@@ -36,12 +37,14 @@ class ChapterSummaryLoader {
 
       await addDataToLocalDb(res);
     }
-    dataSyncBox.put(DataSyncModel(name: tableName, successStatus: true));
+    dataSyncBox.add(DataSyncModel(name: tableName, successStatus: true));
   }
 
   Future<void> addDataToLocalDb(Response res) async {
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
-    Store store = databaseService.getStore()!;
+    Box<ChapterSummaryModel> chapterSummaryModelBox =
+    databaseService.getStore<ChapterSummaryModel>(describeEnum(DbModel.ChapterSummaryModel));
+
     List<ChapterSummaryModel> chapterSummaryList = [];
     if (res.statusCode == 200) {
       var jsonResp = jsonDecode(res.body);
@@ -49,9 +52,9 @@ class ChapterSummaryLoader {
         var chapterSummary = jsonResp[i];
         chapterSummaryList.add(toChapterSummaryModel(chapterSummary));
       }
-      store.box<ChapterSummaryModel>().removeAll();
-      store.box<ChapterSummaryModel>().putMany(chapterSummaryList);
-      log("Chapter Summary Loaded: ${store.box<ChapterSummaryModel>().getAll().length}");
+      await chapterSummaryModelBox.clear();
+      chapterSummaryModelBox.addAll(chapterSummaryList);
+      log("Chapter Summary Loaded: ${chapterSummaryModelBox.values.toList().length}");
     }
   }
 

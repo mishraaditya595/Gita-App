@@ -1,13 +1,12 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
-import 'package:objectbox/objectbox.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
-import 'package:sbg/models/chapter_summary_model.dart';
-import 'package:sbg/objectbox.dart';
 import 'package:sbg/services/db/database_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,10 +17,11 @@ class ChapterDetailedLoader {
 
   getDataFromDB() async {
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
-    Store store = databaseService.getStore()!;
 
-    Box<DataSyncModel> dataSyncBox = store.box<DataSyncModel>();
-    dataSyncBox.put(DataSyncModel(name: tableName, successStatus: false));
+    Box<DataSyncModel> dataSyncBox =
+    databaseService.getStore<DataSyncModel>(describeEnum(DbModel.DataSyncModel));
+
+    dataSyncBox.add(DataSyncModel(name: tableName, successStatus: false));
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? baseUri = prefs.getString("SUPABASE_URI");
@@ -37,12 +37,15 @@ class ChapterDetailedLoader {
 
       await addDataToLocalDb(res);
     }
-    dataSyncBox.put(DataSyncModel(name: tableName, successStatus: true));
+    dataSyncBox.add(DataSyncModel(name: tableName, successStatus: true));
   }
 
   Future<void> addDataToLocalDb(Response res) async {
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
-    Store store = databaseService.getStore()!;
+
+    Box<ChapterDetailedModel> chapterDetailedModelBox =
+    databaseService.getStore<ChapterDetailedModel>(describeEnum(DbModel.ChapterDetailedModel));
+
     List<ChapterDetailedModel> chapterDetailedList = [];
     if (res.statusCode == 200) {
       var jsonResp = jsonDecode(res.body);
@@ -50,9 +53,9 @@ class ChapterDetailedLoader {
         var chapterDetailed = jsonResp[i];
         chapterDetailedList.add(toChapterDetailedModel(chapterDetailed));
       }
-      store.box<ChapterDetailedModel>().removeAll();
-      store.box<ChapterDetailedModel>().putMany(chapterDetailedList);
-      log("Chapter Detailed Loaded: ${store.box<ChapterDetailedModel>().getAll().length}");
+      await chapterDetailedModelBox.clear();
+      chapterDetailedModelBox.addAll(chapterDetailedList);
+      log("Chapter Detailed Loaded: ${chapterDetailedModelBox.values.toList().length}");
     }
   }
 
