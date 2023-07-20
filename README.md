@@ -1,4 +1,4 @@
-![image](https://github.com/mishraaditya595/Gita-App/assets/54946784/f14f7f07-776c-4927-a45e-5a21ae8112e3)![image](https://github.com/mishraaditya595/Gita-App/assets/54946784/81f362c8-fce6-455f-9a43-354bdc906bff)# Gita - The Song of Bhagwad
+# Gita - The Song of Bhagwad
 
 A mobile application on the Srimad Bhagwad Gita using Flutter.
 
