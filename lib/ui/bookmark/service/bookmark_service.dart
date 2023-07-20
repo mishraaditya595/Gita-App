@@ -1,7 +1,8 @@
+import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../models/verse_bookmark_model.dart';
-import '../../../objectbox.g.dart';
 import '../../../services/db/database_service.dart';
 
 @Singleton()
@@ -11,29 +12,26 @@ class BookmarkService {
   BookmarkService(this.databaseService);
 
   List<VerseBookmarkModel> fetchAllBookmarks() {
-    Store store = databaseService.getStore()!;
-    Box<VerseBookmarkModel> chapterDetailedModelBox =
-    store.box<VerseBookmarkModel>();
+    Box<VerseBookmarkModel> verseBookmarkModelBox =
+    databaseService.getStore<VerseBookmarkModel>(describeEnum(DbModel.VerseBookmarkModel));
     List<VerseBookmarkModel>? verseBookmarkModelList =
-    chapterDetailedModelBox.getAll();
+    verseBookmarkModelBox.values.toList();
 
     return verseBookmarkModelList;
   }
 
   List<VerseBookmarkModel> removeBookmark(String verseNumber, String chapterNumber) {
-    Store store = databaseService.getStore()!;
     Box<VerseBookmarkModel> verseBookmarkModelBox =
-    store.box<VerseBookmarkModel>();
-    QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
-        VerseBookmarkModel_.verseNumber.equals(verseNumber) &
-        VerseBookmarkModel_.chapterNumber.equals(chapterNumber));
-    Query<VerseBookmarkModel> query = queryBuilder.build();
-    List<VerseBookmarkModel>? bookmarkList = query.find();
+    databaseService.getStore<VerseBookmarkModel>(describeEnum(DbModel.VerseBookmarkModel));
 
+    List<VerseBookmarkModel>? bookmarkList = verseBookmarkModelBox.values.where(
+            (element) =>
+               element.chapterNumber == chapterNumber &&
+                   element.verseNumber == verseNumber).toList();
 
-    verseBookmarkModelBox.remove(bookmarkList[0].id);
+    verseBookmarkModelBox.delete(bookmarkList[0].id);
 
-    bookmarkList = verseBookmarkModelBox.getAll();
+    bookmarkList = verseBookmarkModelBox.values.toList();
 
     return bookmarkList;
   }
