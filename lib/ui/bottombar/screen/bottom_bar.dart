@@ -80,29 +80,34 @@ class _BottomBarState extends State<BottomBar> {
         bottomNavigationBar: Material(
           elevation: 10,
           child:
-          BottomNavigationBar(
-            elevation: 10,
-            currentIndex: selectedIndex,
-            backgroundColor: Colors.white,
-            type: BottomNavigationBarType.fixed,
-            selectedLabelStyle: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.deepOrange),
-            unselectedLabelStyle:
-            const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
-            selectedIconTheme:
-            const IconThemeData(color: Colors.deepOrange, size: 30),
-            unselectedIconTheme: const IconThemeData(
-              color: Colors.grey,
+          Container(
+            height: 65,
+            child: BottomNavigationBar(
+              elevation: 10,
+              currentIndex: selectedIndex,
+              backgroundColor: HexColor(ColourConstants.backgroundWhite),
+              type: BottomNavigationBarType.fixed,
+              selectedLabelStyle:  TextStyle(
+                  fontWeight: FontWeight.bold, color: HexColor(ColourConstants.antiqueBrass)),
+              unselectedLabelStyle:
+              const TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+              selectedIconTheme:
+              IconThemeData(color: HexColor(ColourConstants.antiqueBrass), size: 30),
+              unselectedIconTheme: const IconThemeData(
+                color: Colors.grey,
+              ),
+              showUnselectedLabels: false,
+              showSelectedLabels: false,
+              onTap: _onItemTapped,
+              items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.bookmark), label: ""),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.question_mark), label: ""),
+                // BottomNavigationBarItem(icon: Icon(Icons.more), label: "More"),
+              ],
             ),
-            onTap: _onItemTapped,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.bookmark), label: "Bookmarks"),
-              BottomNavigationBarItem(
-                  icon: Icon(Icons.question_mark), label: "About"),
-              // BottomNavigationBarItem(icon: Icon(Icons.more), label: "More"),
-            ],
           ),
 
           // CurvedNavigationBar(

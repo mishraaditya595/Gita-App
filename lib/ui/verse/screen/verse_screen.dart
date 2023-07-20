@@ -114,7 +114,7 @@ class _VerseScreenState extends State<VerseScreen> {
                               provider.verseDetails.transliteration ?? '',
                               textAlign: TextAlign.center,
                               style:
-                                  const TextStyle(fontWeight: FontWeight.w600),
+                                  const TextStyle(fontWeight: FontWeight.w400),
                             ),
                             const SizedBox(
                               height: 20,
@@ -135,8 +135,7 @@ class _VerseScreenState extends State<VerseScreen> {
                             ),
                             Text(
                               provider.verseDetails.wordMeanings ?? '',
-                              textAlign: TextAlign.justify,
-                              style: TextStyle(fontWeight: FontWeight.w600),
+                              style: TextStyle(fontWeight: FontWeight.w400),
                             ),
                             const SizedBox(
                               height: 20,
@@ -159,7 +158,7 @@ class _VerseScreenState extends State<VerseScreen> {
                               provider.verseDetails.translation ?? '',
                               textAlign: TextAlign.start,
                               style:
-                                  const TextStyle(fontWeight: FontWeight.w600),
+                                  const TextStyle(fontWeight: FontWeight.w400),
                             ),
                             Visibility(
                               visible: provider.isCommentaryAvailable,
@@ -187,7 +186,7 @@ class _VerseScreenState extends State<VerseScreen> {
                                     provider.verseDetails.commentary ?? '',
                                     textAlign: TextAlign.start,
                                     style:
-                                        TextStyle(fontWeight: FontWeight.w600),
+                                        TextStyle(fontWeight: FontWeight.w400),
                                   ),
                                 ],
                               ),
