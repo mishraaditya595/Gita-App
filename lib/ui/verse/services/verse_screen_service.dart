@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sbg/services/db/database_service.dart';
 
@@ -5,7 +7,6 @@ import '../../../models/chapter_detailed_model.dart';
 import '../../../models/chapter_summary_model.dart';
 import '../../../models/last_read_model.dart';
 import '../../../models/verse_bookmark_model.dart';
-import '../../../objectbox.g.dart';
 
 @Singleton()
 class VerseScreenService {
@@ -15,24 +16,23 @@ class VerseScreenService {
 
   List<VerseBookmarkModel> fetchBookmarkDetails(
       String chapterNumber, String verseNumber) {
-    Store store = databaseService.getStore()!;
     Box<VerseBookmarkModel> verseBookmarkModelBox =
-        store.box<VerseBookmarkModel>();
-    QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
-        VerseBookmarkModel_.verseNumber.equals(verseNumber) &
-            VerseBookmarkModel_.chapterNumber.equals(chapterNumber));
-    Query<VerseBookmarkModel> query = queryBuilder.build();
-    List<VerseBookmarkModel> bookmarkList = query.find();
+        databaseService.getStore<VerseBookmarkModel>(describeEnum(DbModel.VerseBookmarkModel));
+
+    List<VerseBookmarkModel> bookmarkList = verseBookmarkModelBox.values.where(
+            (element) =>
+            element.verseNumber == verseNumber &&
+                element.chapterNumber == chapterNumber).toList();
 
     return bookmarkList;
   }
 
-  void addVerseToLastRead(
-      String translation, String chapterNumber, String verseNumber) {
-    Store store = databaseService.getStore()!;
-    Box<LastReadModel> lastReadModelBox = store.box<LastReadModel>();
-    lastReadModelBox.removeAll();
-    lastReadModelBox.put(LastReadModel(
+  Future<void> addVerseToLastRead(
+      String translation, String chapterNumber, String verseNumber) async {
+    Box<LastReadModel> lastReadModelBox = databaseService.getStore<LastReadModel>(describeEnum(DbModel.LastReadModel));
+    await lastReadModelBox.clear();
+
+    lastReadModelBox.add(LastReadModel(
       lastReadVerseText: translation,
       lastReadVerseNum: "$chapterNumber.$verseNumber",
       verseNumber: int.parse(verseNumber),
@@ -62,17 +62,16 @@ class VerseScreenService {
 
   List<ChapterDetailedModel> navigateToNextVerse(
       int currentChapter, int currentVerse) {
-    Store store = databaseService.getStore()!;
     int nextChapter = currentChapter;
     int nextVerse = currentVerse + 1;
 
     Box<ChapterSummaryModel> chapterSummaryModelBox =
-        store.box<ChapterSummaryModel>();
-    QueryBuilder<ChapterSummaryModel> queryBuilder =
-        chapterSummaryModelBox.query(ChapterSummaryModel_.chapterNumber
-            .equals((currentChapter).toString()));
-    Query<ChapterSummaryModel> query = queryBuilder.build();
-    List<ChapterSummaryModel>? chapterSummaryList = query.find();
+        databaseService.getStore<ChapterSummaryModel>(describeEnum(DbModel.ChapterSummaryModel));
+
+    List<ChapterSummaryModel>? chapterSummaryList = chapterSummaryModelBox.values.where(
+            (element) =>
+            element.chapterNumber == currentChapter.toString()).toList();
+
     var verseCount = chapterSummaryList.first.verseCount;
 
     if (verseCount == currentVerse) {
@@ -80,19 +79,17 @@ class VerseScreenService {
       nextVerse = 1;
     }
 
-    int totalChapter = store.box<ChapterSummaryModel>().getAll().length;
+    int totalChapter = chapterSummaryModelBox.values.toList().length;
 
     List<ChapterDetailedModel> chapterDetailedList = [];
     if (nextChapter > totalChapter == false) {
       Box<ChapterDetailedModel> chapterDetailedModelBox =
-          store.box<ChapterDetailedModel>();
-      QueryBuilder<ChapterDetailedModel> queryBuilder2 =
-          chapterDetailedModelBox.query(
-              ChapterDetailedModel_.verseNumber.equals((nextVerse).toString()) &
-                  ChapterDetailedModel_.chapterNumber
-                      .equals((nextChapter).toString()));
-      Query<ChapterDetailedModel> query2 = queryBuilder2.build();
-      chapterDetailedList = query2.find();
+          databaseService.getStore<ChapterDetailedModel>(describeEnum(DbModel.ChapterDetailedModel));
+
+      chapterDetailedList = chapterDetailedModelBox.values.where(
+              (element) =>
+              element.verseNumber == nextVerse.toString() &&
+                  element.chapterNumber == nextChapter.toString()).toList();
     }
 
     return chapterDetailedList;
@@ -100,68 +97,61 @@ class VerseScreenService {
 
   List<ChapterDetailedModel> navigateToPreviousVerse(
       int currentChapter, int currentVerse) {
-    Store store = databaseService.getStore()!;
     int previousChapter = currentChapter;
     int previousVerse = currentVerse - 1;
 
     Box<ChapterSummaryModel> chapterSummaryModelBox =
-        store.box<ChapterSummaryModel>();
-    QueryBuilder<ChapterSummaryModel> queryBuilder =
-        chapterSummaryModelBox.query(ChapterSummaryModel_.chapterNumber
-            .equals((previousChapter).toString()));
-    Query<ChapterSummaryModel> query = queryBuilder.build();
-    List<ChapterSummaryModel>? chapterSummaryList = query.find();
-    // var verseCount = chapterSummaryList.first.verseCount;
+    databaseService.getStore<ChapterSummaryModel>(describeEnum(DbModel.ChapterSummaryModel));
+
+    List<ChapterSummaryModel>? chapterSummaryList = chapterSummaryModelBox.values.where(
+            (element) => element.chapterNumber == previousChapter.toString()).toList();
+    var verseCount = chapterSummaryList.first.verseCount;
 
     if (currentVerse == 1) {
       previousChapter = currentChapter - 1;
       // if(previousVerse != 0) {
       Box<ChapterSummaryModel> chapterSummaryModelBox =
-          store.box<ChapterSummaryModel>();
-      QueryBuilder<ChapterSummaryModel> queryBuilder =
-          chapterSummaryModelBox.query(ChapterSummaryModel_.chapterNumber
-              .equals((previousChapter).toString()));
-      Query<ChapterSummaryModel> query = queryBuilder.build();
-      List<ChapterSummaryModel>? chapterSummaryList = query.find();
+          databaseService.getStore<ChapterSummaryModel>(describeEnum(DbModel.ChapterSummaryModel));
+      // QueryBuilder<ChapterSummaryModel> queryBuilder =
+      //     chapterSummaryModelBox.query(ChapterSummaryModel_.chapterNumber
+      //         .equals((previousChapter).toString()));
+      // Query<ChapterSummaryModel> query = queryBuilder.build();
+      List<ChapterSummaryModel>? chapterSummaryList = chapterSummaryModelBox.values.where(
+              (element) => element.chapterNumber == previousChapter.toString()).toList();
+
       if (chapterSummaryList.isNotEmpty) {
         previousVerse = chapterSummaryList.first.verseCount;
       }
-      // }
     }
 
     List<ChapterDetailedModel> chapterDetailedList = [];
     if (previousChapter != 0) {
       Box<ChapterDetailedModel> chapterDetailedModelBox =
-          store.box<ChapterDetailedModel>();
-      QueryBuilder<ChapterDetailedModel> queryBuilder2 =
-          chapterDetailedModelBox.query(ChapterDetailedModel_.verseNumber
-                  .equals((previousVerse).toString()) &
-              ChapterDetailedModel_.chapterNumber
-                  .equals((previousChapter).toString()));
-      Query<ChapterDetailedModel> query2 = queryBuilder2.build();
-      chapterDetailedList = query2.find();
+          databaseService.getStore<ChapterDetailedModel>(describeEnum(DbModel.ChapterDetailedModel));
+
+      chapterDetailedList = chapterDetailedModelBox.values.where(
+              (element) =>
+              element.verseNumber == previousVerse.toString() &&
+          element.chapterNumber == previousChapter.toString()
+      ).toList();
     }
     return chapterDetailedList;
   }
 
   void addBookmark(ChapterDetailedModel verseDetails) {
-    Store store = databaseService.getStore()!;
     DateTime currentDateTime = DateTime.now();
-    Box<VerseBookmarkModel> VerseBookmarkModelBox =
-        store.box<VerseBookmarkModel>();
 
     Box<VerseBookmarkModel> verseBookmarkModelBox =
-        store.box<VerseBookmarkModel>();
-    QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
-        VerseBookmarkModel_.verseNumber.equals(verseDetails.verseNumber) &
-            VerseBookmarkModel_.chapterNumber
-                .equals(verseDetails.chapterNumber));
-    Query<VerseBookmarkModel> query = queryBuilder.build();
-    List<VerseBookmarkModel>? bookmarkList = query.find();
-    // debugPrint("Bookmark List length: ${bookmarkList.length}");
+        databaseService.getStore<VerseBookmarkModel>(describeEnum(DbModel.VerseBookmarkModel));
+
+    List<VerseBookmarkModel>? bookmarkList = verseBookmarkModelBox.values.where(
+            (element) =>
+            element.verseNumber == verseDetails.verseNumber &&
+                element.chapterNumber == verseDetails.chapterNumber).toList();
+
     if (bookmarkList.isEmpty) {
       // <--- add bookmark to the table as it is not present already --->
-      VerseBookmarkModelBox.put(VerseBookmarkModel(
+      verseBookmarkModelBox.add(VerseBookmarkModel(
           verseNumber: verseDetails.verseNumber,
           chapterNumber: verseDetails.chapterNumber,
           text: verseDetails.text,
@@ -174,23 +164,17 @@ class VerseScreenService {
     }
   }
 
-  void removeBookmark(ChapterDetailedModel verseDetails) {
-    Store store = databaseService.getStore()!;
+  Future<void> removeBookmark(ChapterDetailedModel verseDetails) async {
     Box<VerseBookmarkModel> verseBookmarkModelBox =
-        store.box<VerseBookmarkModel>();
-    QueryBuilder<VerseBookmarkModel> queryBuilder = verseBookmarkModelBox.query(
-        VerseBookmarkModel_.verseNumber.equals(verseDetails.verseNumber) &
-            VerseBookmarkModel_.chapterNumber
-                .equals(verseDetails.chapterNumber));
-    Query<VerseBookmarkModel> query = queryBuilder.build();
-    List<VerseBookmarkModel>? bookmarkList = query.find();
+    databaseService.getStore<VerseBookmarkModel>(describeEnum(DbModel.VerseBookmarkModel));
 
-    // debugPrint("Bookmark to be removed: ${bookmarkList[0].id}");
-    // debugPrint(
-    //     "Bookmark length before removal: ${verseBookmarkModelBox.count()}");
+    List<VerseBookmarkModel>? bookmarkList = verseBookmarkModelBox.values.where(
+            (element) =>
+        element.verseNumber == verseDetails.verseNumber &&
+            element.chapterNumber == verseDetails.chapterNumber).toList();
 
-    verseBookmarkModelBox.remove(bookmarkList[0].id);
-    // debugPrint(
-    //     "Bookmark length after removal: ${verseBookmarkModelBox.count()}");
+
+    await verseBookmarkModelBox.delete(bookmarkList[0].id);
+
   }
 }

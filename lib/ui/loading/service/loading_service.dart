@@ -1,11 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sbg/models/data_sync_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../network/chapter_detailed_loader.dart';
 import '../../../network/chapter_summary_loader.dart';
-import '../../../objectbox.g.dart';
 import '../../../services/db/database_service.dart';
 
 @Singleton()
@@ -38,8 +39,11 @@ class LoadingService {
   }
 
   Future<void> load() async {
-    Store store = databaseService.getStore()!;
-    store.box<DataSyncModel>().removeAll();
+    Box<DataSyncModel> dataSyncModelBox =
+    databaseService.getStore<DataSyncModel>(describeEnum(DbModel.DataSyncModel));
+
+    await dataSyncModelBox.clear();
+
     await ChapterSummaryLoader().getDataFromDB();
     await ChapterDetailedLoader().getDataFromDB();
   }
@@ -51,13 +55,12 @@ class LoadingService {
   }
 
   bool _checkForLoadingStatus() {
-    Store store = databaseService.getStore()!;
-    Box<DataSyncModel> box =
-    store.box<DataSyncModel>();
-    QueryBuilder<DataSyncModel> queryBuilder = box
-        .query(DataSyncModel_.successStatus.equals(true));
-    Query<DataSyncModel> query = queryBuilder.build();
-    List<DataSyncModel> dataSyncList = query.find();
+    Box<DataSyncModel> dataSyncModelBox =
+        databaseService.getStore<DataSyncModel>(describeEnum(DbModel.DataSyncModel));
+
+    List<DataSyncModel> dataSyncList = dataSyncModelBox.values.where(
+            (element) =>
+            element.successStatus == true).toList();
 
     return dataSyncList.length == 2 ? true : false;
   }

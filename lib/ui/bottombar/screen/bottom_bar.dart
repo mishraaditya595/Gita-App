@@ -1,12 +1,6 @@
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar.dart';
-import 'package:curved_labeled_navigation_bar/curved_navigation_bar_item.dart';
-import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:in_app_review/in_app_review.dart';
 import 'package:provider/provider.dart';
-import 'package:sbg/ui/bottombar/services/in_app_review_service.dart';
 import '../../../utils/colour_constants.dart';
 import '../../../utils/hexcolor.dart';
 import '../../bookmark/provider/bookmark_provider.dart';
@@ -43,9 +37,6 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
-
-
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
@@ -77,35 +68,24 @@ class _BottomBarState extends State<BottomBar> {
         ),
         body: pages[selectedIndex],
         extendBody: false,
-        bottomNavigationBar: Material(
-          elevation: 10,
-          child: CurvedNavigationBar(
-              height: 45,
-              color: HexColor(ColourConstants.backgroundWhite),
-              backgroundColor: HexColor(ColourConstants.antiqueBrass),
-              buttonBackgroundColor: HexColor(ColourConstants.antiqueBrass),
-              iconPadding: 8,
-              items: [
-                CurvedNavigationBarItem(
-                  child: selectedIndex == 0
-                      ? Icon(Icons.home_filled, color: HexColor(ColourConstants.backgroundWhite),)
-                      : const Icon(Icons.home_outlined),
-                  // label: 'Home',
-                ),
-                CurvedNavigationBarItem(
-                  child: selectedIndex == 1
-                      ? Icon(Icons.bookmark, color: HexColor(ColourConstants.backgroundWhite),)
-                      : const Icon(Icons.bookmark_outline),
-                  // label: 'My Bookmarks',
-                ),
-                CurvedNavigationBarItem(
-                  child: selectedIndex == 2
-                      ? Icon(Icons.info, color: HexColor(ColourConstants.backgroundWhite),)
-                      : const Icon(Icons.info_outline),
-                  // label: 'Info',
-                ),
-              ],
-              onTap: _onItemTapped),
+        bottomNavigationBar:
+        BottomNavigationBar(
+          currentIndex: selectedIndex,
+          backgroundColor: HexColor(ColourConstants.backgroundWhite),
+          fixedColor: HexColor(ColourConstants.antiqueBrass),
+          selectedLabelStyle:  const TextStyle(
+              fontWeight: FontWeight.bold),
+          selectedIconTheme:
+          IconThemeData(color: HexColor(ColourConstants.antiqueBrass)),
+          onTap: _onItemTapped,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.bookmark), label: "Bookmarks"),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.question_mark), label: "About"),
+            // BottomNavigationBarItem(icon: Icon(Icons.more), label: "More"),
+          ],
         ),
       ),
     );

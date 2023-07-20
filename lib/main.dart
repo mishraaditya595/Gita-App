@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get_it/get_it.dart';
@@ -14,22 +15,23 @@ import 'package:sbg/ui/loading/screen/loading_screen.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
 
-import 'objectbox.dart';
+import 'firebase_options.dart';
 
-late ObjectBox objectBox;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  FlutterError.onError = (errorDetails) {
-    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-  };
-  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
-  PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
-  };
+  if(!kIsWeb && !kDebugMode) {
+    FlutterError.onError = (errorDetails) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    };
+    // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+  }
 
   await FirebaseMessaging.instance.getInitialMessage();
   configureDependencies();
@@ -51,12 +53,14 @@ class _MyAppState extends State<MyApp> {
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
     databaseService.init();
 
-    FirebaseMessagingService firebaseMessagingService =
-        GetIt.instance.get<FirebaseMessagingService>();
-    firebaseMessagingService.initializeLocalNotifications();
-    firebaseMessagingService.listenToMessages();
+    if(!kIsWeb) {
+      FirebaseMessagingService firebaseMessagingService =
+      GetIt.instance.get<FirebaseMessagingService>();
+      firebaseMessagingService.initializeLocalNotifications();
+      firebaseMessagingService.listenToMessages();
 
-    getFcmToken();
+      getFcmToken();
+    }
 
     super.initState();
   }
@@ -78,6 +82,7 @@ class _MyAppState extends State<MyApp> {
 
       theme: ThemeData(
         useMaterial3: true,
+
         scaffoldBackgroundColor: HexColor(ColourConstants.backgroundWhite),
         cardColor: HexColor(ColourConstants.backgroundWhite)
       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:loading_progress_indicator/loading_progress_indicator.dart';
@@ -29,7 +30,11 @@ class _LoadingScreenState extends State<LoadingScreen> {
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
 
         if(snapshot.connectionState == ConnectionState.done) {
-          FirebasePerformanceService.logTrace("Initial Loader", () => loadAll());
+          if(!kIsWeb) {
+            FirebasePerformanceService.logTrace("Initial Loader", () => loadAll());
+          } else {
+            loadAll();
+          }
         }
 
         return Scaffold(
