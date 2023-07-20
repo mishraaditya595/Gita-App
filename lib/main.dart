@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get_it/get_it.dart';
@@ -17,16 +18,26 @@ import 'package:sbg/utils/hexcolor.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: const FirebaseOptions(
+      apiKey: "AIzaSyAlz8SD1s6bXTaaDnHFCHqYY-8Gzx5NkD0",
+      authDomain: "gita-237e4.firebaseapp.com",
+      projectId: "gita-237e4",
+      storageBucket: "gita-237e4.appspot.com",
+      messagingSenderId: "1081572789234",
+      appId: "1:1081572789234:web:21a237c2ba32f2b378796b",
+      measurementId: "G-0L2PC6FDZN"
+  ));
 
-  FlutterError.onError = (errorDetails) {
-    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-  };
-  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
-  PlatformDispatcher.instance.onError = (error, stack) {
-    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-    return true;
-  };
+  if(!kIsWeb) {
+    FlutterError.onError = (errorDetails) {
+      FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+    };
+    // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+    PlatformDispatcher.instance.onError = (error, stack) {
+      FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+      return true;
+    };
+  }
 
   await FirebaseMessaging.instance.getInitialMessage();
   configureDependencies();
@@ -48,12 +59,14 @@ class _MyAppState extends State<MyApp> {
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
     databaseService.init();
 
-    FirebaseMessagingService firebaseMessagingService =
-        GetIt.instance.get<FirebaseMessagingService>();
-    firebaseMessagingService.initializeLocalNotifications();
-    firebaseMessagingService.listenToMessages();
+    if(!kIsWeb) {
+      FirebaseMessagingService firebaseMessagingService =
+      GetIt.instance.get<FirebaseMessagingService>();
+      firebaseMessagingService.initializeLocalNotifications();
+      firebaseMessagingService.listenToMessages();
 
-    getFcmToken();
+      getFcmToken();
+    }
 
     super.initState();
   }

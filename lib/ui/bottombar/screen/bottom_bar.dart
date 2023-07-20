@@ -79,33 +79,59 @@ class _BottomBarState extends State<BottomBar> {
         extendBody: false,
         bottomNavigationBar: Material(
           elevation: 10,
-          child: CurvedNavigationBar(
-              height: 45,
-              color: HexColor(ColourConstants.backgroundWhite),
-              backgroundColor: HexColor(ColourConstants.antiqueBrass),
-              buttonBackgroundColor: HexColor(ColourConstants.antiqueBrass),
-              iconPadding: 8,
-              items: [
-                CurvedNavigationBarItem(
-                  child: selectedIndex == 0
-                      ? Icon(Icons.home_filled, color: HexColor(ColourConstants.backgroundWhite),)
-                      : const Icon(Icons.home_outlined),
-                  // label: 'Home',
-                ),
-                CurvedNavigationBarItem(
-                  child: selectedIndex == 1
-                      ? Icon(Icons.bookmark, color: HexColor(ColourConstants.backgroundWhite),)
-                      : const Icon(Icons.bookmark_outline),
-                  // label: 'My Bookmarks',
-                ),
-                CurvedNavigationBarItem(
-                  child: selectedIndex == 2
-                      ? Icon(Icons.info, color: HexColor(ColourConstants.backgroundWhite),)
-                      : const Icon(Icons.info_outline),
-                  // label: 'Info',
-                ),
-              ],
-              onTap: _onItemTapped),
+          child:
+          BottomNavigationBar(
+            elevation: 10,
+            currentIndex: selectedIndex,
+            backgroundColor: Colors.white,
+            type: BottomNavigationBarType.fixed,
+            selectedLabelStyle: const TextStyle(
+                fontWeight: FontWeight.bold, color: Colors.deepOrange),
+            unselectedLabelStyle:
+            const TextStyle(fontWeight: FontWeight.bold, color: Colors.grey),
+            selectedIconTheme:
+            const IconThemeData(color: Colors.deepOrange, size: 30),
+            unselectedIconTheme: const IconThemeData(
+              color: Colors.grey,
+            ),
+            onTap: _onItemTapped,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.bookmark), label: "Bookmarks"),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.question_mark), label: "About"),
+              // BottomNavigationBarItem(icon: Icon(Icons.more), label: "More"),
+            ],
+          ),
+
+          // CurvedNavigationBar(
+          //     height: 45,
+          //     color: HexColor(ColourConstants.backgroundWhite),
+          //     backgroundColor: HexColor(ColourConstants.antiqueBrass),
+          //     buttonBackgroundColor: HexColor(ColourConstants.antiqueBrass),
+          //     iconPadding: 8,
+          //     items: [
+          //       CurvedNavigationBarItem(
+          //         child: selectedIndex == 0
+          //             ? Icon(Icons.home_filled, color: HexColor(ColourConstants.backgroundWhite),)
+          //             : const Icon(Icons.home_outlined),
+          //         // label: 'Home',
+          //       ),
+          //       CurvedNavigationBarItem(
+          //         child: selectedIndex == 1
+          //             ? Icon(Icons.bookmark, color: HexColor(ColourConstants.backgroundWhite),)
+          //             : const Icon(Icons.bookmark_outline),
+          //         // label: 'My Bookmarks',
+          //       ),
+          //       CurvedNavigationBarItem(
+          //         child: selectedIndex == 2
+          //             ? Icon(Icons.info, color: HexColor(ColourConstants.backgroundWhite),)
+          //             : const Icon(Icons.info_outline),
+          //         // label: 'Info',
+          //       ),
+          //     ],
+          //     onTap: _onItemTapped),
         ),
       ),
     );
