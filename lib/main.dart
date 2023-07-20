@@ -15,22 +15,18 @@ import 'package:sbg/ui/loading/screen/loading_screen.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
 
-import 'firebase_options.dart';
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform
-  // const FirebaseOptions(
-  //     apiKey: "AIzaSyAlz8SD1s6bXTaaDnHFCHqYY-8Gzx5NkD0",
-  //     authDomain: "gita-237e4.firebaseapp.com",
-  //     projectId: "gita-237e4",
-  //     storageBucket: "gita-237e4.appspot.com",
-  //     messagingSenderId: "1081572789234",
-  //     appId: "1:1081572789234:web:21a237c2ba32f2b378796b",
-  //     measurementId: "G-0L2PC6FDZN"
-  // )
-  );
+  await Firebase.initializeApp(options: const FirebaseOptions(
+      apiKey: "AIzaSyAlz8SD1s6bXTaaDnHFCHqYY-8Gzx5NkD0",
+      authDomain: "gita-237e4.firebaseapp.com",
+      projectId: "gita-237e4",
+      storageBucket: "gita-237e4.appspot.com",
+      messagingSenderId: "1081572789234",
+      appId: "1:1081572789234:web:21a237c2ba32f2b378796b",
+      measurementId: "G-0L2PC6FDZN"
+  ));
 
   if(!kIsWeb) {
     FlutterError.onError = (errorDetails) {
