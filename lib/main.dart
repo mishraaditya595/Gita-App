@@ -82,6 +82,7 @@ class _MyAppState extends State<MyApp> {
 
       theme: ThemeData(
         useMaterial3: true,
+
         scaffoldBackgroundColor: HexColor(ColourConstants.backgroundWhite),
         cardColor: HexColor(ColourConstants.backgroundWhite)
       ),
