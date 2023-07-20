@@ -9,9 +9,6 @@ import 'package:sbg/utils/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/chapter_detailed_model.dart';
-import '../../../objectbox.dart';
-import '../../../objectbox.g.dart';
-import '../../../services/db/database_service.dart';
 import '../provider/verse_screen_provider.dart';
 
 class VerseScreen extends StatefulWidget {

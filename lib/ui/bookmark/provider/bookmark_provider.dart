@@ -14,9 +14,9 @@ class BookmarkProvider with ChangeNotifier {
     isFirstTime = false;
   }
 
-  removeBookmark(String verseNumber, String chapterNumber) {
+  removeBookmark(String verseNumber, String chapterNumber) async {
     BookmarkService bookmarkService = GetIt.instance.get<BookmarkService>();
-    verseBookmarkModelList = bookmarkService.removeBookmark(verseNumber, chapterNumber);
+    verseBookmarkModelList = await bookmarkService.removeBookmark(verseNumber, chapterNumber);
     notifyListeners();
   }
 

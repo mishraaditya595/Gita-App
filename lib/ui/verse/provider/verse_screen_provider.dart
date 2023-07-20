@@ -5,7 +5,6 @@ import 'package:get_it/get_it.dart';
 
 import '../../../models/chapter_detailed_model.dart';
 import '../../../models/verse_bookmark_model.dart';
-import '../../../objectbox.g.dart';
 import '../../../services/db/database_service.dart';
 import '../services/verse_screen_service.dart';
 
@@ -87,7 +86,7 @@ class VerseScreenProvider extends ChangeNotifier {
     }
   }
 
-  addOrRemoveBookmarks(ChapterDetailedModel verseDetails) {
+  addOrRemoveBookmarks(ChapterDetailedModel verseDetails) async {
     VerseScreenService verseScreenService =
         GetIt.instance.get<VerseScreenService>();
 
@@ -97,7 +96,7 @@ class VerseScreenProvider extends ChangeNotifier {
       verseScreenService.addBookmark(verseDetails);
     } else {
       fabIcon = Icons.bookmark_add;
-      verseScreenService.removeBookmark(verseDetails);
+      await verseScreenService.removeBookmark(verseDetails);
     }
     notifyListeners();
   }

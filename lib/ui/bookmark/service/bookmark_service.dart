@@ -20,7 +20,7 @@ class BookmarkService {
     return verseBookmarkModelList;
   }
 
-  List<VerseBookmarkModel> removeBookmark(String verseNumber, String chapterNumber) {
+  Future<List<VerseBookmarkModel>> removeBookmark(String verseNumber, String chapterNumber) async {
     Box<VerseBookmarkModel> verseBookmarkModelBox =
     databaseService.getStore<VerseBookmarkModel>(describeEnum(DbModel.VerseBookmarkModel));
 
@@ -29,7 +29,7 @@ class BookmarkService {
                element.chapterNumber == chapterNumber &&
                    element.verseNumber == verseNumber).toList();
 
-    verseBookmarkModelBox.delete(bookmarkList[0].id);
+    await verseBookmarkModelBox.delete(bookmarkList[0].id);
 
     bookmarkList = verseBookmarkModelBox.values.toList();
 
