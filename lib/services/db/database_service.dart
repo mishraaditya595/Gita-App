@@ -1,30 +1,22 @@
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../objectbox.g.dart';
-import 'dbstore.dart';
 
 @Singleton()
 class DatabaseService<T> {
-  late DBStore dbStore;
-  Store? _store = null;
 
-  // Store? get store => _store;
+  DatabaseService();
 
-  DatabaseService(this.dbStore);
-
-  Store? getStore() {
-    return _store;
+  Box<T> getStore<T>([String boxName = ""]) {
+    return Hive.box<T>(boxName);
   }
 
   Future<void> init([String env = "prod"]) async {
     if (env == "test") {
-      _store = await openStore(directory: '/tmp/test');
+
     } else {
-      try {
-        _store = await dbStore.getStore();
-      } catch (_) {
-        _store = await openStore();
-      }
+      await Hive.initFlutter();
     }
   }
 }

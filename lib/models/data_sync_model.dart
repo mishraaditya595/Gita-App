@@ -1,10 +1,16 @@
-import 'package:objectbox/objectbox.dart';
+import 'package:hive/hive.dart';
 
-@Entity()
+part 'data_sync_model.g.dart';
+
+@HiveType(typeId: 2)
 class DataSyncModel {
-  @Id()
+  @HiveField(0)
   int id;
+
+  @HiveField(1)
   String name;
+
+  @HiveField(2)
   bool successStatus;
 
   DataSyncModel({
