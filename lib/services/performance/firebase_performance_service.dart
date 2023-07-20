@@ -11,13 +11,13 @@ class FirebasePerformanceService {
       String eventName, Future<T> Function() asyncFunction) async {
 
     DeviceInfoService deviceInfoService = GetIt.instance.get<DeviceInfoService>();
-    // String deviceInfo = await deviceInfoService.getDeviceInfo();
+    String deviceInfo = await deviceInfoService.getDeviceInfo();
 
     if (Firebase.apps.isNotEmpty) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       FirebasePerformance performance = FirebasePerformance.instance;
       final Trace trace = performance.newTrace(eventName);
-      trace.putAttribute("DeviceInfo", "deviceInfo");
+      trace.putAttribute("DeviceInfo", deviceInfo);
       await trace.start();
       T res;
       try {
