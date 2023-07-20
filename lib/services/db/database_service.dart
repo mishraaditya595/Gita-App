@@ -29,7 +29,9 @@ class DatabaseService<T> {
         Hive.registerAdapter(DataSyncModelAdapter());
         Hive.registerAdapter(LastReadModelAdapter());
         Hive.registerAdapter(VerseBookmarkModelAdapter());
-      } on HiveError {}
+      } on HiveError catch(e) {
+        debugPrint("$e");
+      }
 
       await Hive.openBox<ChapterDetailedModel>(describeEnum(DbModel.ChapterDetailedModel));
       await Hive.openBox<ChapterSummaryModel>(describeEnum(DbModel.ChapterSummaryModel));

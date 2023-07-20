@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'chapter_detailed_model.g.dart';
 
 @HiveType(typeId: 1)
-class ChapterDetailedModel {
+class ChapterDetailedModel extends HiveObject {
   @HiveField(0)
   int id;
 

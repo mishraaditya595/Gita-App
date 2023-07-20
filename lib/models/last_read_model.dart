@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'last_read_model.g.dart';
 
 @HiveType(typeId: 3)
-class LastReadModel {
+class LastReadModel extends HiveObject{
   @HiveField(0)
   int id;
 

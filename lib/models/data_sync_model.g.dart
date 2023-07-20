@@ -8,7 +8,7 @@ part of 'data_sync_model.dart';
 
 class DataSyncModelAdapter extends TypeAdapter<DataSyncModel> {
   @override
-  final int typeId = 2;
+  final int typeId = 0;
 
   @override
   DataSyncModel read(BinaryReader reader) {
