@@ -83,7 +83,7 @@ class _BottomBarState extends State<BottomBar> {
           BottomNavigationBar(
             elevation: 10,
             currentIndex: selectedIndex,
-            backgroundColor: Colors.white,
+            backgroundColor: HexColor(ColourConstants.backgroundWhite),
             type: BottomNavigationBarType.fixed,
             selectedLabelStyle: const TextStyle(
                 fontWeight: FontWeight.bold, color: Colors.deepOrange),
