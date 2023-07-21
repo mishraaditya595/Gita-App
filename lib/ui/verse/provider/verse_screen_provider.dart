@@ -24,7 +24,8 @@ class VerseScreenProvider extends ChangeNotifier {
       wordMeanings: "wordMeanings",
       translation: "translation",
       commentary: "commentary",
-      verseNumberInt: -1);
+      verseNumberInt: -1,
+      bookHashName: '');
   ChapterDetailedModel get verseDetails => _verseDetails;
 
   setInitialValue(ChapterDetailedModel verse, int chapNum, int verseNum) {

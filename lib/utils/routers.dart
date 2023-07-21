@@ -17,7 +17,8 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       case BottomBar.routeName:
         return BottomBar(title: "title");
       case HomePage.routeName:
-        return HomePage();
+        String args = routeSettings.arguments as String;
+        return HomePage(bookName: args,);
       case BookmarkPage.routeName:
         return BookmarkPage();
       case ChapterScreen.routeName:

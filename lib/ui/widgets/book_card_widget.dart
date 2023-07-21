@@ -10,7 +10,7 @@ class BookCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap:() =>
-      Navigator.of(context).pushNamed(HomePage.routeName),
+      Navigator.of(context).pushNamed(HomePage.routeName, arguments: bookMap["bookTitle"]),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

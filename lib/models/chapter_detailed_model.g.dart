@@ -26,13 +26,14 @@ class ChapterDetailedModelAdapter extends TypeAdapter<ChapterDetailedModel> {
       translation: fields[6] as String,
       commentary: fields[7] as String,
       verseNumberInt: fields[8] as int,
+      bookHashName: fields[9] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, ChapterDetailedModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -50,7 +51,9 @@ class ChapterDetailedModelAdapter extends TypeAdapter<ChapterDetailedModel> {
       ..writeByte(7)
       ..write(obj.commentary)
       ..writeByte(8)
-      ..write(obj.verseNumberInt);
+      ..write(obj.verseNumberInt)
+      ..writeByte(9)
+      ..write(obj.bookHashName);
   }
 
   @override

@@ -111,7 +111,8 @@ class _BookmarkPageState extends State<BookmarkPage> {
                                               .commentary,
                                           verseNumberInt: provider
                                               .verseBookmarkModelList[position]
-                                              .verseNumberInt)),
+                                              .verseNumberInt,
+                                          bookHashName: '')),
                                   onDismissed: (_) {
                                     provider.removeBookmark(
                                         provider

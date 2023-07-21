@@ -7,12 +7,13 @@ import 'package:hive/hive.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
+import '../models/books_model.dart';
 import '../models/chapter_detailed_model.dart';
 import '../models/data_sync_model.dart';
 import '../services/db/database_service.dart';
 
 class BooksLoader {
-  final String tableName = "books";
+  final String tableName = "book_details";
 
   getDataFromDB() async {
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
@@ -20,7 +21,7 @@ class BooksLoader {
     Box<DataSyncModel> dataSyncBox =
     databaseService.getStore<DataSyncModel>(describeEnum(DbModel.DataSyncModel));
 
-    dataSyncBox.add(DataSyncModel(name: tableName, successStatus: false));
+    // dataSyncBox.add(DataSyncModel(name: tableName, successStatus: false));
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? baseUri = prefs.getString("SUPABASE_URI");
@@ -36,40 +37,40 @@ class BooksLoader {
 
       await addDataToLocalDb(res);
     }
-    dataSyncBox.add(DataSyncModel(name: tableName, successStatus: true));
+    // dataSyncBox.add(DataSyncModel(name: tableName, successStatus: true));
   }
 
   Future<void> addDataToLocalDb(Response res) async {
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
 
-    Box<ChapterDetailedModel> chapterDetailedModelBox =
-    databaseService.getStore<ChapterDetailedModel>(describeEnum(DbModel.ChapterDetailedModel));
+    Box<BooksModel> booksModelBox =
+    databaseService.getStore<BooksModel>(describeEnum(DbModel.BooksModel));
 
-    List<ChapterDetailedModel> chapterDetailedList = [];
+    List<BooksModel> booksModelList = [];
     if (res.statusCode == 200) {
       var jsonResp = jsonDecode(res.body);
       for (int i = 0; i < jsonResp.length; i++) {
-        var chapterDetailed = jsonResp[i];
-        chapterDetailedList.add(toChapterDetailedModel(chapterDetailed));
+        var booksModel = jsonResp[i];
+        booksModelList.add(toBooksModel(booksModel));
       }
-      await chapterDetailedModelBox.clear();
-      chapterDetailedModelBox.addAll(chapterDetailedList);
-      log("Chapter Detailed Loaded: ${chapterDetailedModelBox.values.toList().length}");
+      await booksModelBox.clear();
+      booksModelBox.addAll(booksModelList);
+      log("Books Loaded: ${booksModelBox.values.toList().length}");
     }
   }
 
-  ChapterDetailedModel toChapterDetailedModel(chapterDetailed) {
-    ChapterDetailedModel chapterDetailedModel = ChapterDetailedModel(
-      verseNumber: chapterDetailed['verse_number'].toString().trim() ?? '',
-      chapterNumber: chapterDetailed['chapter_number'].toString().trim() ?? '',
-      text: chapterDetailed['text'].toString().trim() ?? '',
-      transliteration:
-      chapterDetailed['transliteration'].toString().trim() ?? '',
-      wordMeanings: chapterDetailed['word_meanings'].toString().trim() ?? '',
-      translation: chapterDetailed['translation'].toString().trim() ?? '',
-      commentary: chapterDetailed['commentary'].toString().trim() ?? '',
-      verseNumberInt: chapterDetailed['verse_number'].toInt() ?? -1,
+  BooksModel toBooksModel(booksModel) {
+    return BooksModel(
+        bookName: booksModel["book_name"],
+        bookImage: booksModel["book_image"],
+        bookHashWord: booksModel["book_hash_word"],
+        chapterDetailedLink: booksModel["chapter_detailed_link"],
+        chapterSummaryLink: booksModel["chapter_summary_link"]
     );
-    return chapterDetailedModel;
   }
+
+  // BooksModel toChapterDetailedModel(chapterDetailed) {
+  //   // BooksModel chapterDetailedModel = BooksModel(id: id, bookName: bookName, bookImage: bookImage, bookHashWord: bookHashWord, chapterDetailedLink: chapterDetailedLink, chapterSummaryLink: chapterSummaryLink)
+  //   return chapterDetailedModel;
+  // }
 }

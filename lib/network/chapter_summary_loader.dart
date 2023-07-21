@@ -68,7 +68,7 @@ class ChapterSummaryLoader {
         nameMeaning: chapterSummary['name_meaning'].toString().trim() ?? '',
         summary: chapterSummary['summary'].toString().trim() ?? '',
         summaryHindi: chapterSummary['summary_hindi'].toString().trim() ?? '',
-        chapterNumberInt: chapterSummary['chapter_number'] ?? 0);
+        chapterNumberInt: chapterSummary['chapter_number'] ?? 0, bookHashName: '2');
     return chapterSummaryModel;
   }
 }

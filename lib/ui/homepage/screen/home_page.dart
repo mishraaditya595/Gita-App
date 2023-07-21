@@ -19,7 +19,8 @@ import '../../widgets/default_app_bar.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = "/book_home";
-  const HomePage({Key? key}) : super(key: key);
+  String bookName;
+  HomePage({Key? key, required this.bookName}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -70,7 +71,7 @@ class _HomePageState extends State<HomePage> {
             showIgnore: false,
             showLater: true,),
         child: Scaffold(
-          appBar: DefaultAppBar(title: "Srimad Bhagwad Gita",),
+          appBar: DefaultAppBar(title: widget.bookName,),
             body: LiquidPullToRefresh(
               springAnimationDurationInMilliseconds: 300,
               color: HexColor(ColourConstants.backgroundWhite),
@@ -217,6 +218,7 @@ class _HomePageState extends State<HomePage> {
           homePageProvider.chapterDetailedList[0].commentary,
           verseNumberInt:
           homePageProvider.chapterDetailedList[0].verseNumberInt,
+          bookHashName: '',
         )
     );
   }

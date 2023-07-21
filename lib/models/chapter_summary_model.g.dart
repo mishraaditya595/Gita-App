@@ -26,13 +26,14 @@ class ChapterSummaryModelAdapter extends TypeAdapter<ChapterSummaryModel> {
       nameMeaning: fields[6] as String,
       summary: fields[7] as String,
       summaryHindi: fields[8] as String,
+      bookHashName: fields[9] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, ChapterSummaryModel obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(10)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -50,7 +51,9 @@ class ChapterSummaryModelAdapter extends TypeAdapter<ChapterSummaryModel> {
       ..writeByte(7)
       ..write(obj.summary)
       ..writeByte(8)
-      ..write(obj.summaryHindi);
+      ..write(obj.summaryHindi)
+      ..writeByte(9)
+      ..write(obj.bookHashName);
   }
 
   @override

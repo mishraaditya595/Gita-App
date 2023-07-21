@@ -69,7 +69,7 @@ class ChapterDetailedLoader {
       wordMeanings: chapterDetailed['word_meanings'].toString().trim() ?? '',
       translation: chapterDetailed['translation'].toString().trim() ?? '',
       commentary: chapterDetailed['commentary'].toString().trim() ?? '',
-      verseNumberInt: chapterDetailed['verse_number'].toInt() ?? -1,
+      verseNumberInt: chapterDetailed['verse_number'].toInt() ?? -1, bookHashName: '',
     );
     return chapterDetailedModel;
   }

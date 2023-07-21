@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:loading_progress_indicator/loading_progress_indicator.dart';
 import 'package:loading_progress_indicator/progress_indicator/ball_spin_fade_loader_progress_indicator.dart';
 import 'package:sbg/services/performance/firebase_performance_service.dart';
+import 'package:sbg/ui/libraryhome/screen/library_home_page.dart';
 import 'package:sbg/ui/loading/service/loading_service.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
@@ -86,7 +87,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     bool loadingStatus = await loadingService.fetchAllLoaders();
 
     if (loadingStatus) {
-      await Navigator.of(context).pushReplacementNamed(BottomBar.routeName);
+      await Navigator.of(context).pushReplacementNamed(LibraryHomePage.routeName);
     }
   }
 }

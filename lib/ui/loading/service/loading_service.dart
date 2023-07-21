@@ -5,6 +5,8 @@ import 'package:injectable/injectable.dart';
 import 'package:sbg/models/data_sync_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../models/books_model.dart';
+import '../../../network/books_loader.dart';
 import '../../../network/chapter_detailed_loader.dart';
 import '../../../network/chapter_summary_loader.dart';
 import '../../../services/db/database_service.dart';
@@ -43,6 +45,13 @@ class LoadingService {
     databaseService.getStore<DataSyncModel>(describeEnum(DbModel.DataSyncModel));
 
     await dataSyncModelBox.clear();
+
+    await BooksLoader().getDataFromDB();
+
+    Box<BooksModel> booksModelBox =
+    databaseService.getStore<BooksModel>(describeEnum(DbModel.BooksModel));
+
+    List<BooksModel> booksModelList = booksModelBox.values.toList();
 
     await ChapterSummaryLoader().getDataFromDB();
     await ChapterDetailedLoader().getDataFromDB();

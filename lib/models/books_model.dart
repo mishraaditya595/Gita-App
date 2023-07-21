@@ -23,7 +23,7 @@ class BooksModel {
   String chapterSummaryLink;
 
   BooksModel({
-    required this.id,
+    this.id = 0,
     required this.bookName,
     required this.bookImage,
     required this.bookHashWord,

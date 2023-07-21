@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sbg/models/books_model.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/models/chapter_summary_model.dart';
 import 'package:sbg/models/data_sync_model.dart';
@@ -29,6 +30,7 @@ class DatabaseService<T> {
         Hive.registerAdapter(DataSyncModelAdapter());
         Hive.registerAdapter(LastReadModelAdapter());
         Hive.registerAdapter(VerseBookmarkModelAdapter());
+        Hive.registerAdapter(BooksModelAdapter());
       } on HiveError catch(e) {
         debugPrint("$e");
       }
@@ -38,6 +40,7 @@ class DatabaseService<T> {
       await Hive.openBox<DataSyncModel>(describeEnum(DbModel.DataSyncModel));
       await Hive.openBox<LastReadModel>(describeEnum(DbModel.LastReadModel));
       await Hive.openBox<VerseBookmarkModel>(describeEnum(DbModel.VerseBookmarkModel));
+      await Hive.openBox<BooksModel>(describeEnum(DbModel.BooksModel));
     }
   }
 }
@@ -47,5 +50,6 @@ enum DbModel {
   ChapterSummaryModel,
   DataSyncModel,
   LastReadModel,
-  VerseBookmarkModel
+  VerseBookmarkModel,
+  BooksModel
 }

@@ -32,6 +32,9 @@ class ChapterSummaryModel extends HiveObject{
   @HiveField(8)
   String summaryHindi;
 
+  @HiveField(9)
+  String bookHashName;
+
   ChapterSummaryModel(
       {this.id = 0,
       required this.chapterNumber,
@@ -41,5 +44,7 @@ class ChapterSummaryModel extends HiveObject{
       required this.verseCount,
       required this.nameMeaning,
       required this.summary,
-      required this.summaryHindi});
+      required this.summaryHindi,
+      required this.bookHashName
+      });
 }

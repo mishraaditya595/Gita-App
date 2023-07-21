@@ -31,6 +31,9 @@ class ChapterDetailedModel extends HiveObject {
   @HiveField(8)
   int verseNumberInt;
 
+  @HiveField(9)
+  String bookHashName;
+
   ChapterDetailedModel({
     this.id = 0,
     required this.verseNumber,
@@ -41,5 +44,6 @@ class ChapterDetailedModel extends HiveObject {
     required this.translation,
     required this.commentary,
     required this.verseNumberInt,
+    required this.bookHashName
   });
 }
