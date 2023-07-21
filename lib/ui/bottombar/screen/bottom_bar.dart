@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sbg/ui/libraryhome/screen/library_home_page.dart';
 import '../../../utils/colour_constants.dart';
 import '../../../utils/hexcolor.dart';
 import '../../bookmark/provider/bookmark_provider.dart';
@@ -30,7 +31,7 @@ class _BottomBarState extends State<BottomBar> {
   }
 
   List<Widget> pages = [
-    const HomePage(),
+    const LibraryHomePage(),
     const BookmarkPage(),
     const AboutPage(),
   ];
