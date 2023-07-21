@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
+import 'package:sbg/ui/widgets/default_app_bar.dart';
 import 'package:sbg/ui/widgets/verse_card_widget.dart';
 import 'package:sbg/utils/colour_constants.dart';
 
@@ -36,16 +37,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
             provider.fetchAll(widget.chapterNumber);
           });
           return Scaffold(
-            appBar: AppBar(
-              backgroundColor: HexColor(ColourConstants.fiord),
-              title: Text("Chapter ${widget.chapterNumber}", style: TextStyle(color: HexColor(ColourConstants.backgroundWhite)),),
-              centerTitle: true,
-              leading: IconButton(
-                  onPressed: () {
-                    Navigator.pop(context, true);
-                  },
-                  icon: Icon(Icons.arrow_back_ios_new, color: HexColor(ColourConstants.backgroundWhite))),
-            ),
+            appBar: DefaultAppBar(title: "Chapter ${widget.chapterNumber}"),
             body: ListView(
               children: [
                 Padding(

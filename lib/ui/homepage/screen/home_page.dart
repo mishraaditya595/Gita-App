@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 
 import '../../bottombar/services/in_app_review_service.dart';
 import '../../verse/screen/verse_screen.dart';
+import '../../widgets/default_app_bar.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = "/book_home";
@@ -69,6 +70,7 @@ class _HomePageState extends State<HomePage> {
             showIgnore: false,
             showLater: true,),
         child: Scaffold(
+          appBar: DefaultAppBar(title: "Srimad Bhagwad Gita",),
             body: LiquidPullToRefresh(
               springAnimationDurationInMilliseconds: 300,
               color: HexColor(ColourConstants.backgroundWhite),
