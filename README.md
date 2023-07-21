@@ -14,9 +14,10 @@ A mobile application on the Srimad Bhagwad Gita using Flutter.
 
 ## Screenshots 
 
-<img src="https://play-lh.googleusercontent.com/tRdXUQIP_gmTPM6pQ2C8kJbxwhhgPKmupJt3pUs4oMvkQvAy5ICE6GcuO0_8K8j6TA=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
-<img src="https://play-lh.googleusercontent.com/5ZTC5cmNSxysWb2_QSKTjocotrm5sEDSbVVYqZRrKa-8T7aBWsGUgr5vBOvQCTYDKluq=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
-<img src="https://play-lh.googleusercontent.com/LzpPmzS9CGxds-Mz_ezb27ai75WcHeecLL1MrFIw0z9S9mu-5JC-pgw6GB1AKYPbM0Rm=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
+<img src="https://play-lh.googleusercontent.com/sZn_qqDk-NuQ9EotKr3YpaNnK-cD07jRQP4nJG3LhvEQ2sjkUmVOoZTM9FYUKAQy47A=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
+<img src="https://play-lh.googleusercontent.com/HWnacEi6MhLQR_ohkQO6U1cQBk_3WhnASw8rnW5pPmWNhC8-kBV2c0fLD4LuZsYzovQ=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
+<img src="https://play-lh.googleusercontent.com/eoO6XYpuGGPNzDOsbd0AMgxzXrWXsBQqKOuaaFkLoEDx_-dd8R3nThH9Zr5qTrDOa_s=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
+<img src="https://play-lh.googleusercontent.com/8GsTO1fPNvuh9TiKzR8ftpIl-uNU-jcQB8LTeczp5yS7Ptba7NDqvFCIqktJMxU6uss=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
 
 
 ## Installation
