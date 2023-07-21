@@ -12,6 +12,7 @@ import '../../../models/chapter_detailed_model.dart';
 import '../provider/verse_screen_provider.dart';
 
 class VerseScreen extends StatefulWidget {
+  static const String routeName = "/verse_screen";
   late int chapterNumber;
   late int verseNumber;
   late ChapterDetailedModel verseDetails;

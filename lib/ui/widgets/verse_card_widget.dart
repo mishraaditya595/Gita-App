@@ -63,14 +63,20 @@ class _VerseCardWidgetState extends State<VerseCardWidget> {
   }
 
   onCardTapped(int chapterNumber, int verseNumber) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => VerseScreen(
-                  chapterNumber: chapterNumber,
-                  verseNumber: verseNumber,
-                  verseDetails: widget.verseDetails,
-                )));
-    log("Card $verseNumber tapped");
+
+    Navigator.of(context).pushNamed(
+        VerseScreen.routeName,
+        arguments: widget.verseDetails
+    );
+
+    // Navigator.push(
+    //     context,
+    //     MaterialPageRoute(
+    //         builder: (context) => VerseScreen(
+    //               chapterNumber: chapterNumber,
+    //               verseNumber: verseNumber,
+    //               verseDetails: widget.verseDetails,
+    //             )));
+    // log("Card $verseNumber tapped");
   }
 }

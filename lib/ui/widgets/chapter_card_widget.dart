@@ -84,14 +84,9 @@ class _ChapterWidgetCardState extends State<ChapterWidgetCard> {
   }
 
   onCardTapped(int chapterNumber, String chapterName, String chapterSummary) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => ChapterScreen(
-                  chapterNumber: chapterNumber,
-                  chapterName: chapterName,
-                  chapterSummary: chapterSummary,
-                )));
-    log("Card $chapterNumber tapped");
+    Navigator.of(context).pushNamed(
+        ChapterScreen.routeName,
+      arguments: [chapterNumber, chapterName, chapterSummary]
+    );
   }
 }

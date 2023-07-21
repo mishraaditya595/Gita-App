@@ -8,6 +8,7 @@ import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
 
 class BookmarkPage extends StatefulWidget {
+  static const String routeName = "/bookmark_page";
   const BookmarkPage({Key? key}) : super(key: key);
 
   @override

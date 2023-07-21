@@ -13,6 +13,7 @@ import '../../../services/remote_config_service.dart';
 import '../../bottombar/screen/bottom_bar.dart';
 
 class LoadingScreen extends StatefulWidget {
+  static const String routeName = "/loading_screen";
   const LoadingScreen({Key? key}) : super(key: key);
 
   @override
@@ -85,9 +86,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
     bool loadingStatus = await loadingService.fetchAllLoaders();
 
     if (loadingStatus) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (context) => const BottomBar(title: "")
-      ));
+      await Navigator.of(context).pushReplacementNamed(BottomBar.routeName);
     }
   }
 }

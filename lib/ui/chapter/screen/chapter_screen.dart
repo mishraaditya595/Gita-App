@@ -9,6 +9,7 @@ import '../../../utils/hexcolor.dart';
 import '../provider/chapter_screen_provider.dart';
 
 class ChapterScreen extends StatefulWidget {
+  static const String routeName = "/chapter_screen";
   final int chapterNumber;
   final String chapterName;
   final String chapterSummary;

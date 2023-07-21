@@ -17,6 +17,7 @@ import '../../bottombar/services/in_app_review_service.dart';
 import '../../verse/screen/verse_screen.dart';
 
 class HomePage extends StatefulWidget {
+  static const String routeName = "/book_home";
   const HomePage({Key? key}) : super(key: key);
 
   @override
@@ -195,29 +196,26 @@ class _HomePageState extends State<HomePage> {
   onCardTapped(
       int chapterNumber, int verseNumber, HomePageProvider homePageProvider) {
     debugPrint("$chapterNumber.$verseNumber");
-    Navigator.push(
+    Navigator.pushNamed(
         context,
-        MaterialPageRoute(
-            builder: (context) => VerseScreen(
-                  chapterNumber: chapterNumber,
-                  verseNumber: verseNumber,
-                  verseDetails: ChapterDetailedModel(
-                    verseNumber:
-                        homePageProvider.chapterDetailedList[0].verseNumber,
-                    chapterNumber:
-                        homePageProvider.chapterDetailedList[0].chapterNumber,
-                    text: homePageProvider.chapterDetailedList[0].text,
-                    transliteration:
-                        homePageProvider.chapterDetailedList[0].transliteration,
-                    wordMeanings:
-                        homePageProvider.chapterDetailedList[0].wordMeanings,
-                    translation:
-                        homePageProvider.chapterDetailedList[0].translation,
-                    commentary:
-                        homePageProvider.chapterDetailedList[0].commentary,
-                    verseNumberInt:
-                        homePageProvider.chapterDetailedList[0].verseNumberInt,
-                  ),
-                )));
+        VerseScreen.routeName,
+        arguments: ChapterDetailedModel(
+          verseNumber:
+          homePageProvider.chapterDetailedList[0].verseNumber,
+          chapterNumber:
+          homePageProvider.chapterDetailedList[0].chapterNumber,
+          text: homePageProvider.chapterDetailedList[0].text,
+          transliteration:
+          homePageProvider.chapterDetailedList[0].transliteration,
+          wordMeanings:
+          homePageProvider.chapterDetailedList[0].wordMeanings,
+          translation:
+          homePageProvider.chapterDetailedList[0].translation,
+          commentary:
+          homePageProvider.chapterDetailedList[0].commentary,
+          verseNumberInt:
+          homePageProvider.chapterDetailedList[0].verseNumberInt,
+        )
+    );
   }
 }

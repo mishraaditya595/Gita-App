@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:sbg/ui/widgets/book_card_widget.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
 
 class LibraryHomePage extends StatefulWidget {
+  static const String routeName = "/library_home";
   const LibraryHomePage({Key? key}) : super(key: key);
 
   @override
@@ -92,29 +94,7 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
                 itemCount: booksList.length > 6 ? 6 : booksList.length,
                 shrinkWrap: true,
                 itemBuilder: (context, index) {
-                  return Column(
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      Card(
-                        child: Image.network(
-                          booksList[index]["bookImage"],
-                          height: 150,
-                          width: 100,
-                          fit: BoxFit.fill,
-                        ),
-                      ),
-                      Align(
-                          alignment : Alignment.center,
-                          child: Text(
-                            booksList[index]["bookTitle"],
-                            style: TextStyle(
-                                fontSize: 12
-                            ),
-                            textAlign: TextAlign.center,
-                          ))
-                    ],
-                  );
+                  return BookCardWidget(bookMap: booksList[index]);
                 },
               ),
               Align(

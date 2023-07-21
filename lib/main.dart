@@ -9,12 +9,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_phoenix/flutter_phoenix.dart';
 import 'package:get_it/get_it.dart';
+import 'package:provider/provider.dart';
 import 'package:sbg/injection.dart';
 import 'package:sbg/services/db/database_service.dart';
 import 'package:sbg/services/notifications/firebase/firebase_messaging_service.dart';
+import 'package:sbg/ui/bookmark/provider/bookmark_provider.dart';
+import 'package:sbg/ui/chapter/provider/chapter_screen_provider.dart';
+import 'package:sbg/ui/homepage/provider/home_page_provider.dart';
 import 'package:sbg/ui/loading/screen/loading_screen.dart';
+import 'package:sbg/ui/verse/provider/verse_screen_provider.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
+import 'package:sbg/utils/routers.dart';
 
 import 'firebase_options.dart';
 
@@ -76,22 +82,36 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return Phoenix(
-        child: MaterialApp(
-      title: '',
-      debugShowCheckedModeBanner: false,
-
-      theme: ThemeData(
-        useMaterial3: true,
-
-        scaffoldBackgroundColor: HexColor(ColourConstants.backgroundWhite),
-        cardColor: HexColor(ColourConstants.backgroundWhite)
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: ((BuildContext context) => HomePageProvider()),
+        ),
+        ChangeNotifierProvider(
+          create: ((BuildContext context) => ChapterScreenProvider()),
+        ),
+        ChangeNotifierProvider(
+          create: ((BuildContext context) => VerseScreenProvider()),
+        ),
+        ChangeNotifierProvider(
+          create: ((BuildContext context) => BookmarkProvider()),
+        ),
+      ],
+      child: MaterialApp(
+        title: '',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+      useMaterial3: true,
+      scaffoldBackgroundColor: HexColor(ColourConstants.backgroundWhite),
+      cardColor: HexColor(ColourConstants.backgroundWhite)
+        ),
+        onGenerateRoute: (RouteSettings settings) => generateRoute(settings),
+        home: const Padding(
+      padding: EdgeInsets.all(8.0),
+      child:  LoadingScreen()
+        ),
       ),
-      home: const Padding(
-        padding: EdgeInsets.all(8.0),
-        child:  LoadingScreen()
-      ),
-    ));
+    );
   }
 
 
