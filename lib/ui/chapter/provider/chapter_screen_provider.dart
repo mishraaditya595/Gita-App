@@ -8,12 +8,13 @@ class ChapterScreenProvider extends ChangeNotifier {
   List<ChapterDetailedModel> chapterDetailedList = [];
   bool isNotExpanded = true;
   String expandSummaryText = "READ MORE";
+  String bookHashWord = "";
 
   fetchAll(int chapterNumber) {
     ChapterScreenService chapterScreenService =
         GetIt.instance.get<ChapterScreenService>();
     chapterDetailedList =
-        chapterScreenService.getChapterDetailedList(chapterNumber);
+        chapterScreenService.getChapterDetailedList(chapterNumber, bookHashWord);
     notifyListeners();
   }
 

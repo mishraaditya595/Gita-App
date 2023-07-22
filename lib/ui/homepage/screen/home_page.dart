@@ -187,6 +187,7 @@ class _HomePageState extends State<HomePage> {
                           chapterName: name,
                           verseCount: verseCount,
                           chapterSummary: chapterSummary,
+                          bookModel: widget.bookModel
                         );
                       })
                 ],

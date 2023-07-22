@@ -25,9 +25,10 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       case ChapterScreen.routeName:
         List args = routeSettings.arguments as List;
         return ChapterScreen(
-            chapterNumber: args[0],
-            chapterName: args[1],
-            chapterSummary: args[2]
+          chapterNumber: args[0],
+          chapterName: args[1],
+          chapterSummary: args[2],
+          booksModel: args[3],
         );
       case LibraryHomePage.routeName:
         return LibraryHomePage();

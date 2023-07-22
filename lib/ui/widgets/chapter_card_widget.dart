@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sbg/models/books_model.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
 import '../chapter/screen/chapter_screen.dart';
@@ -11,13 +12,16 @@ class ChapterWidgetCard extends StatefulWidget {
   final String chapterName;
   final int verseCount;
   final String chapterSummary;
+  final BooksModel bookModel;
 
   const ChapterWidgetCard(
       {Key? key,
       required this.chapterNumber,
       required this.chapterName,
       required this.verseCount,
-      required this.chapterSummary})
+      required this.chapterSummary,
+        required this.bookModel
+      })
       : super(key: key);
 
   @override
@@ -86,7 +90,7 @@ class _ChapterWidgetCardState extends State<ChapterWidgetCard> {
   onCardTapped(int chapterNumber, String chapterName, String chapterSummary) {
     Navigator.of(context).pushNamed(
         ChapterScreen.routeName,
-      arguments: [chapterNumber, chapterName, chapterSummary]
+      arguments: [chapterNumber, chapterName, chapterSummary, widget.bookModel]
     );
   }
 }

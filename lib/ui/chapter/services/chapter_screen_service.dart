@@ -11,13 +11,15 @@ class ChapterScreenService {
 
   ChapterScreenService(this.databaseService);
 
-  List<ChapterDetailedModel> getChapterDetailedList(int chapterNumber) {
+  List<ChapterDetailedModel> getChapterDetailedList(int chapterNumber, String bookHashWord) {
     Box<ChapterDetailedModel> chapterDetailedModelBox =
         databaseService.getStore<ChapterDetailedModel>(describeEnum(DbModel.ChapterDetailedModel));
 
     List<ChapterDetailedModel>? chapterDetailedList = chapterDetailedModelBox.values.where(
             (element) =>
-                element.chapterNumber == "$chapterNumber").toList();
+                element.chapterNumber == "$chapterNumber" &&
+                    element.bookHashName == bookHashWord
+    ).toList();
 
     chapterDetailedList.sort((a, b) => a.verseNumberInt.compareTo(b.verseNumberInt));
 

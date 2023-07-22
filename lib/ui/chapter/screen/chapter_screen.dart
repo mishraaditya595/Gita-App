@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sbg/models/books_model.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/ui/widgets/default_app_bar.dart';
 import 'package:sbg/ui/widgets/verse_card_widget.dart';
@@ -14,12 +15,15 @@ class ChapterScreen extends StatefulWidget {
   final int chapterNumber;
   final String chapterName;
   final String chapterSummary;
+  final BooksModel booksModel;
 
   const ChapterScreen(
       {Key? key,
       required this.chapterNumber,
       required this.chapterName,
-      required this.chapterSummary})
+      required this.chapterSummary,
+        required this.booksModel
+      })
       : super(key: key);
 
   @override
@@ -34,6 +38,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
         child: Consumer<ChapterScreenProvider>(
             builder: (context, provider, child) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
+            provider.bookHashWord = widget.booksModel.bookHashWord;
             provider.fetchAll(widget.chapterNumber);
           });
           return Scaffold(
