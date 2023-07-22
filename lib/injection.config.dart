@@ -12,10 +12,10 @@ import 'package:sbg/services/device-info/device_info_service.dart' as _i4;
 import 'package:sbg/services/notifications/firebase/firebase_messaging_service.dart'
     as _i5;
 import 'package:sbg/services/remote_config_service.dart' as _i10;
+import 'package:sbg/ui/bookhome/services/home_page_services.dart' as _i6;
 import 'package:sbg/ui/bookmark/service/bookmark_service.dart' as _i12;
 import 'package:sbg/ui/bottombar/services/in_app_review_service.dart' as _i7;
 import 'package:sbg/ui/chapter/services/chapter_screen_service.dart' as _i13;
-import 'package:sbg/ui/homepage/services/home_page_services.dart' as _i6;
 import 'package:sbg/ui/libraryhome/services/library_services.dart' as _i8;
 import 'package:sbg/ui/loading/service/loading_service.dart' as _i9;
 import 'package:sbg/ui/verse/services/verse_screen_service.dart'

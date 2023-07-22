@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sbg/models/books_model.dart';
-import 'package:sbg/ui/homepage/screen/home_page.dart';
+
+import '../bookhome/screen/home_page.dart';
 
 class BookCardWidget extends StatelessWidget {
   BooksModel bookMap;

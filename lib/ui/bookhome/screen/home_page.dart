@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:sbg/models/books_model.dart';
-import 'package:sbg/ui/homepage/provider/home_page_provider.dart';
-import 'package:sbg/ui/homepage/services/home_page_services.dart';
 import 'package:sbg/ui/loading/service/loading_service.dart';
 import 'package:sbg/ui/widgets/chapter_card_widget.dart';
 import 'package:sbg/utils/colour_constants.dart';
@@ -17,6 +15,7 @@ import 'package:provider/provider.dart';
 import '../../bottombar/services/in_app_review_service.dart';
 import '../../verse/screen/verse_screen.dart';
 import '../../widgets/default_app_bar.dart';
+import '../provider/home_page_provider.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = "/book_home";

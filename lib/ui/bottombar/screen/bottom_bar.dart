@@ -7,8 +7,7 @@ import '../../../utils/hexcolor.dart';
 import '../../bookmark/provider/bookmark_provider.dart';
 import '../../bookmark/screen/bookmark_page.dart';
 import '../../chapter/provider/chapter_screen_provider.dart';
-import '../../homepage/provider/home_page_provider.dart';
-import '../../homepage/screen/home_page.dart';
+
 import '../../others/about_page.dart';
 import '../../verse/provider/verse_screen_provider.dart';
 
