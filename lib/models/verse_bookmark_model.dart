@@ -34,6 +34,9 @@ class VerseBookmarkModel extends HiveObject{
   @HiveField(9)
   int creationTime;
 
+  @HiveField(10)
+  String bookHashName;
+
   VerseBookmarkModel({
     this.id = 0,
     required this.verseNumber,
@@ -45,5 +48,6 @@ class VerseBookmarkModel extends HiveObject{
     required this.commentary,
     required this.verseNumberInt,
     required this.creationTime,
+    required this.bookHashName
   });
 }

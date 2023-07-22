@@ -27,13 +27,14 @@ class VerseBookmarkModelAdapter extends TypeAdapter<VerseBookmarkModel> {
       commentary: fields[7] as String,
       verseNumberInt: fields[8] as int,
       creationTime: fields[9] as int,
+      bookHashName: fields[10] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, VerseBookmarkModel obj) {
     writer
-      ..writeByte(10)
+      ..writeByte(11)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -53,7 +54,9 @@ class VerseBookmarkModelAdapter extends TypeAdapter<VerseBookmarkModel> {
       ..writeByte(8)
       ..write(obj.verseNumberInt)
       ..writeByte(9)
-      ..write(obj.creationTime);
+      ..write(obj.creationTime)
+      ..writeByte(10)
+      ..write(obj.bookHashName);
   }
 
   @override

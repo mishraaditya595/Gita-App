@@ -160,7 +160,8 @@ class VerseScreenService {
           translation: verseDetails.translation,
           commentary: verseDetails.commentary,
           verseNumberInt: verseDetails.verseNumberInt,
-          creationTime: currentDateTime.microsecondsSinceEpoch));
+          creationTime: currentDateTime.microsecondsSinceEpoch,
+          bookHashName: verseDetails.bookHashName));
     }
   }
 
