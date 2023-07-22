@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:sbg/models/books_model.dart';
 import 'package:sbg/ui/homepage/provider/home_page_provider.dart';
 import 'package:sbg/ui/homepage/services/home_page_services.dart';
 import 'package:sbg/ui/loading/service/loading_service.dart';
@@ -19,8 +20,8 @@ import '../../widgets/default_app_bar.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = "/book_home";
-  String bookName;
-  HomePage({Key? key, required this.bookName}) : super(key: key);
+  BooksModel bookModel;
+  HomePage({Key? key, required this.bookModel}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -33,6 +34,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       homePageProvider = Provider.of<HomePageProvider>(context, listen: false);
+      homePageProvider.bookHashWord = widget.bookModel.bookHashWord;
       homePageProvider.fetchAll();
 
       InAppReviewService inAppReviewService = GetIt.instance.get<InAppReviewService>();
@@ -71,7 +73,7 @@ class _HomePageState extends State<HomePage> {
             showIgnore: false,
             showLater: true,),
         child: Scaffold(
-          appBar: DefaultAppBar(title: widget.bookName,),
+          appBar: DefaultAppBar(title: widget.bookModel.bookName,),
             body: LiquidPullToRefresh(
               springAnimationDurationInMilliseconds: 300,
               color: HexColor(ColourConstants.backgroundWhite),

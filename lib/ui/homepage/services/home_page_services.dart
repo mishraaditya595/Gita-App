@@ -15,11 +15,11 @@ class HomePageServices {
   HomePageServices(this.databaseService);
 
   //<--- get all chapters summary --->
-  List<ChapterSummaryModel> getAllChapters() {
+  List<ChapterSummaryModel> getAllChapters(String bookHashWord) {
     Box<ChapterSummaryModel> chapterSummaryModelBox =
     databaseService.getStore<ChapterSummaryModel>(describeEnum(DbModel.ChapterSummaryModel));
 
-    List<ChapterSummaryModel> list = chapterSummaryModelBox.values.toList();
+    List<ChapterSummaryModel> list = chapterSummaryModelBox.values.where((element) => element.bookHashName == bookHashWord).toList();
 
     list.sort((a, b) => a.chapterNumberInt.compareTo(b.chapterNumberInt));
     

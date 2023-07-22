@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:sbg/models/books_model.dart';
 import 'package:sbg/models/chapter_summary_model.dart';
 import 'package:sbg/models/data_sync_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,9 +14,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../services/db/database_service.dart';
 
 class ChapterSummaryLoader {
-  final String tableName = "chapter_summary";
+  // final String tableName = "chapter_summary";
 
-  getDataFromDB() async {
+  getDataFromDB(BooksModel element) async {
+    String tableName = element.chapterSummaryLink;
+
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
 
     Box<DataSyncModel> dataSyncBox =
@@ -35,12 +38,12 @@ class ChapterSummaryLoader {
             'apikey': apiKey ?? ""
           });
 
-      await addDataToLocalDb(res);
+      await addDataToLocalDb(res, element.bookHashWord);
     }
     dataSyncBox.add(DataSyncModel(name: tableName, successStatus: true));
   }
 
-  Future<void> addDataToLocalDb(Response res) async {
+  Future<void> addDataToLocalDb(Response res, String bookHashWord) async {
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
     Box<ChapterSummaryModel> chapterSummaryModelBox =
     databaseService.getStore<ChapterSummaryModel>(describeEnum(DbModel.ChapterSummaryModel));
@@ -50,15 +53,14 @@ class ChapterSummaryLoader {
       var jsonResp = jsonDecode(res.body);
       for (int i = 0; i < jsonResp.length; i++) {
         var chapterSummary = jsonResp[i];
-        chapterSummaryList.add(toChapterSummaryModel(chapterSummary));
+        chapterSummaryList.add(toChapterSummaryModel(chapterSummary, bookHashWord));
       }
-      await chapterSummaryModelBox.clear();
       chapterSummaryModelBox.addAll(chapterSummaryList);
       log("Chapter Summary Loaded: ${chapterSummaryModelBox.values.toList().length}");
     }
   }
 
-  ChapterSummaryModel toChapterSummaryModel(chapterSummary) {
+  ChapterSummaryModel toChapterSummaryModel(chapterSummary, String bookHashWord) {
     ChapterSummaryModel chapterSummaryModel = ChapterSummaryModel(
         chapterNumber: chapterSummary['chapter_number'].toString().trim() ?? '',
         name: chapterSummary['name'].toString().trim() ?? '',
@@ -68,7 +70,8 @@ class ChapterSummaryLoader {
         nameMeaning: chapterSummary['name_meaning'].toString().trim() ?? '',
         summary: chapterSummary['summary'].toString().trim() ?? '',
         summaryHindi: chapterSummary['summary_hindi'].toString().trim() ?? '',
-        chapterNumberInt: chapterSummary['chapter_number'] ?? 0, bookHashName: '2');
+        chapterNumberInt: chapterSummary['chapter_number'] ?? 0,
+        bookHashName: bookHashWord);
     return chapterSummaryModel;
   }
 }

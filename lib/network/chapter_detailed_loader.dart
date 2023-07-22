@@ -6,6 +6,7 @@ import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
+import 'package:sbg/models/books_model.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/services/db/database_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,9 +14,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/data_sync_model.dart';
 
 class ChapterDetailedLoader {
-  final String tableName = "chapter_detailed";
+  // final String tableName = "chapter_detailed";
 
-  getDataFromDB() async {
+  getDataFromDB(BooksModel element) async {
+    String tableName = element.chapterDetailedLink;
+
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
 
     Box<DataSyncModel> dataSyncBox =
@@ -35,12 +38,12 @@ class ChapterDetailedLoader {
             'apikey': apiKey ?? ""
           });
 
-      await addDataToLocalDb(res);
+      await addDataToLocalDb(res, element.bookHashWord);
     }
     dataSyncBox.add(DataSyncModel(name: tableName, successStatus: true));
   }
 
-  Future<void> addDataToLocalDb(Response res) async {
+  Future<void> addDataToLocalDb(Response res, String bookHashWord) async {
     DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
 
     Box<ChapterDetailedModel> chapterDetailedModelBox =
@@ -51,15 +54,15 @@ class ChapterDetailedLoader {
       var jsonResp = jsonDecode(res.body);
       for (int i = 0; i < jsonResp.length; i++) {
         var chapterDetailed = jsonResp[i];
-        chapterDetailedList.add(toChapterDetailedModel(chapterDetailed));
+        chapterDetailedList.add(toChapterDetailedModel(chapterDetailed, bookHashWord));
       }
-      await chapterDetailedModelBox.clear();
+      // await chapterDetailedModelBox.clear();
       chapterDetailedModelBox.addAll(chapterDetailedList);
       log("Chapter Detailed Loaded: ${chapterDetailedModelBox.values.toList().length}");
     }
   }
 
-  ChapterDetailedModel toChapterDetailedModel(chapterDetailed) {
+  ChapterDetailedModel toChapterDetailedModel(chapterDetailed, String bookHashWord) {
     ChapterDetailedModel chapterDetailedModel = ChapterDetailedModel(
       verseNumber: chapterDetailed['verse_number'].toString().trim() ?? '',
       chapterNumber: chapterDetailed['chapter_number'].toString().trim() ?? '',
@@ -69,7 +72,8 @@ class ChapterDetailedLoader {
       wordMeanings: chapterDetailed['word_meanings'].toString().trim() ?? '',
       translation: chapterDetailed['translation'].toString().trim() ?? '',
       commentary: chapterDetailed['commentary'].toString().trim() ?? '',
-      verseNumberInt: chapterDetailed['verse_number'].toInt() ?? -1, bookHashName: '',
+      verseNumberInt: chapterDetailed['verse_number'].toInt() ?? -1,
+      bookHashName: bookHashWord,
     );
     return chapterDetailedModel;
   }

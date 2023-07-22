@@ -15,11 +15,12 @@ class HomePageProvider with ChangeNotifier {
   int lastReadVerseInt = 0;
   bool isLastReadAvailable = false;
   bool loading = false;
+  String bookHashWord = "";
 
   Future<void> fetchAll() async {
     changeLoadingState();
     HomePageServices homePageServices = GetIt.instance.get<HomePageServices>();
-    chapterSummaryList = homePageServices.getAllChapters();
+    chapterSummaryList = homePageServices.getAllChapters(bookHashWord);
 
     List<LastReadModel> lastReadList = homePageServices.getLastReadVerse();
 

@@ -20,33 +20,6 @@ class LibraryHomePage extends StatefulWidget {
 }
 
 class _LibraryHomePageState extends State<LibraryHomePage> {
-  List booksList = [
-    {
-      "bookImage":
-          "https://wallpapers.com/images/hd/bhagavad-gita-galaxy-digital-art-ajjgdklmuaaqa5my.jpg",
-      "bookTitle": "Sri Isopanishad"
-    },
-    {
-      "bookImage":
-          "https://wallpapers.com/images/hd/bhagavad-gita-galaxy-digital-art-ajjgdklmuaaqa5my.jpg",
-      "bookTitle": "Srimad Bhagwad Gita"
-    },
-    {
-      "bookImage":
-          "https://wallpapers.com/images/hd/bhagavad-gita-galaxy-digital-art-ajjgdklmuaaqa5my.jpg",
-      "bookTitle": "Updeshmrita"
-    },
-    {
-      "bookImage":
-          "https://wallpapers.com/images/hd/bhagavad-gita-galaxy-digital-art-ajjgdklmuaaqa5my.jpg",
-      "bookTitle": "Srimad Bhagwatam"
-    },
-    {
-      "bookImage":
-          "https://wallpapers.com/images/hd/bhagavad-gita-galaxy-digital-art-ajjgdklmuaaqa5my.jpg",
-      "bookTitle": "Keno Upanishad"
-    },
-  ];
 
   List<BooksModel> booksModelList = [];
 
@@ -129,10 +102,7 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
                       booksModelList.length > 6 ? 6 : booksModelList.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                    return BookCardWidget(bookMap: {
-                      "bookImage": booksModelList[index].bookImage,
-                      "bookTitle": booksModelList[index].bookName
-                    });
+                    return BookCardWidget(bookMap: booksModelList[index]);
                   },
                 ),
                 Align(

@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sbg/models/chapter_detailed_model.dart';
+import 'package:sbg/models/chapter_summary_model.dart';
 import 'package:sbg/models/data_sync_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -53,8 +55,22 @@ class LoadingService {
 
     List<BooksModel> booksModelList = booksModelBox.values.toList();
 
-    await ChapterSummaryLoader().getDataFromDB();
-    await ChapterDetailedLoader().getDataFromDB();
+    if(booksModelList.isNotEmpty) {
+      Box<ChapterSummaryModel> chapterSummaryModel =
+      databaseService.getStore<ChapterSummaryModel>(describeEnum(DbModel.ChapterSummaryModel));
+      await chapterSummaryModel.clear();
+
+      Box<ChapterDetailedModel> chapterDetailedModel =
+      databaseService.getStore<ChapterDetailedModel>(describeEnum(DbModel.ChapterDetailedModel));
+      await chapterDetailedModel.clear();
+    }
+
+    for(BooksModel booksModel in booksModelList) {
+      await ChapterSummaryLoader().getDataFromDB(booksModel);
+      await ChapterDetailedLoader().getDataFromDB(booksModel);
+    }
+
+
   }
 
   Future<void> setLastModifiedTime() async {
@@ -64,6 +80,12 @@ class LoadingService {
   }
 
   bool _checkForLoadingStatus() {
+    Box<BooksModel> booksModelBox =
+    databaseService.getStore<BooksModel>(describeEnum(DbModel.BooksModel));
+
+    int flag = booksModelBox.values.toList().length * 2;
+
+
     Box<DataSyncModel> dataSyncModelBox =
         databaseService.getStore<DataSyncModel>(describeEnum(DbModel.DataSyncModel));
 
@@ -71,6 +93,6 @@ class LoadingService {
             (element) =>
             element.successStatus == true).toList();
 
-    return dataSyncList.length == 2 ? true : false;
+    return dataSyncList.length == flag ? true : false;
   }
 }
