@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
+import 'package:sbg/ui/bookmark/screen/bookmark_page.dart';
 import 'package:sbg/ui/libraryhome/services/library_services.dart';
 import 'package:sbg/ui/widgets/book_card_widget.dart';
 import 'package:sbg/ui/widgets/default_app_bar.dart';
@@ -126,6 +127,21 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
                     padding: EdgeInsets.all(8.0),
                     child: Text(
                         "GitaVedanta is a free, online research tool dedicated to exploring the Vedic scriptures, offering profound insights into ancient wisdom and spiritual teachings. Discover the essence of ancient Vedic knowledge and embark on a transformative journey of self-discovery and enlightenment with GitaVedanta."),
+                  ),
+                ),
+                InkWell(
+                  onTap: () => Navigator.of(context).pushNamed(BookmarkPage.routeName),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: HexColor(ColourConstants.cornFlowerBlue),
+                          borderRadius: BorderRadius.all(Radius.circular(8))),
+                      child: const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text("Show Bookmarks",),
+                      ),
+                    ),
                   ),
                 ),
               ],

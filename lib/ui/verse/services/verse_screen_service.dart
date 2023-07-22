@@ -15,14 +15,15 @@ class VerseScreenService {
   VerseScreenService(this.databaseService);
 
   List<VerseBookmarkModel> fetchBookmarkDetails(
-      String chapterNumber, String verseNumber) {
+      String chapterNumber, String verseNumber, String bookHashName) {
     Box<VerseBookmarkModel> verseBookmarkModelBox =
         databaseService.getStore<VerseBookmarkModel>(describeEnum(DbModel.VerseBookmarkModel));
 
     List<VerseBookmarkModel> bookmarkList = verseBookmarkModelBox.values.where(
             (element) =>
             element.verseNumber == verseNumber &&
-                element.chapterNumber == chapterNumber).toList();
+                element.chapterNumber == chapterNumber &&
+                element.bookHashName == bookHashName).toList();
 
     return bookmarkList;
   }
@@ -41,16 +42,16 @@ class VerseScreenService {
   }
 
   ChapterDetailedModel? navigateVerses(
-      String operator, String chapterNumber, String verseNumber) {
+      String operator, String chapterNumber, String verseNumber, String bookHashName) {
     int currentChapter = int.parse(chapterNumber);
     int currentVerse = int.parse(verseNumber);
     List<ChapterDetailedModel> navigatedVerse = [];
     switch (operator) {
       case "NEXT":
-        navigatedVerse = navigateToNextVerse(currentChapter, currentVerse);
+        navigatedVerse = navigateToNextVerse(currentChapter, currentVerse, bookHashName);
         break;
       case "PREVIOUS":
-        navigatedVerse = navigateToPreviousVerse(currentChapter, currentVerse);
+        navigatedVerse = navigateToPreviousVerse(currentChapter, currentVerse, bookHashName);
         break;
     }
     if (navigatedVerse.isNotEmpty) {
@@ -61,7 +62,7 @@ class VerseScreenService {
   }
 
   List<ChapterDetailedModel> navigateToNextVerse(
-      int currentChapter, int currentVerse) {
+      int currentChapter, int currentVerse, String bookHashName) {
     int nextChapter = currentChapter;
     int nextVerse = currentVerse + 1;
 
@@ -70,7 +71,9 @@ class VerseScreenService {
 
     List<ChapterSummaryModel>? chapterSummaryList = chapterSummaryModelBox.values.where(
             (element) =>
-            element.chapterNumber == currentChapter.toString()).toList();
+            element.chapterNumber == currentChapter.toString() &&
+        element.bookHashName == bookHashName
+    ).toList();
 
     var verseCount = chapterSummaryList.first.verseCount;
 
@@ -89,14 +92,16 @@ class VerseScreenService {
       chapterDetailedList = chapterDetailedModelBox.values.where(
               (element) =>
               element.verseNumber == nextVerse.toString() &&
-                  element.chapterNumber == nextChapter.toString()).toList();
+                  element.chapterNumber == nextChapter.toString() &&
+          element.bookHashName == bookHashName
+      ).toList();
     }
 
     return chapterDetailedList;
   }
 
   List<ChapterDetailedModel> navigateToPreviousVerse(
-      int currentChapter, int currentVerse) {
+      int currentChapter, int currentVerse, String bookHashName) {
     int previousChapter = currentChapter;
     int previousVerse = currentVerse - 1;
 
@@ -104,20 +109,20 @@ class VerseScreenService {
     databaseService.getStore<ChapterSummaryModel>(describeEnum(DbModel.ChapterSummaryModel));
 
     List<ChapterSummaryModel>? chapterSummaryList = chapterSummaryModelBox.values.where(
-            (element) => element.chapterNumber == previousChapter.toString()).toList();
+            (element) =>
+            element.chapterNumber == previousChapter.toString() &&
+        element.bookHashName == bookHashName).toList();
     var verseCount = chapterSummaryList.first.verseCount;
 
     if (currentVerse == 1) {
       previousChapter = currentChapter - 1;
-      // if(previousVerse != 0) {
       Box<ChapterSummaryModel> chapterSummaryModelBox =
           databaseService.getStore<ChapterSummaryModel>(describeEnum(DbModel.ChapterSummaryModel));
-      // QueryBuilder<ChapterSummaryModel> queryBuilder =
-      //     chapterSummaryModelBox.query(ChapterSummaryModel_.chapterNumber
-      //         .equals((previousChapter).toString()));
-      // Query<ChapterSummaryModel> query = queryBuilder.build();
+
       List<ChapterSummaryModel>? chapterSummaryList = chapterSummaryModelBox.values.where(
-              (element) => element.chapterNumber == previousChapter.toString()).toList();
+              (element) =>
+              element.chapterNumber == previousChapter.toString()
+      && element.bookHashName == bookHashName).toList();
 
       if (chapterSummaryList.isNotEmpty) {
         previousVerse = chapterSummaryList.first.verseCount;
@@ -132,7 +137,8 @@ class VerseScreenService {
       chapterDetailedList = chapterDetailedModelBox.values.where(
               (element) =>
               element.verseNumber == previousVerse.toString() &&
-          element.chapterNumber == previousChapter.toString()
+          element.chapterNumber == previousChapter.toString() &&
+          element.bookHashName == bookHashName
       ).toList();
     }
     return chapterDetailedList;
@@ -147,7 +153,8 @@ class VerseScreenService {
     List<VerseBookmarkModel>? bookmarkList = verseBookmarkModelBox.values.where(
             (element) =>
             element.verseNumber == verseDetails.verseNumber &&
-                element.chapterNumber == verseDetails.chapterNumber).toList();
+                element.chapterNumber == verseDetails.chapterNumber &&
+        element.bookHashName == verseDetails.bookHashName).toList();
 
     if (bookmarkList.isEmpty) {
       // <--- add bookmark to the table as it is not present already --->

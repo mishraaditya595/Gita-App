@@ -17,6 +17,12 @@ class BookmarkService {
     List<VerseBookmarkModel>? verseBookmarkModelList =
     verseBookmarkModelBox.values.toList();
 
+    Set<String> uniqueBookHashNames = {};
+
+    verseBookmarkModelList.forEach((element) {
+      uniqueBookHashNames.add(element.bookHashName);
+    });
+
     return verseBookmarkModelList;
   }
 

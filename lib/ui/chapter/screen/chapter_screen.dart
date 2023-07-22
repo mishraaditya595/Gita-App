@@ -119,7 +119,7 @@ class _ChapterScreenState extends State<ChapterScreen> {
                                 verseNumberInt: provider
                                     .chapterDetailedList[position]
                                     .verseNumberInt,
-                                bookHashName: '',
+                                bookHashName: provider.chapterDetailedList[position].bookHashName,
                               ),
                             );
                           })

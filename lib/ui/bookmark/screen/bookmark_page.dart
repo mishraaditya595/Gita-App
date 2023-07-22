@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/ui/bookmark/provider/bookmark_provider.dart';
+import 'package:sbg/ui/widgets/default_app_bar.dart';
 import 'package:sbg/ui/widgets/verse_card_widget.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
@@ -29,6 +30,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
               if(snapshot.connectionState == ConnectionState.done) {
                 return Scaffold(
+                  appBar: DefaultAppBar(title: "Bookmarks Page"),
                   body: Padding(
                     padding:
                     const EdgeInsets.only(
@@ -112,7 +114,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
                                           verseNumberInt: provider
                                               .verseBookmarkModelList[position]
                                               .verseNumberInt,
-                                          bookHashName: '')),
+                                          bookHashName: provider.verseBookmarkModelList[position].bookHashName)),
                                   onDismissed: (_) {
                                     provider.removeBookmark(
                                         provider
