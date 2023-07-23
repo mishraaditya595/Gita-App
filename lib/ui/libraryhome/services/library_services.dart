@@ -20,4 +20,19 @@ class LibraryService {
 
     return booksModelList;
   }
+
+  BooksModel? getBook(String bookHashName) {
+    Box<BooksModel> booksModelBox =
+    databaseService.getStore<BooksModel>(describeEnum(DbModel.BooksModel));
+
+    List<BooksModel> booksModelList = booksModelBox.values
+        .where((element) => element.bookHashWord == bookHashName
+    ).toList();
+
+    if(booksModelList.isNotEmpty) {
+      return booksModelList.first;
+    } else {
+      return null;
+    }
+  }
 }

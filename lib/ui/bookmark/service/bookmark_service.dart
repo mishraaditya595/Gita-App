@@ -26,6 +26,7 @@ class BookmarkService {
     return verseBookmarkModelList;
   }
 
+
   Future<List<VerseBookmarkModel>> removeBookmark(String verseNumber, String chapterNumber) async {
     Box<VerseBookmarkModel> verseBookmarkModelBox =
     databaseService.getStore<VerseBookmarkModel>(describeEnum(DbModel.VerseBookmarkModel));

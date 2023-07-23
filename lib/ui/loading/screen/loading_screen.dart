@@ -87,7 +87,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
     bool loadingStatus = await loadingService.fetchAllLoaders();
 
     if (loadingStatus) {
-      await Navigator.of(context).pushReplacementNamed(LibraryHomePage.routeName);
+      if (mounted) {
+        await Navigator.of(context).pushReplacementNamed(
+            LibraryHomePage.routeName);
+      }
     }
   }
 }
