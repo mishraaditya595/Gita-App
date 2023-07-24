@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
 import 'package:sbg/ui/bookmark/screen/bookmark_page.dart';
+import 'package:sbg/ui/library/screen/library_page.dart';
 import 'package:sbg/ui/libraryhome/services/library_services.dart';
 import 'package:sbg/ui/widgets/book_card_widget.dart';
 import 'package:sbg/ui/widgets/default_app_bar.dart';
@@ -92,31 +93,37 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
                     ),
                   ),
                 ),
-                GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount:
-                        booksModelList.length < 3 ? booksModelList.length : 3,
-                    mainAxisExtent: 195,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount:
+                          booksModelList.length < 3 ? booksModelList.length : 3,
+                      mainAxisExtent: 230,
+                    ),
+                    physics: const ClampingScrollPhysics(),
+                    itemCount:
+                        booksModelList.length > 6 ? 6 : booksModelList.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return BookCardWidget(bookMap: booksModelList[index]);
+                    },
                   ),
-                  physics: const ClampingScrollPhysics(),
-                  itemCount:
-                      booksModelList.length > 6 ? 6 : booksModelList.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return BookCardWidget(bookMap: booksModelList[index]);
-                  },
                 ),
                 Align(
                   alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: HexColor(ColourConstants.cornFlowerBlue),
-                          borderRadius: BorderRadius.all(Radius.circular(8))),
-                      child: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Text("View all books"),
+                  child: InkWell(
+                    onTap: () => Navigator.of(context).pushNamed(LibraryPage.routeName),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: HexColor(ColourConstants.cornFlowerBlue),
+                            borderRadius: BorderRadius.all(Radius.circular(8))),
+                        child: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text("View all books"),
+                        ),
                       ),
                     ),
                   ),

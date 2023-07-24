@@ -4,6 +4,7 @@ import 'package:sbg/models/books_model.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/ui/bookmark/screen/bookmark_page.dart';
 import 'package:sbg/ui/bottombar/screen/bottom_bar.dart';
+import 'package:sbg/ui/library/screen/library_page.dart';
 import 'package:sbg/ui/libraryhome/screen/library_home_page.dart';
 import 'package:sbg/ui/loading/screen/loading_screen.dart';
 import 'package:sbg/ui/verse/screen/verse_screen.dart';
@@ -40,6 +41,8 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
             verseNumber: args.verseNumberInt,
             verseDetails: args
         );
+      case LibraryPage.routeName:
+        return LibraryPage();
       default:
         return BottomAppBar();
     }
