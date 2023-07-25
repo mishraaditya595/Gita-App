@@ -34,19 +34,19 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return LiquidPullToRefresh(
-      springAnimationDurationInMilliseconds: 300,
-      color: HexColor(ColourConstants.backgroundWhite),
-      backgroundColor: HexColor(ColourConstants.fiord),
-      showChildOpacityTransition: false,
-      onRefresh: () async {
-        LoadingService loadingService = GetIt.instance.get<LoadingService>();
-        await loadingService.load();
-        setState(() {});
-      },
-      child: Scaffold(
-        appBar: const HomeAppBar(),
-        body: ListView(
+    return Scaffold(
+      appBar: const HomeAppBar(),
+      body: LiquidPullToRefresh(
+        springAnimationDurationInMilliseconds: 300,
+        color: HexColor(ColourConstants.backgroundWhite),
+        backgroundColor: HexColor(ColourConstants.fiord),
+        showChildOpacityTransition: false,
+        onRefresh: () async {
+          LoadingService loadingService = GetIt.instance.get<LoadingService>();
+          await loadingService.load();
+          setState(() {});
+        },
+        child: ListView(
           children: [
             Column(
               children: [

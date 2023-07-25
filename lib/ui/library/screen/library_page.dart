@@ -36,7 +36,7 @@ class _LibraryPageState extends State<LibraryPage> {
         child: Column(
           children: [
             BookCountWidget(
-              bookCount: 4,
+              bookCount: booksModelList.length,
             ),
             GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
