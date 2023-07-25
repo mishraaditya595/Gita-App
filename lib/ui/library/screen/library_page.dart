@@ -52,7 +52,7 @@ class _LibraryPageState extends State<LibraryPage> {
                         alignment: Alignment.topRight,
                         child: Container(
                           margin: EdgeInsets.only(right: 12, top: 12),
-                          padding: EdgeInsets.symmetric(horizontal: 4),
+                          padding: EdgeInsets.symmetric(horizontal: 4, vertical: 2),
                           decoration: BoxDecoration(
                               color: Colors.green,
                           ),
