@@ -69,8 +69,5 @@ class BooksLoader {
     );
   }
 
-  // BooksModel toChapterDetailedModel(chapterDetailed) {
-  //   // BooksModel chapterDetailedModel = BooksModel(id: id, bookName: bookName, bookImage: bookImage, bookHashWord: bookHashWord, chapterDetailedLink: chapterDetailedLink, chapterSummaryLink: chapterSummaryLink)
-  //   return chapterDetailedModel;
-  // }
+
 }

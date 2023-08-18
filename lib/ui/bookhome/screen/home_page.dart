@@ -73,127 +73,100 @@ class _HomePageState extends State<HomePage> {
             showLater: true,),
         child: Scaffold(
           appBar: DefaultAppBar(title: widget.bookModel.bookName,),
-            body: LiquidPullToRefresh(
-              springAnimationDurationInMilliseconds: 300,
-              color: HexColor(ColourConstants.backgroundWhite),
-              backgroundColor: HexColor(ColourConstants.fiord),
-              showChildOpacityTransition: false,
-              onRefresh: () async {
-                LoadingService loadingService = GetIt.instance.get<LoadingService>();
-                await loadingService.load();
-                await homePageProvider.fetchAll();
-              },
-              child: ListView(children: [
+            body: ListView(children: [
           Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 5,
-                    width: double.maxFinite,
-                    child: InkWell(
-                      onTap: () async => {},
-                      child: Card(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        elevation: 3,
-                        child: InkWell(
-                          onTap: () {},
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(12),
-                                image: const DecorationImage(
-                                  image: AssetImage("assets/images/krishna.jpg"),
-                                  fit: BoxFit.fill,
-                                  alignment: Alignment.topCenter,
-                                )),
-                          ),
-                        ),
-                      ),
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Image.network(
+                        widget.bookModel.bookImage,
+                      width: 120,
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Visibility(
-                    visible: homePageProvider.isLastReadAvailable,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              "LAST READ",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              "Verse: ${homePageProvider.lastReadVerseNum}",
-                              style: TextStyle(fontWeight: FontWeight.bold),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          homePageProvider.lastReadVerseText,
-                          style: const TextStyle(color: Colors.black),
-                          overflow: TextOverflow.fade,
-                          maxLines: 2,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        InkWell(
-                            onTap: () => onCardTapped(
-                                homePageProvider.lastReadChapterInt,
-                                homePageProvider.lastReadVerseInt,
-                                homePageProvider),
-                            child: const Text("CONTINUE READING")),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Visibility(
+                  visible: homePageProvider.isLastReadAvailable,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
-                        "CHAPTERS",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            "LAST READ",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            "Verse: ${homePageProvider.lastReadVerseNum}",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
-                      IconButton(
-                          onPressed: () {}, icon: const Icon(Icons.sort_sharp))
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        homePageProvider.lastReadVerseText,
+                        style: const TextStyle(color: Colors.black),
+                        overflow: TextOverflow.fade,
+                        maxLines: 2,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      InkWell(
+                          onTap: () => onCardTapped(
+                              homePageProvider.lastReadChapterInt,
+                              homePageProvider.lastReadVerseInt,
+                              homePageProvider),
+                          child: const Text("CONTINUE READING")),
+                      const SizedBox(
+                        height: 20,
+                      ),
                     ],
                   ),
-                  ListView.builder(
-                      shrinkWrap: true,
-                      physics: const ClampingScrollPhysics(),
-                      itemCount: homePageProvider.chapterSummaryList.length,
-                      itemBuilder: (context, position) {
-                        String name = homePageProvider
-                            .chapterSummaryList[position].nameTranslated;
-                        int verseCount = homePageProvider
-                            .chapterSummaryList[position].verseCount;
-                        String chapterSummary =
-                            homePageProvider.chapterSummaryList[position].summary;
-                        return ChapterWidgetCard(
-                          chapterNumber: position + 1,
-                          chapterName: name,
-                          verseCount: verseCount,
-                          chapterSummary: chapterSummary,
-                          bookModel: widget.bookModel
-                        );
-                      })
-                ],
-              ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "CHAPTERS",
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    IconButton(
+                        onPressed: () {}, icon: const Icon(Icons.sort_sharp))
+                  ],
+                ),
+                ListView.builder(
+                    shrinkWrap: true,
+                    physics: const ClampingScrollPhysics(),
+                    itemCount: homePageProvider.chapterSummaryList.length,
+                    itemBuilder: (context, position) {
+                      String name = homePageProvider
+                          .chapterSummaryList[position].nameTranslated;
+                      int verseCount = homePageProvider
+                          .chapterSummaryList[position].verseCount;
+                      String chapterSummary =
+                          homePageProvider.chapterSummaryList[position].summary;
+                      return ChapterWidgetCard(
+                        chapterNumber: position + 1,
+                        chapterName: name,
+                        verseCount: verseCount,
+                        chapterSummary: chapterSummary,
+                        bookModel: widget.bookModel
+                      );
+                    })
+              ],
+            ),
           ),
-        ]),
-            )),
+        ])),
       );
     }
   }
