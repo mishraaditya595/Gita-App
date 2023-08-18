@@ -1,11 +1,13 @@
 # Gita - The Song of Bhagwad
 
-A mobile application on the Srimad Bhagwad Gita using Flutter.
+A mobile and web application on the Srimad Bhagwad Gita using Flutter.
 
 <p align="left">
 <a href="https://play.google.com/store/apps/details?id=com.sbg" target="_blank">
 <img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" alt="Get it on Google Play" height="90"/></a>
 </p>
+
+Or try the app on your browser visiting https://gitavedanta.in/#/ (Available for all users. Chrome recommended for better performance.)
 
 ## Features
 - **Explore Srimad Bhagavad Gita:** Access the content of Srimad Bhagavad Gita, segmented into chapters and verses, allowing you to delve into the teachings and wisdom of this sacred scripture.
@@ -20,7 +22,7 @@ A mobile application on the Srimad Bhagwad Gita using Flutter.
 <img src="https://play-lh.googleusercontent.com/8GsTO1fPNvuh9TiKzR8ftpIl-uNU-jcQB8LTeczp5yS7Ptba7NDqvFCIqktJMxU6uss=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
 
 
-## Installation
+## Repo Setup Guide
 1. **Clone the repository:**
    git clone https://github.com/username/repo.git
 2. Enable Firebase CLI in your system if not already. Visit: https://firebase.google.com/docs/cli#install-cli-windows for installation guide.
