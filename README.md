@@ -23,9 +23,14 @@ A mobile application on the Srimad Bhagwad Gita using Flutter.
 ## Installation
 1. **Clone the repository:**
    git clone https://github.com/username/repo.git
+2. Enable Firebase CLI in your system if not already. Visit: https://firebase.google.com/docs/cli#install-cli-windows for installation guide.
+3. Login to firebase through command line by running command 
+    - firebase login
 2. Open the project in your favourite IDE. I use Intellij.
 3. Run the following commands -
    - flutter pub get
+   - dart pub global activate flutterfire_cli
+   - flutterfire configure (This will start a command line interface for you to select the Firebase project you want to link to the Flutter project. After you complete this, a firebase_options.dart file will be generated in your lib/ folder.)
    - flutter pub run build_runner build --delete-conflicting-outputs
 4. Build and run the app on a device or emulator.
 
