@@ -1,0 +1,27 @@
+workflows:
+  web-build-&-deploy:
+    name: Publish to Firebase hosting
+    max_build_duration: 60
+    environment:
+      vars:
+        FIREBASE_TOKEN: <insert your encrypted token here>
+      flutter: beta
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - flutter packages pub get
+      - flutter config --enable-web
+      - name: Build Web
+        script: |
+          flutter build web --release
+          cd build/web
+          7z a -r ../web.zip ./*
+      - name: Publish to Firebase Hosting
+        script: firebase deploy --token "$FIREBASE_TOKEN"
+    artifacts:
+      - build/web.zip
+      - flutter_drive.log
+    publishing:
+      email:
+        recipients:
+          - mishraaditya595@gmail.com
