@@ -3,8 +3,6 @@ workflows:
     name: Publish to Firebase hosting
     max_build_duration: 60
     environment:
-      vars:
-        FIREBASE_TOKEN: <insert your encrypted token here>
       flutter: beta
       xcode: latest
       cocoapods: default
