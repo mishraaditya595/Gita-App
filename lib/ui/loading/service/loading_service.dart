@@ -35,6 +35,23 @@ class LoadingService {
         await load();
         await setLastModifiedTime();
         return _checkForLoadingStatus();
+      } else {
+        Box<BooksModel> booksModelBox =
+        databaseService.getStore<BooksModel>(describeEnum(DbModel.BooksModel));
+        int booksModelCount = booksModelBox.values.toList().length;
+
+        Box<ChapterDetailedModel> chapterDetailedBox = databaseService.getStore<ChapterDetailedModel>(describeEnum(DbModel.ChapterDetailedModel));
+        int chapterDetailedCount = chapterDetailedBox.values.toList().length;
+
+        Box<ChapterSummaryModel> chapterSummaryBox = databaseService.getStore<ChapterSummaryModel>(describeEnum(DbModel.ChapterSummaryModel));
+        int chapterSummaryCount = chapterSummaryBox.values.toList().length;
+
+        if(booksModelCount == 0 || chapterDetailedCount == 0 || chapterSummaryCount == 0){
+          await load();
+          await setLastModifiedTime();
+          return _checkForLoadingStatus();
+        }
+
       }
       print("loading complete");
       await Future.delayed(const Duration(seconds: 1));
@@ -87,6 +104,7 @@ class LoadingService {
     databaseService.getStore<BooksModel>(describeEnum(DbModel.BooksModel));
 
     int flag = booksModelBox.values.toList().length * 2;
+
 
     Box<DataSyncModel> dataSyncModelBox =
         databaseService.getStore<DataSyncModel>(describeEnum(DbModel.DataSyncModel));
