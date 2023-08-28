@@ -37,7 +37,7 @@ class ChapterDetailedLoader {
             'Authorization': authKey ?? "",
             'apikey': apiKey ?? ""
           });
-
+      print("chapter detailed api data from api");
       await addDataToLocalDb(res, element.bookHashWord);
     }
     dataSyncBox.add(DataSyncModel(name: tableName, successStatus: true));
@@ -56,9 +56,8 @@ class ChapterDetailedLoader {
         var chapterDetailed = jsonResp[i];
         chapterDetailedList.add(toChapterDetailedModel(chapterDetailed, bookHashWord));
       }
-      // await chapterDetailedModelBox.clear();
       chapterDetailedModelBox.addAll(chapterDetailedList);
-      log("Chapter Detailed Loaded: ${chapterDetailedModelBox.values.toList().length}");
+      print("Chapter Detailed Loaded: ${chapterDetailedModelBox.values.toList().length}");
     }
   }
 

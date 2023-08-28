@@ -37,7 +37,7 @@ class ChapterSummaryLoader {
             'Authorization': authKey ?? "",
             'apikey': apiKey ?? ""
           });
-
+      print("chapter summary data received from api");
       await addDataToLocalDb(res, element.bookHashWord);
     }
     dataSyncBox.add(DataSyncModel(name: tableName, successStatus: true));
@@ -56,7 +56,7 @@ class ChapterSummaryLoader {
         chapterSummaryList.add(toChapterSummaryModel(chapterSummary, bookHashWord));
       }
       chapterSummaryModelBox.addAll(chapterSummaryList);
-      log("Chapter Summary Loaded: ${chapterSummaryModelBox.values.toList().length}");
+      print("Chapter Summary Loaded: ${chapterSummaryModelBox.values.toList().length}");
     }
   }
 

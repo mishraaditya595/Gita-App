@@ -88,6 +88,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
     if (loadingStatus) {
       if (mounted) {
+        print("navigate to library page");
         await Navigator.of(context).pushReplacementNamed(
             LibraryHomePage.routeName);
       }

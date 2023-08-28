@@ -22,7 +22,7 @@ class LoadingService {
   Future<bool> fetchAllLoaders() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     int? lastModifiedTime = preferences.getInt("LAST_MODIFIED_TIME");
-
+    print("loading starts");
     if(lastModifiedTime == null) {
       await load();
       await setLastModifiedTime();
@@ -36,7 +36,7 @@ class LoadingService {
         await setLastModifiedTime();
         return _checkForLoadingStatus();
       }
-
+      print("loading complete");
       await Future.delayed(const Duration(seconds: 1));
       return true;
     }
@@ -47,6 +47,7 @@ class LoadingService {
     databaseService.getStore<DataSyncModel>(describeEnum(DbModel.DataSyncModel));
 
     await dataSyncModelBox.clear();
+    print("datasyncbox cleared");
 
     await BooksLoader().getDataFromDB();
 
@@ -59,10 +60,12 @@ class LoadingService {
       Box<ChapterSummaryModel> chapterSummaryModel =
       databaseService.getStore<ChapterSummaryModel>(describeEnum(DbModel.ChapterSummaryModel));
       await chapterSummaryModel.clear();
+      print("chapter summary model cleared");
 
       Box<ChapterDetailedModel> chapterDetailedModel =
       databaseService.getStore<ChapterDetailedModel>(describeEnum(DbModel.ChapterDetailedModel));
       await chapterDetailedModel.clear();
+      print("chapter detailed model cleared");
     }
 
     for(BooksModel booksModel in booksModelList) {
@@ -85,13 +88,14 @@ class LoadingService {
 
     int flag = booksModelBox.values.toList().length * 2;
 
-
     Box<DataSyncModel> dataSyncModelBox =
         databaseService.getStore<DataSyncModel>(describeEnum(DbModel.DataSyncModel));
 
     List<DataSyncModel> dataSyncList = dataSyncModelBox.values.where(
             (element) =>
             element.successStatus == true).toList();
+
+    print("flag value: $flag -- datasynclist: ${dataSyncList.length}");
 
     return dataSyncList.length == flag ? true : false;
   }

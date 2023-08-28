@@ -20,9 +20,6 @@ class BooksLoader {
 
     Box<DataSyncModel> dataSyncBox =
     databaseService.getStore<DataSyncModel>(describeEnum(DbModel.DataSyncModel));
-
-    // dataSyncBox.add(DataSyncModel(name: tableName, successStatus: false));
-
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? baseUri = prefs.getString("SUPABASE_URI");
     String? authKey = prefs.getString("SUPABASE_AUTHORIZATION");
@@ -34,7 +31,7 @@ class BooksLoader {
             'Authorization': authKey ?? "",
             'apikey': apiKey ?? ""
           });
-
+      print("received data from books api");
       await addDataToLocalDb(res);
     }
     // dataSyncBox.add(DataSyncModel(name: tableName, successStatus: true));
@@ -55,7 +52,7 @@ class BooksLoader {
       }
       await booksModelBox.clear();
       booksModelBox.addAll(booksModelList);
-      log("Books Loaded: ${booksModelBox.values.toList().length}");
+      print("Books Loaded: ${booksModelBox.values.toList().length}");
     }
   }
 
