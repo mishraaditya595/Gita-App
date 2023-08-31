@@ -1,6 +1,6 @@
-# Gita - The Song of Bhagwad
+# GitaVedanta
 
-A mobile and web application on the Srimad Bhagwad Gita using Flutter.
+A mobile and web application which aims to be the gateway to the profound teachings of Vedanta, encompassing translations of significant scriptures including the Bhagavad Gita, Kena Upanishad, and Isopanishad.
 
 <p align="left">
 <a href="https://play.google.com/store/apps/details?id=com.sbg" target="_blank">
@@ -9,17 +9,23 @@ A mobile and web application on the Srimad Bhagwad Gita using Flutter.
 
 Or try the app on your browser visiting https://gitavedanta.in/#/ (Available for all users. Chrome recommended for better performance.)
 
+## About Vedanta
+
+Vedanta, often referred to as the "end of the Vedas," represents the culmination of the ancient Indian wisdom tradition. It delves into the fundamental nature of reality, the self, and the ultimate purpose of life. The Gita Vedanta App is dedicated to making these timeless teachings accessible to modern seekers.
+
 ## Features
-- **Explore Srimad Bhagavad Gita:** Access the content of Srimad Bhagavad Gita, segmented into chapters and verses, allowing you to delve into the teachings and wisdom of this sacred scripture.
-- **Bookmark Favorite Verses:** Mark and save your favorite verses for quick reference and easy access whenever you need them.
-- **Last Read Verse:** The app remembers the last verse you read, allowing you to continue from where you left off, ensuring a seamless reading experience.
+- **Expanded Content:** Gita Vedanta has evolved from solely offering translations of the Bhagavad Gita to including translations of other essential texts like Kena Upanishad and Isopanishad.
+
+- **Holistic Learning:** This app aims to facilitate a comprehensive learning experience, allowing users to delve into ancient wisdom and spiritual teachings.
+
+- **User-friendly Interface:** The app's interface has been thoughtfully designed to ensure a smooth and intuitive user experience, accommodating both newcomers and seasoned seekers.
 
 ## Screenshots 
 
-<img src="https://play-lh.googleusercontent.com/sZn_qqDk-NuQ9EotKr3YpaNnK-cD07jRQP4nJG3LhvEQ2sjkUmVOoZTM9FYUKAQy47A=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
-<img src="https://play-lh.googleusercontent.com/HWnacEi6MhLQR_ohkQO6U1cQBk_3WhnASw8rnW5pPmWNhC8-kBV2c0fLD4LuZsYzovQ=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
-<img src="https://play-lh.googleusercontent.com/eoO6XYpuGGPNzDOsbd0AMgxzXrWXsBQqKOuaaFkLoEDx_-dd8R3nThH9Zr5qTrDOa_s=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
-<img src="https://play-lh.googleusercontent.com/8GsTO1fPNvuh9TiKzR8ftpIl-uNU-jcQB8LTeczp5yS7Ptba7NDqvFCIqktJMxU6uss=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
+<img src="https://play-lh.googleusercontent.com/TINK35EiJfyPQNwIJlcluBiy43t045kX5i4GTIIANmbMbIjCkx7JvoBF-R9V1pHpdnk=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
+<img src="https://play-lh.googleusercontent.com/oztVshuzmr1WZLKCoW_Zh4ytB5IiDnDfUYWXleVYtwhbG6-9H6dMp2fqJxc0VXH36M4=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
+<img src="https://play-lh.googleusercontent.com/5qF4Eg1vCLsg-cTWcXcRlGoOnDaaNbxqiRooA-8UZgEc2BvOv2pyb1R3M3dV4-iEPTxc=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
+<img src="https://play-lh.googleusercontent.com/tA_vL_88gneZg6Z0mEkBcejTDfFLtZEU0932wJtQ1CXdusbRiF6YX8hk4dJ9olzGhr_d=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
 
 
 ## Repo Setup Guide
