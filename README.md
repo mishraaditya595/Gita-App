@@ -22,10 +22,10 @@ Vedanta, often referred to as the "end of the Vedas," represents the culmination
 
 ## Screenshots 
 
-<img src="https://play-lh.googleusercontent.com/TINK35EiJfyPQNwIJlcluBiy43t045kX5i4GTIIANmbMbIjCkx7JvoBF-R9V1pHpdnk=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
-<img src="https://play-lh.googleusercontent.com/oztVshuzmr1WZLKCoW_Zh4ytB5IiDnDfUYWXleVYtwhbG6-9H6dMp2fqJxc0VXH36M4=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
-<img src="https://play-lh.googleusercontent.com/5qF4Eg1vCLsg-cTWcXcRlGoOnDaaNbxqiRooA-8UZgEc2BvOv2pyb1R3M3dV4-iEPTxc=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
-<img src="https://play-lh.googleusercontent.com/tA_vL_88gneZg6Z0mEkBcejTDfFLtZEU0932wJtQ1CXdusbRiF6YX8hk4dJ9olzGhr_d=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
+<img src="https://play-lh.googleusercontent.com/YogNf5TqqLrwuRLKzmNyxTWlzhL_TkNZuWq7ggVP4qTA4CN6ILaXCrtjf3tMsEU51CNh=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
+<img src="https://play-lh.googleusercontent.com/c2Ucv1qM2LmlUHSU6lcvNgFU7Edr1Fibnt5OneizNWvPOCK1fUlmNggQjtcwPA4JPkI=w1052-h592-rw" height="350" width="200"/></a>
+<img src="https://play-lh.googleusercontent.com/K4POjXbwjTDwNUFkbntQurPD1gtNTS_W-b-apxuW3Dch-RwKOOxNkfMfbdtg8eLsOy24=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
+<img src="https://play-lh.googleusercontent.com/kY8kdO7Kk6B9jyDTlAI9ga-j9VKaXNv18AvGpvnmX19qC2hBzKAZbaM5zMW-8woJ6II=w1052-h592-rw" alt="Screenshot" height="350" width="200"/></a>
 
 
 ## Repo Setup Guide
