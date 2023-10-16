@@ -31,10 +31,19 @@ class VerseScreen extends StatefulWidget {
 
 class _VerseScreenState extends State<VerseScreen> {
 
+  late FlutterTts ttsObj;
+
   @override
   void initState() {
     getLang();
+    ttsObj = FlutterTts();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    ttsObj.stop();
+    super.dispose();
   }
 
 
@@ -48,8 +57,10 @@ class _VerseScreenState extends State<VerseScreen> {
               widget.verseDetails, widget.chapterNumber, widget.verseNumber);
           
           if(provider.verseDetails.transliteration.isNotEmpty) {
-            FlutterTts ttsObj = FlutterTts();
-            ttsObj.setLanguage("en-IN");
+
+            ttsObj
+            ..setLanguage("en-IN")
+            ..setVoice({ "name": "en-in-x-end-network", "locale": "en-IN" });
             ttsObj.speak(provider.verseDetails.translation);
           }
           
@@ -265,7 +276,14 @@ class _VerseScreenState extends State<VerseScreen> {
   Future<void> getLang() async {
     FlutterTts ttsObj = FlutterTts();
     var lang = await ttsObj.getLanguages;
-    var voices = await ttsObj.getVoices;
-    debugPrint("lang");
+    List<dynamic> voices = await ttsObj.getVoices;
+    List<Map> v = [];
+    for (var voice in voices) {
+      if (voice['locale'] == 'en-IN') {
+        v.add(voice);
+        // Set the first matching voice and exit the loop
+      }
+    }
+    debugPrint(v.toString());
   }
 }
