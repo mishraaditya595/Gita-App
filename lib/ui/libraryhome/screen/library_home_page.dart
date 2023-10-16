@@ -166,13 +166,6 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
 
           );
 
-
-            FutureBuilder(builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot){
-            if(snapshot.connectionState == ConnectionState.done) {
-            } else{
-              return CircularProgressIndicator();
-            }
-          });
         })
     );
 
