@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:provider/provider.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
@@ -29,17 +30,29 @@ class VerseScreen extends StatefulWidget {
 }
 
 class _VerseScreenState extends State<VerseScreen> {
+
+  @override
+  void initState() {
+    getLang();
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     ScrollController listScrollController = ScrollController();
-
     return ChangeNotifierProvider<VerseScreenProvider>(
         create: (context) => VerseScreenProvider(),
-        child:
-            Consumer<VerseScreenProvider>(builder: (context, provider, child) {
+        child: Consumer<VerseScreenProvider>(builder: (context, provider, child) {
           provider.setInitialValue(
               widget.verseDetails, widget.chapterNumber, widget.verseNumber);
-
+          
+          if(provider.verseDetails.transliteration.isNotEmpty) {
+            FlutterTts ttsObj = FlutterTts();
+            ttsObj.setLanguage("en-IN");
+            ttsObj.speak(provider.verseDetails.translation);
+          }
+          
           return Scaffold(
             appBar: AppBar(
               backgroundColor: HexColor(ColourConstants.fiord),
@@ -247,5 +260,12 @@ class _VerseScreenState extends State<VerseScreen> {
             ),
           );
         }));
+  }
+
+  Future<void> getLang() async {
+    FlutterTts ttsObj = FlutterTts();
+    var lang = await ttsObj.getLanguages;
+    var voices = await ttsObj.getVoices;
+    debugPrint("lang");
   }
 }

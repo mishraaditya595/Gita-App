@@ -161,11 +161,7 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
                 return CircularProgressIndicator();
               }
             }),
-
-
-
           );
-
         })
     );
 

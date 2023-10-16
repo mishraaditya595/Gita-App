@@ -49,9 +49,9 @@ class VerseScreenProvider extends ChangeNotifier {
     } else {
       fabIcon = Icons.bookmark_add;
     }
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
       notifyListeners();
-    });
+    // });
   }
 
   void addToLastRead(
