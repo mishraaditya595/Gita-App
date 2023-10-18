@@ -50,7 +50,7 @@ class VerseScreenProvider extends ChangeNotifier {
       fabIcon = Icons.bookmark_add;
     }
     // WidgetsBinding.instance.addPostFrameCallback((_) {
-      notifyListeners();
+    //   notifyListeners();
     // });
   }
 

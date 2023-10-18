@@ -41,6 +41,13 @@ class _VerseScreenState extends State<VerseScreen> {
   }
 
   @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
   void dispose() {
     ttsObj.stop();
     super.dispose();
@@ -91,7 +98,7 @@ class _VerseScreenState extends State<VerseScreen> {
             body: ListView(controller: listScrollController, children: [
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 0, left: 25, right: 25, bottom: 0),
+                    top: 0, left: 25, right: 25, bottom: 45),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -266,6 +273,16 @@ class _VerseScreenState extends State<VerseScreen> {
                           color: HexColor(ColourConstants.fiord),
                         )),
                   ],
+                ),
+              ),
+            ),
+            floatingActionButton: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CircleAvatar(
+                backgroundColor: TransparentHexColor(ColourConstants.fiord, OpacityValue.highOpacity),
+                child: IconButton(
+                  color:  Colors.white,//HexColor(ColourConstants.fiord),
+                  icon: const Icon(Icons.volume_off), onPressed: () {  },
                 ),
               ),
             ),
