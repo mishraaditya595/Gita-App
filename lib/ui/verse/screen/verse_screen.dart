@@ -60,7 +60,7 @@ class _VerseScreenState extends State<VerseScreen> {
 
             ttsObj
             ..setLanguage("en-IN")
-            ..setVoice({ "name": "en-in-x-end-network", "locale": "en-IN" });
+            ..setVoice({ "name": "en-IN-language", "locale": "en-IN" });
             ttsObj.speak(provider.verseDetails.translation);
           }
           
