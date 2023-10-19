@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../models/chapter_detailed_model.dart';
@@ -14,8 +15,10 @@ class VerseScreenProvider extends ChangeNotifier {
   bool isBookmarked = false;
   bool isCommentaryAvailable = true;
   IconData fabIcon = Icons.bookmark_add;
+  IconData speakerIcon = Icons.volume_off;
   int chapterNumber = 0;
   int verseNumber = 0;
+  late FlutterTts ttsObj;
   ChapterDetailedModel _verseDetails = ChapterDetailedModel(
       verseNumber: "-1",
       chapterNumber: "-1",
@@ -27,6 +30,10 @@ class VerseScreenProvider extends ChangeNotifier {
       verseNumberInt: -1,
       bookHashName: '');
   ChapterDetailedModel get verseDetails => _verseDetails;
+
+  VerseScreenProvider() {
+    ttsObj = FlutterTts();
+  }
 
   setInitialValue(ChapterDetailedModel verse, int chapNum, int verseNum) {
     if (firstTime) {
@@ -83,6 +90,12 @@ class VerseScreenProvider extends ChangeNotifier {
           _verseDetails.verseNumber);
       fetchBookmarkDetails(
           _verseDetails.chapterNumber, _verseDetails.verseNumber, _verseDetails.bookHashName);
+      if(verseDetails.transliteration.isNotEmpty && speakerIcon == Icons.volume_up) {
+        ttsObj
+          ..setLanguage("en-IN")
+          ..setVoice({ "name": "en-IN-language", "locale": "en-IN" });
+        ttsObj.speak(verseDetails.translation);
+      }
       notifyListeners();
     }
   }
@@ -98,6 +111,22 @@ class VerseScreenProvider extends ChangeNotifier {
     } else {
       fabIcon = Icons.bookmark_add;
       await verseScreenService.removeBookmark(verseDetails);
+    }
+    notifyListeners();
+  }
+
+  toggleSpeaker() {
+    if(speakerIcon == Icons.volume_off) {
+      speakerIcon = Icons.volume_up;
+      if(verseDetails.transliteration.isNotEmpty) {
+        ttsObj
+          ..setLanguage("en-IN")
+          ..setVoice({ "name": "en-IN-language", "locale": "en-IN" });
+        ttsObj.speak(verseDetails.translation);
+      }
+    } else {
+      speakerIcon = Icons.volume_off;
+      ttsObj.stop();
     }
     notifyListeners();
   }
