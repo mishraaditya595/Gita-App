@@ -31,12 +31,10 @@ class VerseScreen extends StatefulWidget {
 
 class _VerseScreenState extends State<VerseScreen> {
 
-  late FlutterTts ttsObj;
 
   @override
   void initState() {
     getLang();
-    ttsObj = FlutterTts();
     super.initState();
   }
 
@@ -49,7 +47,7 @@ class _VerseScreenState extends State<VerseScreen> {
 
   @override
   void dispose() {
-    ttsObj.stop();
+    Provider.of(context, listen: false).ttsObj.stop();
     super.dispose();
   }
 
@@ -62,15 +60,7 @@ class _VerseScreenState extends State<VerseScreen> {
         child: Consumer<VerseScreenProvider>(builder: (context, provider, child) {
           provider.setInitialValue(
               widget.verseDetails, widget.chapterNumber, widget.verseNumber);
-          
-          if(provider.verseDetails.transliteration.isNotEmpty) {
-
-            ttsObj
-            ..setLanguage("en-IN")
-            ..setVoice({ "name": "en-IN-language", "locale": "en-IN" });
-            ttsObj.speak(provider.verseDetails.translation);
-          }
-          
+          debugPrint(provider.speakerIcon.toString());
           return Scaffold(
             appBar: AppBar(
               backgroundColor: HexColor(ColourConstants.fiord),
@@ -276,14 +266,14 @@ class _VerseScreenState extends State<VerseScreen> {
                 ),
               ),
             ),
-            floatingActionButton: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: CircleAvatar(
-                backgroundColor: TransparentHexColor(ColourConstants.fiord, OpacityValue.highOpacity),
-                child: IconButton(
-                  color:  Colors.white,//HexColor(ColourConstants.fiord),
-                  icon: const Icon(Icons.volume_off), onPressed: () {  },
-                ),
+            floatingActionButton: CircleAvatar(
+              backgroundColor: TransparentHexColor(ColourConstants.fiord, OpacityValue.lowOpacity),
+              child: IconButton(
+                icon: Icon(provider.speakerIcon),
+                color: Colors.black,
+                onPressed: () {
+                  provider.toggleSpeaker();
+                  },
               ),
             ),
           );
