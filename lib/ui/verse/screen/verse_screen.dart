@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:sbg/services/text-to-speech/text_to_speech_service.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -34,7 +36,7 @@ class _VerseScreenState extends State<VerseScreen> {
 
   @override
   void initState() {
-    getLang();
+    // getLang();
     super.initState();
   }
 
@@ -47,7 +49,8 @@ class _VerseScreenState extends State<VerseScreen> {
 
   @override
   void dispose() {
-    Provider.of(context, listen: false).ttsObj.stop();
+    TextToSpeechService textToSpeechService = GetIt.instance.get<TextToSpeechService>();
+    textToSpeechService.stopSound();
     super.dispose();
   }
 
@@ -60,7 +63,6 @@ class _VerseScreenState extends State<VerseScreen> {
         child: Consumer<VerseScreenProvider>(builder: (context, provider, child) {
           provider.setInitialValue(
               widget.verseDetails, widget.chapterNumber, widget.verseNumber);
-          debugPrint(provider.speakerIcon.toString());
           return Scaffold(
             appBar: AppBar(
               backgroundColor: HexColor(ColourConstants.fiord),
@@ -267,10 +269,10 @@ class _VerseScreenState extends State<VerseScreen> {
               ),
             ),
             floatingActionButton: CircleAvatar(
-              backgroundColor: TransparentHexColor(ColourConstants.fiord, OpacityValue.lowOpacity),
+              backgroundColor: TransparentHexColor(ColourConstants.fiord, OpacityValue.highOpacity),
               child: IconButton(
                 icon: Icon(provider.speakerIcon),
-                color: Colors.black,
+                color: Colors.white,
                 onPressed: () {
                   provider.toggleSpeaker();
                   },
