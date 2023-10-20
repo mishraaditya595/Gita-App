@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:sbg/ui/settings/screen/settings_screen.dart';
 
 import '../../utils/colour_constants.dart';
 
@@ -19,11 +20,42 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget{
         child: Image.asset("assets/images/bhagavad-gita.png"),
       ),
       centerTitle: true,
-      actions: const [],
+      actions: <Widget>[
+        PopupMenuButton<String>(
+          onSelected: (value) => handlePopUpMenuTap(value, context),
+          padding: EdgeInsets.zero,
+          itemBuilder: (BuildContext context) {
+            return {"Settings"}.map((String choice) {
+              return PopupMenuItem<String>(
+                value: choice,
+                child: Row(
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(right: 8.0),
+                      child: Icon(Icons.settings),
+                    ),
+                    Text(choice),
+                  ],
+                ),
+              );
+            }).toList();
+          },
+        ),
+      ],
     );
   }
 
   @override
   // TODO: implement preferredSize
   Size get preferredSize => const Size.fromHeight(45);
+
+  void handlePopUpMenuTap(String value, BuildContext context) {
+    switch(value) {
+      case "Settings":
+        Navigator.of(context).pushNamed(SettingsScreen.routeName);
+        break;
+      default:
+        debugPrint("default");
+    }
+  }
 }
