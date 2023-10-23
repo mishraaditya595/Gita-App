@@ -271,7 +271,7 @@ class _VerseScreenState extends State<VerseScreen> {
             floatingActionButton: CircleAvatar(
               backgroundColor: TransparentHexColor(ColourConstants.fiord, OpacityValue.highOpacity),
               child: IconButton(
-                icon: Icon(provider.speakerIcon),
+                icon: Icon(provider.speakerFlag ? Icons.volume_up : Icons.volume_off),
                 color: Colors.white,
                 onPressed: () {
                   provider.toggleSpeaker();
