@@ -88,7 +88,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                 color: Colors.black, width: 2),
                           ),
                         ),
-                        value: dropdownValue,
+                        value: provider.voiceValue,
                         enableFeedback: true,
                         items: voiceList
                             .map<DropdownMenuItem<String>>((String value) {
@@ -101,9 +101,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         }).toList(),
                         // Step 5.
                         onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownValue = newValue!;
-                          });
+                          provider.setVoice(newValue ?? "");
                         },
                       ),
                     ),
