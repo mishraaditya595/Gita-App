@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sbg/models/books_model.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
@@ -7,6 +6,7 @@ import 'package:sbg/ui/bottombar/screen/bottom_bar.dart';
 import 'package:sbg/ui/library/screen/library_page.dart';
 import 'package:sbg/ui/libraryhome/screen/library_home_page.dart';
 import 'package:sbg/ui/loading/screen/loading_screen.dart';
+import 'package:sbg/ui/settings/screen/settings_screen.dart';
 import 'package:sbg/ui/verse/screen/verse_screen.dart';
 
 import '../ui/bookhome/screen/home_page.dart';
@@ -16,12 +16,12 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
   return MaterialPageRoute(builder: (BuildContext context) {
     switch (routeSettings.name) {
       case BottomBar.routeName:
-        return BottomBar(title: "title");
+        return const BottomBar(title: "title");
       case HomePage.routeName:
         BooksModel args = routeSettings.arguments as BooksModel;
         return HomePage(bookModel: args,);
       case BookmarkPage.routeName:
-        return BookmarkPage();
+        return const BookmarkPage();
       case ChapterScreen.routeName:
         List args = routeSettings.arguments as List;
         return ChapterScreen(
@@ -31,9 +31,9 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           booksModel: args[3],
         );
       case LibraryHomePage.routeName:
-        return LibraryHomePage();
+        return const LibraryHomePage();
       case LoadingScreen.routeName:
-        return LoadingScreen();
+        return const LoadingScreen();
       case VerseScreen.routeName:
         ChapterDetailedModel args = routeSettings.arguments as ChapterDetailedModel;
         return VerseScreen(
@@ -42,9 +42,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
             verseDetails: args
         );
       case LibraryPage.routeName:
-        return LibraryPage();
+        return const LibraryPage();
+      case SettingsScreen.routeName:
+        return const SettingsScreen();
       default:
-        return BottomAppBar();
+        return const BottomAppBar();
     }
   }
   );

@@ -33,7 +33,8 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
         if(snapshot.connectionState == ConnectionState.done) {
           if(!kIsWeb) {
-            FirebasePerformanceService.logTrace("Initial Loader", () => loadAll());
+            // FirebasePerformanceService.logTrace("Initial Loader", () => loadAll());
+            loadAll();
           } else {
             loadAll();
           }

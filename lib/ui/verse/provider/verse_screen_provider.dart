@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get_it/get_it.dart';
+import 'package:sbg/services/text-to-speech/text_to_speech_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/chapter_detailed_model.dart';
 import '../../../models/verse_bookmark_model.dart';
@@ -14,8 +17,11 @@ class VerseScreenProvider extends ChangeNotifier {
   bool isBookmarked = false;
   bool isCommentaryAvailable = true;
   IconData fabIcon = Icons.bookmark_add;
+  IconData speakerIcon = Icons.volume_off;
   int chapterNumber = 0;
   int verseNumber = 0;
+  bool speakerFlag = false;
+  TextToSpeechService textToSpeechObj = GetIt.instance.get<TextToSpeechService>();
   ChapterDetailedModel _verseDetails = ChapterDetailedModel(
       verseNumber: "-1",
       chapterNumber: "-1",
@@ -28,12 +34,27 @@ class VerseScreenProvider extends ChangeNotifier {
       bookHashName: '');
   ChapterDetailedModel get verseDetails => _verseDetails;
 
-  setInitialValue(ChapterDetailedModel verse, int chapNum, int verseNum) {
+
+  VerseScreenProvider()  {
+  }
+
+  Future<void> checkForVoiceSettings() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    speakerFlag = preferences.getBool("x-audio-narration-flag") ?? false;
+    notifyListeners();
+  }
+
+  setInitialValue(ChapterDetailedModel verse, int chapNum, int verseNum) async {
     if (firstTime) {
       _verseDetails = verse;
       chapterNumber = chapNum;
       verseNumber = verseNum;
       firstTime = !firstTime;
+      await checkForVoiceSettings();
+      speakerIcon = speakerFlag ? Icons.volume_up : Icons.volume_off;
+      if(_verseDetails.translation.isNotEmpty && speakerFlag) {
+        textToSpeechObj.playSound(text: _verseDetails.translation);
+      }
       fetchBookmarkDetails(verse.chapterNumber, verse.verseNumber, verse.bookHashName);
     }
   }
@@ -49,9 +70,9 @@ class VerseScreenProvider extends ChangeNotifier {
     } else {
       fabIcon = Icons.bookmark_add;
     }
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      notifyListeners();
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((_) {
+    //   notifyListeners();
+    // });
   }
 
   void addToLastRead(
@@ -62,7 +83,7 @@ class VerseScreenProvider extends ChangeNotifier {
         translation, chapterNumber, verseNumber);
   }
 
-  navigateVerses(String operator) {
+  navigateVerses(String operator) async {
     VerseScreenService verseScreenService =
         GetIt.instance.get<VerseScreenService>();
     ChapterDetailedModel? verse = verseScreenService.navigateVerses(
@@ -83,6 +104,10 @@ class VerseScreenProvider extends ChangeNotifier {
           _verseDetails.verseNumber);
       fetchBookmarkDetails(
           _verseDetails.chapterNumber, _verseDetails.verseNumber, _verseDetails.bookHashName);
+      await checkForVoiceSettings();
+      if(verseDetails.transliteration.isNotEmpty && speakerFlag) {
+        textToSpeechObj.playSound(text: verseDetails.translation);
+      }
       notifyListeners();
     }
   }
@@ -99,6 +124,22 @@ class VerseScreenProvider extends ChangeNotifier {
       fabIcon = Icons.bookmark_add;
       await verseScreenService.removeBookmark(verseDetails);
     }
+    notifyListeners();
+  }
+
+  toggleSpeaker() async {
+    if(speakerIcon == Icons.volume_off) {
+      speakerIcon = Icons.volume_up;
+      if(verseDetails.transliteration.isNotEmpty) {
+        textToSpeechObj.playSound(text: verseDetails.translation);
+      }
+    } else {
+      speakerIcon = Icons.volume_off;
+      textToSpeechObj.stopSound();
+    }
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setBool("x-audio-narration-flag", speakerIcon == Icons.volume_up);
+    speakerFlag = speakerIcon == Icons.volume_up;
     notifyListeners();
   }
 }

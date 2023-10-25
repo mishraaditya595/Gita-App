@@ -3,7 +3,10 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
+import 'package:flutter_tts/flutter_tts.dart';
+import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
+import 'package:sbg/services/text-to-speech/text_to_speech_service.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,17 +32,37 @@ class VerseScreen extends StatefulWidget {
 }
 
 class _VerseScreenState extends State<VerseScreen> {
+
+
+  @override
+  void initState() {
+    // getLang();
+    super.initState();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
+  }
+
+  @override
+  void dispose() {
+    TextToSpeechService textToSpeechService = GetIt.instance.get<TextToSpeechService>();
+    textToSpeechService.stopSound();
+    super.dispose();
+  }
+
+
   @override
   Widget build(BuildContext context) {
     ScrollController listScrollController = ScrollController();
-
     return ChangeNotifierProvider<VerseScreenProvider>(
         create: (context) => VerseScreenProvider(),
-        child:
-            Consumer<VerseScreenProvider>(builder: (context, provider, child) {
+        child: Consumer<VerseScreenProvider>(builder: (context, provider, child) {
           provider.setInitialValue(
               widget.verseDetails, widget.chapterNumber, widget.verseNumber);
-
           return Scaffold(
             appBar: AppBar(
               backgroundColor: HexColor(ColourConstants.fiord),
@@ -67,7 +90,7 @@ class _VerseScreenState extends State<VerseScreen> {
             body: ListView(controller: listScrollController, children: [
               Padding(
                 padding: const EdgeInsets.only(
-                    top: 0, left: 25, right: 25, bottom: 0),
+                    top: 0, left: 25, right: 25, bottom: 45),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -245,7 +268,31 @@ class _VerseScreenState extends State<VerseScreen> {
                 ),
               ),
             ),
+            floatingActionButton: CircleAvatar(
+              backgroundColor: TransparentHexColor(ColourConstants.fiord, OpacityValue.highOpacity),
+              child: IconButton(
+                icon: Icon(provider.speakerFlag ? Icons.volume_up : Icons.volume_off),
+                color: Colors.white,
+                onPressed: () {
+                  provider.toggleSpeaker();
+                  },
+              ),
+            ),
           );
         }));
+  }
+
+  Future<void> getLang() async {
+    FlutterTts ttsObj = FlutterTts();
+    var lang = await ttsObj.getLanguages;
+    List<dynamic> voices = await ttsObj.getVoices;
+    List<Map> v = [];
+    for (var voice in voices) {
+      if (voice['locale'] == 'en-IN') {
+        v.add(voice);
+        // Set the first matching voice and exit the loop
+      }
+    }
+    debugPrint(v.toString());
   }
 }

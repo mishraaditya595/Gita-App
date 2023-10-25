@@ -17,6 +17,7 @@ import 'package:sbg/ui/bookhome/provider/home_page_provider.dart';
 import 'package:sbg/ui/bookmark/provider/bookmark_provider.dart';
 import 'package:sbg/ui/chapter/provider/chapter_screen_provider.dart';
 import 'package:sbg/ui/loading/screen/loading_screen.dart';
+import 'package:sbg/ui/settings/provider/settings_screen_provider.dart';
 import 'package:sbg/ui/verse/provider/verse_screen_provider.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
@@ -96,6 +97,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(
           create: ((BuildContext context) => BookmarkProvider()),
         ),
+        ChangeNotifierProvider(create:((BuildContext context) => SettingsScreenProvider())),
       ],
       child: MaterialApp(
         title: '',
