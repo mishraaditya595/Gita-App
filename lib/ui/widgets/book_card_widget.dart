@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sbg/models/books_model.dart';
@@ -19,11 +20,12 @@ class BookCardWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Card(
-              child: Image.network(
-                bookMap.bookImage,
+              child: CachedNetworkImage(
+                imageUrl: bookMap.bookImage,
                 height: 159,
                 width: 100,
                 fit: BoxFit.fill,
+                errorWidget: (context, url, error) => const Icon(Icons.error),
               ),
             ),
             Align(
