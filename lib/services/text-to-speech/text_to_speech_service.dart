@@ -8,7 +8,7 @@ class TextToSpeechService {
   TextToSpeechService() {
     flutterTts
       ..setLanguage("en-IN")
-      ..setVoice({ "name": "en-IN-language", "locale": "en-IN" });
+      ..setVoice({ "name": "en-in-x-end-network", "locale": "en-IN" });
   }
 
   setLanguage({required String languageCode}) {

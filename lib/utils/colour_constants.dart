@@ -10,6 +10,8 @@ class ColourConstants {
   static String scampi = "#6864B1";
   static String offWhite = "#DEDEDE";
   static String backgroundWhite = "#f7f2f9";
+  static String activeGreen = "#097969";
+  static String inactiveRed = "#D22B2B";
 
   static LinearGradient homePageAppBarGradient = LinearGradient(
       colors: [

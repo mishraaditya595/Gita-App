@@ -16,13 +16,9 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  // bool toggleValue = false;
-  List<String> voiceList = ["Male", "Female"];
-  String dropdownValue = "Male";
 
   @override
   void initState() {
-    // initialiseProviderValues();
     super.initState();
   }
   initialiseProviderValues() async {
@@ -55,10 +51,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                               children: [
                                 const Text("Enable voice narration"),
                                 Switch(
-                                  activeColor: HexColor(ColourConstants.antiqueBrass),
-                                  activeTrackColor: HexColor(ColourConstants.fiord),
-                                  inactiveThumbColor: HexColor(ColourConstants.fiord),
-                                  inactiveTrackColor: HexColor(ColourConstants.antiqueBrass),
+                                  activeColor: HexColor(ColourConstants.activeGreen),
+                                  activeTrackColor: HexColor(ColourConstants.offWhite),
+                                  inactiveThumbColor: HexColor(ColourConstants.inactiveRed),
+                                  inactiveTrackColor: HexColor(ColourConstants.offWhite),
                                   value: provider.speakerToggleValue, // changes the state of the switch
                                   onChanged: (value) =>
                                       provider.setNarrationToggleValue(value),
@@ -91,7 +87,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                     ),
                                     value: provider.voiceValue,
                                     enableFeedback: true,
-                                    items: voiceList
+                                    items: provider.voiceList
                                         .map<DropdownMenuItem<String>>((String value) {
                                       return DropdownMenuItem<String>(
                                         value: value,
@@ -100,7 +96,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                         ),
                                       );
                                     }).toList(),
-// Step 5.
                                     onChanged: (String? newValue) {
                                       provider.setVoice(newValue ?? "");
                                     },
