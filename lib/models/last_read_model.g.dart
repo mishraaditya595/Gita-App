@@ -22,13 +22,14 @@ class LastReadModelAdapter extends TypeAdapter<LastReadModel> {
       lastReadVerseNum: fields[2] as String,
       verseNumber: fields[3] as int,
       chapterNumber: fields[4] as int,
+      bookHashName: fields[5] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, LastReadModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(6)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -38,7 +39,9 @@ class LastReadModelAdapter extends TypeAdapter<LastReadModel> {
       ..writeByte(3)
       ..write(obj.verseNumber)
       ..writeByte(4)
-      ..write(obj.chapterNumber);
+      ..write(obj.chapterNumber)
+      ..writeByte(5)
+      ..write(obj.bookHashName);
   }
 
   @override

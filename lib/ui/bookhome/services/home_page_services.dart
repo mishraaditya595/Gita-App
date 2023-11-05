@@ -27,12 +27,17 @@ class HomePageServices {
   }
 
   //<--- get last read verse --->
-  List<LastReadModel> getLastReadVerse() {
+  List<LastReadModel> getLastReadVerse(String bookName) {
     
     Box<LastReadModel> lastReadModelBox =
         databaseService.getStore<LastReadModel>(describeEnum(DbModel.LastReadModel));
     
-    List<LastReadModel> lastReadList = lastReadModelBox.values.toList();
+
+    List<LastReadModel> lastReadList = lastReadModelBox.values.where(
+            (element) =>
+                element.bookHashName == bookName
+    ).toList();
+
     return lastReadList;
   }
 

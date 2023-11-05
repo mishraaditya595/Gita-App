@@ -29,7 +29,7 @@ class VerseScreenService {
   }
 
   Future<void> addVerseToLastRead(
-      String translation, String chapterNumber, String verseNumber) async {
+      String translation, String chapterNumber, String verseNumber, String bookName) async {
     Box<LastReadModel> lastReadModelBox = databaseService.getStore<LastReadModel>(describeEnum(DbModel.LastReadModel));
     await lastReadModelBox.clear();
 
@@ -38,6 +38,7 @@ class VerseScreenService {
       lastReadVerseNum: "$chapterNumber.$verseNumber",
       verseNumber: int.parse(verseNumber),
       chapterNumber: int.parse(chapterNumber),
+      bookHashName: bookName,
     ));
   }
 

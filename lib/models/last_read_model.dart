@@ -19,11 +19,15 @@ class LastReadModel extends HiveObject{
   @HiveField(4)
   int chapterNumber;
 
+  @HiveField(5)
+  String bookHashName;
+
   LastReadModel({
     this.id = 0,
     required this.lastReadVerseText,
     required this.lastReadVerseNum,
     required this.verseNumber,
     required this.chapterNumber,
+    required this.bookHashName
   });
 }

@@ -22,7 +22,7 @@ class HomePageProvider with ChangeNotifier {
     HomePageServices homePageServices = GetIt.instance.get<HomePageServices>();
     chapterSummaryList = homePageServices.getAllChapters(bookHashWord);
 
-    List<LastReadModel> lastReadList = homePageServices.getLastReadVerse();
+    List<LastReadModel> lastReadList = homePageServices.getLastReadVerse(bookHashWord);
 
     if (lastReadList.isNotEmpty) {
       // debugPrint("Last Read Found: ${lastReadList[0].lastReadVerseText}");
@@ -36,6 +36,8 @@ class HomePageProvider with ChangeNotifier {
           homePageServices.getChapterDetailedList(
               lastReadList[0].chapterNumber, lastReadList[0].verseNumber);
       chapterDetailedList.addAll(queryList);
+    } else {
+      isLastReadAvailable = false;
     }
     changeLoadingState();
   }

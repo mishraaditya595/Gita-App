@@ -56,6 +56,8 @@ class VerseScreenProvider extends ChangeNotifier {
         textToSpeechObj.playSound(text: _verseDetails.translation);
       }
       fetchBookmarkDetails(verse.chapterNumber, verse.verseNumber, verse.bookHashName);
+      addToLastRead(_verseDetails.translation, _verseDetails.chapterNumber,
+          _verseDetails.verseNumber, _verseDetails.bookHashName);
     }
   }
 
@@ -76,11 +78,11 @@ class VerseScreenProvider extends ChangeNotifier {
   }
 
   void addToLastRead(
-      String translation, String chapterNumber, String verseNumber) {
+      String translation, String chapterNumber, String verseNumber, String bookName) {
     VerseScreenService verseScreenService =
         GetIt.instance.get<VerseScreenService>();
     verseScreenService.addVerseToLastRead(
-        translation, chapterNumber, verseNumber);
+        translation, chapterNumber, verseNumber, bookName);
   }
 
   navigateVerses(String operator) async {
@@ -101,7 +103,7 @@ class VerseScreenProvider extends ChangeNotifier {
       }
 
       addToLastRead(_verseDetails.translation, _verseDetails.chapterNumber,
-          _verseDetails.verseNumber);
+          _verseDetails.verseNumber, _verseDetails.bookHashName);
       fetchBookmarkDetails(
           _verseDetails.chapterNumber, _verseDetails.verseNumber, _verseDetails.bookHashName);
       await checkForVoiceSettings();
