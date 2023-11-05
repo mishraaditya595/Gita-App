@@ -31,15 +31,33 @@ class VerseScreenService {
   Future<void> addVerseToLastRead(
       String translation, String chapterNumber, String verseNumber, String bookName) async {
     Box<LastReadModel> lastReadModelBox = databaseService.getStore<LastReadModel>(describeEnum(DbModel.LastReadModel));
-    await lastReadModelBox.clear();
+    bool lastReadFound = false;
 
-    lastReadModelBox.add(LastReadModel(
-      lastReadVerseText: translation,
-      lastReadVerseNum: "$chapterNumber.$verseNumber",
-      verseNumber: int.parse(verseNumber),
-      chapterNumber: int.parse(chapterNumber),
-      bookHashName: bookName,
-    ));
+    List<LastReadModel> lastReadList = lastReadModelBox.values.toList();
+
+    for(LastReadModel lastReadModel in lastReadList) {
+      if(lastReadModel.bookHashName == bookName) {
+        lastReadFound = true;
+        lastReadModel.lastReadVerseText = translation;
+        lastReadModel.lastReadVerseNum = "$chapterNumber.$verseNumber";
+        lastReadModel.verseNumber = int.parse(verseNumber);
+        lastReadModel.chapterNumber = int.parse(chapterNumber);
+        break;
+      }
+    }
+
+    if(!lastReadFound) {
+      lastReadList.add(LastReadModel(
+        lastReadVerseText: translation,
+        lastReadVerseNum: "$chapterNumber.$verseNumber",
+        verseNumber: int.parse(verseNumber),
+        chapterNumber: int.parse(chapterNumber),
+        bookHashName: bookName,
+      ));
+    }
+
+    await lastReadModelBox.clear();
+    lastReadModelBox.addAll(lastReadList);
   }
 
   ChapterDetailedModel? navigateVerses(
