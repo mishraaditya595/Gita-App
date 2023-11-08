@@ -7,6 +7,7 @@ import 'package:sbg/models/books_model.dart';
 import 'package:sbg/ui/loading/service/loading_service.dart';
 import 'package:sbg/ui/widgets/chapter_card_widget.dart';
 import 'package:sbg/utils/colour_constants.dart';
+import 'package:sbg/utils/global_variables.dart';
 import 'package:sbg/utils/hexcolor.dart';
 import 'package:upgrader/upgrader.dart';
 import '../../../models/chapter_detailed_model.dart';
@@ -32,6 +33,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    GlobalVariables.homePageKey = GlobalKey<_HomePageState>();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       homePageProvider = Provider.of<HomePageProvider>(context, listen: false);
       homePageProvider.bookHashWord = widget.bookModel.bookHashWord;

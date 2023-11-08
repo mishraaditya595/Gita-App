@@ -1,7 +1,10 @@
 import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
+import 'package:provider/provider.dart';
 import 'package:sbg/services/db/database_service.dart';
+import 'package:sbg/ui/bookhome/provider/home_page_provider.dart';
+import 'package:sbg/utils/global_variables.dart';
 
 import '../../../models/chapter_detailed_model.dart';
 import '../../../models/chapter_summary_model.dart';
@@ -58,6 +61,16 @@ class VerseScreenService {
 
     await lastReadModelBox.clear();
     lastReadModelBox.addAll(lastReadList);
+
+    if(GlobalVariables.homePageKey.currentState != null) {
+      HomePageProvider homePageProvider = Provider.of(
+          GlobalVariables.homePageKey.currentState!.context!);
+      homePageProvider.lastReadVerseNum = "$chapterNumber.$verseNumber";
+      homePageProvider.lastReadVerseText = translation;
+      homePageProvider.lastReadChapterInt = int.tryParse(chapterNumber) ?? 0;
+      homePageProvider.lastReadVerseInt = int.tryParse(verseNumber) ?? 0;
+      homePageProvider.isLastReadAvailable = true;
+    }
   }
 
   ChapterDetailedModel? navigateVerses(

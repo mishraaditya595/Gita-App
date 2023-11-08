@@ -45,3 +45,4 @@ app.*.map.json
 
 /lib/utils/constants.dart
 /lib/firebase_options.dart
+android/app/google-services.json

@@ -4,6 +4,7 @@ import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:get_it/get_it.dart';
 import 'package:sbg/services/text-to-speech/text_to_speech_service.dart';
+import 'package:sbg/utils/global_variables.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/chapter_detailed_model.dart';
@@ -34,9 +35,6 @@ class VerseScreenProvider extends ChangeNotifier {
       bookHashName: '');
   ChapterDetailedModel get verseDetails => _verseDetails;
 
-
-  VerseScreenProvider()  {
-  }
 
   Future<void> checkForVoiceSettings() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
