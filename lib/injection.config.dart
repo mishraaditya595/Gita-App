@@ -19,12 +19,13 @@ import 'package:sbg/services/remote_config_service.dart' as _i11;
 import 'package:sbg/services/text-to-speech/text_to_speech_service.dart'
     as _i12;
 import 'package:sbg/ui/bookhome/services/home_page_services.dart' as _i6;
-import 'package:sbg/ui/bookmark/service/bookmark_service.dart' as _i14;
+import 'package:sbg/ui/bookmark/service/bookmark_service.dart' as _i15;
 import 'package:sbg/ui/bottombar/services/in_app_review_service.dart' as _i7;
-import 'package:sbg/ui/chapter/services/chapter_screen_service.dart' as _i15;
+import 'package:sbg/ui/chapter/services/chapter_screen_service.dart' as _i16;
 import 'package:sbg/ui/libraryhome/services/library_services.dart' as _i8;
 import 'package:sbg/ui/loading/service/loading_service.dart' as _i9;
-import 'package:sbg/ui/verse/services/verse_screen_service.dart' as _i13;
+import 'package:sbg/ui/verse/services/verse_screen_service.dart' as _i14;
+import 'package:sbg/utils/navigation/unilink_service.dart' as _i13;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
@@ -51,12 +52,13 @@ extension GetItInjectableX on _i1.GetIt {
         _i10.PrecacheImageService(gh<_i3.DatabaseService<dynamic>>()));
     gh.singleton<_i11.RemoteConfigService>(_i11.RemoteConfigService());
     gh.singleton<_i12.TextToSpeechService>(_i12.TextToSpeechService());
-    gh.singleton<_i13.VerseScreenService>(
-        _i13.VerseScreenService(gh<_i3.DatabaseService<dynamic>>()));
-    gh.singleton<_i14.BookmarkService>(
-        _i14.BookmarkService(gh<_i3.DatabaseService<dynamic>>()));
-    gh.singleton<_i15.ChapterScreenService>(
-        _i15.ChapterScreenService(gh<_i3.DatabaseService<dynamic>>()));
+    gh.singleton<_i13.UniLinksService>(_i13.UniLinksService());
+    gh.singleton<_i14.VerseScreenService>(
+        _i14.VerseScreenService(gh<_i3.DatabaseService<dynamic>>()));
+    gh.singleton<_i15.BookmarkService>(
+        _i15.BookmarkService(gh<_i3.DatabaseService<dynamic>>()));
+    gh.singleton<_i16.ChapterScreenService>(
+        _i16.ChapterScreenService(gh<_i3.DatabaseService<dynamic>>()));
     return this;
   }
 }

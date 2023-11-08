@@ -21,7 +21,9 @@ import 'package:sbg/ui/settings/provider/settings_screen_provider.dart';
 import 'package:sbg/ui/verse/provider/verse_screen_provider.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
-import 'package:sbg/utils/routers.dart';
+import 'package:sbg/utils/navigation/context_utility.dart';
+import 'package:sbg/utils/navigation/routers.dart';
+import 'package:sbg/utils/navigation/unilink_service.dart';
 
 import 'firebase_options.dart';
 
@@ -43,6 +45,8 @@ Future<void> main() async {
 
   await FirebaseMessaging.instance.getInitialMessage();
   configureDependencies();
+  await UniLinksService.init();
+
   runApp(const MyApp());
 }
 
@@ -100,6 +104,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create:((BuildContext context) => SettingsScreenProvider())),
       ],
       child: MaterialApp(
+        navigatorKey: ContextUtility.navigatorKey,
         title: '',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
