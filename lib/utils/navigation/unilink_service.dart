@@ -22,16 +22,18 @@ class UniLinksService {
       final Uri? uri = await getInitialUri();
       _uniLinkHandler(uri: uri);
     } on PlatformException {
-      if (kDebugMode) print("(PlatformException) Failed to receive initial uri.");
+      print("(PlatformException) Failed to receive initial uri.");
     } on FormatException catch (error) {
-      if (kDebugMode) print("(FormatException) Malformed Initial URI received. Error: $error");
+      print("(FormatException) Malformed Initial URI received. Error: $error");
+    } on Exception catch (error) {
+      print("Malformed Initial URI received. Error: $error");
     }
 
     // This is used for cases when: APP is already running and the user clicks on a link.
     uriLinkStream.listen((Uri? uri) async {
       _uniLinkHandler(uri: uri);
     }, onError: (error) {
-      if (kDebugMode) print('UniLinks onUriLink error: $error');
+      print('UniLinks onUriLink error: $error');
     });
   }
 
