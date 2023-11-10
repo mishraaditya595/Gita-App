@@ -11,9 +11,11 @@ import 'package:sbg/ui/widgets/default_app_bar.dart';
 import 'package:sbg/ui/widgets/home_app_bar.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/books_model.dart';
 import '../../loading/service/loading_service.dart';
+import '../../settings/screen/settings_screen.dart';
 
 class LibraryHomePage extends StatefulWidget {
   static const String routeName = "/library_home";
@@ -24,6 +26,22 @@ class LibraryHomePage extends StatefulWidget {
 }
 
 class _LibraryHomePageState extends State<LibraryHomePage> {
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? missedDeepLinkParam = prefs.getString("MISSED_DEEP_LINK");
+      if(missedDeepLinkParam != null) {
+        print("Missed Deep Link: $missedDeepLinkParam");
+        prefs.remove("MISSED_DEEP_LINK");
+        await Navigator.of(context).pushNamed(SettingsScreen.routeName);
+      } else {
+        print("missed deep link not null");
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

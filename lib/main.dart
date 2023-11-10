@@ -45,6 +45,8 @@ Future<void> main() async {
 
   await FirebaseMessaging.instance.getInitialMessage();
   configureDependencies();
+  DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
+  await databaseService.init();
   await UniLinksService.init();
 
   runApp(const MyApp());
@@ -62,8 +64,6 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
-    databaseService.init();
 
     if(!kIsWeb) {
       FirebaseMessagingService firebaseMessagingService =
