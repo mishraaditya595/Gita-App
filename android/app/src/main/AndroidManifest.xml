@@ -44,8 +44,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                         android:scheme="https"
-                        android:host="mypage.web.app"
-                        android:pathPrefix="/promos/" />
+                        android:host="gitavedanta.in"
+                        android:pathPrefix="/share/" />
             </intent-filter>
 
         </activity>

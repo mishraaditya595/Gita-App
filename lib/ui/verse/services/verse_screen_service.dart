@@ -204,6 +204,24 @@ class VerseScreenService {
     }
   }
 
+  ChapterDetailedModel? getVerseDetails(String chapterNum, String verseNum, String bookHashName) {
+    Box<ChapterDetailedModel> chapterDetailedModelBox =
+    databaseService.getStore<ChapterDetailedModel>(describeEnum(DbModel.ChapterDetailedModel));
+
+    List<ChapterDetailedModel> chapterDetailedList = chapterDetailedModelBox.values.where(
+            (element) =>
+        element.verseNumber == verseNum &&
+            element.chapterNumber == chapterNum.toString() &&
+            element.bookHashName == bookHashName
+    ).toList();
+
+    if(chapterDetailedList.isNotEmpty) {
+      return chapterDetailedList.first;
+    } else {
+      return null;
+    }
+  }
+
   Future<void> removeBookmark(ChapterDetailedModel verseDetails) async {
     Box<VerseBookmarkModel> verseBookmarkModelBox =
     databaseService.getStore<VerseBookmarkModel>(describeEnum(DbModel.VerseBookmarkModel));

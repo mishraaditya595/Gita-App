@@ -1,13 +1,22 @@
+import 'dart:convert';
+
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:sbg/models/books_model.dart';
+import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/ui/bookmark/screen/bookmark_page.dart';
+import 'package:sbg/ui/libraryhome/services/library_services.dart';
 import 'package:sbg/ui/settings/screen/settings_screen.dart';
+import 'package:sbg/ui/verse/screen/verse_screen.dart';
+import 'package:sbg/ui/verse/services/verse_screen_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uni_links/uni_links.dart';
 
+import '../../ui/bookhome/screen/home_page.dart';
 import 'context_utility.dart';
 
 @Singleton()
@@ -83,28 +92,58 @@ class UniLinksService {
 
     print("Params receivied: ${params.toString()}");
 
-    String receivedPromoId = params['promo-id'] ?? '';
+    String receivedBook = params['book'] ?? '';
+    String receivedVerse = params['verse'] ?? '';
 
-    print("Redirecting to $receivedPromoId");
+    // print("Redirecting to $receivedParam");
 
-    if (receivedPromoId.isEmpty) return;
-    _promoId = receivedPromoId;
-
-    print("Promo id is $_promoId");
-
-    if (_promoId == 'ABC1') {
-      ContextUtility.navigator?.pushNamed(SettingsScreen.routeName);
-      if(ContextUtility.navigator == null) {
-        print("Missed deep link triggered");
-        SharedPreferences prefs = await SharedPreferences.getInstance();
-        prefs.setString("MISSED_DEEP_LINK", _promoId);
+    if (receivedBook.isEmpty) return;
+    
+    
+    if(ContextUtility.navigator != null) {
+      if(receivedVerse.isEmpty) {
+        LibraryService libraryService = GetIt.instance.get<LibraryService>();
+        BooksModel? booksModel = libraryService.getBook(receivedBook);
+        if(booksModel != null) {
+          ContextUtility.navigator?.pushNamed(
+              HomePage.routeName, arguments: booksModel);
+        } else {
+          FirebaseCrashlytics.instance.recordFlutterFatalError(
+              FlutterErrorDetails(
+                  exception: Exception(
+                      ["Deep link error: not able to find book: $receivedBook"]
+                  )
+              )
+          );
+        }
       }
-    }
+      else {
+        List<String> verseDecoded = receivedVerse.split(".");
+        if(verseDecoded.length > 1) {
+          String chapterNum = verseDecoded[0];
+          String verseNum = verseDecoded[1];
+          VerseScreenService verseScreenService = GetIt.instance.get<VerseScreenService>();
+          ChapterDetailedModel? chapterDetailedModel = verseScreenService.getVerseDetails(chapterNum, verseNum, receivedBook);
+          
+          if(chapterDetailedModel != null) {
+            ContextUtility.navigator?.pushNamed(
+                VerseScreen.routeName, arguments: chapterDetailedModel);
+          } else {
+            FirebaseCrashlytics.instance.recordFlutterFatalError(
+                FlutterErrorDetails(
+                    exception: Exception(
+                        ["Deep link error: not able to find verse - $receivedVerse for book - $receivedBook"]
+                    )
+                )
+            );
 
-    if (_promoId == 'ABC2') {
-      ContextUtility.navigator?.push(
-        MaterialPageRoute(builder: (_) => const BookmarkPage()),
-      );
+          }
+        }
+        
+      }
+    } else {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("MISSED_DEEP_LINK", jsonEncode(params));
     }
   }
 }
