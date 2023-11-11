@@ -26,6 +26,19 @@ class HomePageServices {
     return list;
   }
 
+  ChapterSummaryModel? getChapterSummary(String chapterNum, String bookHashWord) {
+    Box<ChapterSummaryModel> chapterSummaryModelBox =
+    databaseService.getStore<ChapterSummaryModel>(describeEnum(DbModel.ChapterSummaryModel));
+
+    List<ChapterSummaryModel> list = chapterSummaryModelBox.values.where((element) => element.bookHashName == bookHashWord && element.chapterNumber == chapterNum).toList();
+
+    if(list.isNotEmpty) {
+      return list.first;
+    } else {
+      return null;
+    }
+  }
+
   //<--- get last read verse --->
   List<LastReadModel> getLastReadVerse(String bookName) {
     

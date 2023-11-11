@@ -8,7 +8,11 @@ import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sbg/models/books_model.dart';
 import 'package:sbg/models/chapter_detailed_model.dart';
+import 'package:sbg/models/chapter_summary_model.dart';
+import 'package:sbg/ui/bookhome/services/home_page_services.dart';
 import 'package:sbg/ui/bookmark/screen/bookmark_page.dart';
+import 'package:sbg/ui/chapter/screen/chapter_screen.dart';
+import 'package:sbg/ui/chapter/services/chapter_screen_service.dart';
 import 'package:sbg/ui/libraryhome/services/library_services.dart';
 import 'package:sbg/ui/settings/screen/settings_screen.dart';
 import 'package:sbg/ui/verse/screen/verse_screen.dart';
@@ -95,8 +99,6 @@ class UniLinksService {
     String receivedBook = params['book'] ?? '';
     String receivedVerse = params['verse'] ?? '';
 
-    // print("Redirecting to $receivedParam");
-
     if (receivedBook.isEmpty) return;
     
     
@@ -122,21 +124,46 @@ class UniLinksService {
         if(verseDecoded.length > 1) {
           String chapterNum = verseDecoded[0];
           String verseNum = verseDecoded[1];
-          VerseScreenService verseScreenService = GetIt.instance.get<VerseScreenService>();
-          ChapterDetailedModel? chapterDetailedModel = verseScreenService.getVerseDetails(chapterNum, verseNum, receivedBook);
-          
-          if(chapterDetailedModel != null) {
-            ContextUtility.navigator?.pushNamed(
-                VerseScreen.routeName, arguments: chapterDetailedModel);
-          } else {
-            FirebaseCrashlytics.instance.recordFlutterFatalError(
-                FlutterErrorDetails(
-                    exception: Exception(
-                        ["Deep link error: not able to find verse - $receivedVerse for book - $receivedBook"]
-                    )
-                )
-            );
 
+          if(verseNum == "32xze") {
+            LibraryService libraryService = GetIt.instance.get<LibraryService>();
+            BooksModel? booksModel = libraryService.getBook(receivedBook);
+            HomePageServices homePageServices = GetIt.instance.get<HomePageServices>();
+            ChapterSummaryModel? chapterSummaryModel = homePageServices.getChapterSummary(chapterNum, receivedBook);
+            if(booksModel != null && chapterSummaryModel != null) {
+              ContextUtility.navigator?.pushNamed(
+                  ChapterScreen.routeName, arguments: [int.tryParse(chapterNum) ?? 0, chapterSummaryModel.nameTranslated, chapterSummaryModel.summary, booksModel]);
+            } else {
+              FirebaseCrashlytics.instance.recordFlutterFatalError(
+                  FlutterErrorDetails(
+                      exception: Exception(
+                          [
+                            "Deep link error: not able to find verse - $receivedVerse for book - $receivedBook"
+                          ]
+                      )
+                  )
+              );
+            }
+          } else {
+            VerseScreenService verseScreenService = GetIt.instance.get<
+                VerseScreenService>();
+            ChapterDetailedModel? chapterDetailedModel = verseScreenService
+                .getVerseDetails(chapterNum, verseNum, receivedBook);
+
+            if (chapterDetailedModel != null) {
+              ContextUtility.navigator?.pushNamed(
+                  VerseScreen.routeName, arguments: chapterDetailedModel);
+            } else {
+              FirebaseCrashlytics.instance.recordFlutterFatalError(
+                  FlutterErrorDetails(
+                      exception: Exception(
+                          [
+                            "Deep link error: not able to find verse - $receivedVerse for book - $receivedBook"
+                          ]
+                      )
+                  )
+              );
+            }
           }
         }
         
