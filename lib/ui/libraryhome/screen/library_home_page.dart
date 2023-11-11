@@ -14,10 +14,10 @@ import 'package:sbg/ui/widgets/default_app_bar.dart';
 import 'package:sbg/ui/widgets/home_app_bar.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
-import 'package:sbg/utils/navigation/unilink_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/books_model.dart';
+import '../../../services/navigation/unilink_service.dart';
 import '../../loading/service/loading_service.dart';
 import '../../settings/screen/settings_screen.dart';
 

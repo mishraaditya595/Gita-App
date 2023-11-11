@@ -12,6 +12,9 @@ import 'package:get_it/get_it.dart';
 import 'package:provider/provider.dart';
 import 'package:sbg/injection.dart';
 import 'package:sbg/services/db/database_service.dart';
+import 'package:sbg/services/navigation/context_utility.dart';
+import 'package:sbg/services/navigation/routers.dart';
+import 'package:sbg/services/navigation/unilink_service.dart';
 import 'package:sbg/services/notifications/firebase/firebase_messaging_service.dart';
 import 'package:sbg/ui/bookhome/provider/home_page_provider.dart';
 import 'package:sbg/ui/bookmark/provider/bookmark_provider.dart';
@@ -21,9 +24,6 @@ import 'package:sbg/ui/settings/provider/settings_screen_provider.dart';
 import 'package:sbg/ui/verse/provider/verse_screen_provider.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
-import 'package:sbg/utils/navigation/context_utility.dart';
-import 'package:sbg/utils/navigation/routers.dart';
-import 'package:sbg/utils/navigation/unilink_service.dart';
 
 import 'firebase_options.dart';
 

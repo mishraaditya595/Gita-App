@@ -13,6 +13,7 @@ import 'package:injectable/injectable.dart' as _i2;
 import 'package:sbg/services/cache/precache_image_service.dart' as _i10;
 import 'package:sbg/services/db/database_service.dart' as _i3;
 import 'package:sbg/services/device-info/device_info_service.dart' as _i4;
+import 'package:sbg/services/navigation/unilink_service.dart' as _i13;
 import 'package:sbg/services/notifications/firebase/firebase_messaging_service.dart'
     as _i5;
 import 'package:sbg/services/remote_config_service.dart' as _i11;
@@ -25,7 +26,6 @@ import 'package:sbg/ui/chapter/services/chapter_screen_service.dart' as _i16;
 import 'package:sbg/ui/libraryhome/services/library_services.dart' as _i8;
 import 'package:sbg/ui/loading/service/loading_service.dart' as _i9;
 import 'package:sbg/ui/verse/services/verse_screen_service.dart' as _i14;
-import 'package:sbg/utils/navigation/unilink_service.dart' as _i13;
 
 extension GetItInjectableX on _i1.GetIt {
 // initializes the registration of main-scope dependencies inside of GetIt
