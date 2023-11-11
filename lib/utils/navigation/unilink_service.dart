@@ -96,12 +96,15 @@ class UniLinksService {
 
     print("Params receivied: ${params.toString()}");
 
+    uniLinkRedirection(params: params);
+  }
+
+  static void uniLinkRedirection({required Map params, bool checkMissedUniLink = true}) async{
     String receivedBook = params['book'] ?? '';
     String receivedVerse = params['verse'] ?? '';
 
     if (receivedBook.isEmpty) return;
-    
-    
+
     if(ContextUtility.navigator != null) {
       if(receivedVerse.isEmpty) {
         LibraryService libraryService = GetIt.instance.get<LibraryService>();
@@ -166,9 +169,9 @@ class UniLinksService {
             }
           }
         }
-        
+
       }
-    } else {
+    } else if(checkMissedUniLink) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString("MISSED_DEEP_LINK", jsonEncode(params));
     }

@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -11,6 +14,7 @@ import 'package:sbg/ui/widgets/default_app_bar.dart';
 import 'package:sbg/ui/widgets/home_app_bar.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
+import 'package:sbg/utils/navigation/unilink_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/books_model.dart';
@@ -31,15 +35,7 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? missedDeepLinkParam = prefs.getString("MISSED_DEEP_LINK");
-      if(missedDeepLinkParam != null) {
-        print("Missed Deep Link: $missedDeepLinkParam");
-        prefs.remove("MISSED_DEEP_LINK");
-        await Navigator.of(context).pushNamed(SettingsScreen.routeName);
-      } else {
-        print("missed deep link not null");
-      }
+      unawaited(handleMissedDeepLink());
     });
   }
 
@@ -186,5 +182,17 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
 
 
 
+  }
+
+  Future<void> handleMissedDeepLink() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? missedDeepLinkParam = prefs.getString("MISSED_DEEP_LINK");
+    if(missedDeepLinkParam != null) {
+      print("Missed Deep Link: $missedDeepLinkParam");
+      prefs.remove("MISSED_DEEP_LINK");
+      UniLinksService.uniLinkRedirection(params: jsonDecode(missedDeepLinkParam), checkMissedUniLink: false);
+    } else {
+      print("missed deep link null");
+    }
   }
 }
