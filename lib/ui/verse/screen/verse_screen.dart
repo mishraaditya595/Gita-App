@@ -121,44 +121,45 @@ class _VerseScreenState extends State<VerseScreen> {
                                     ),
                                   ),
                                 ),
-                                !kIsWeb
-                                    ? ElevatedButton(
-                                    onPressed: () {
-                                      String deepLink = "gitavedanta.in/share?book=${provider.verseDetails.bookHashName}&verse=${provider.chapterNumber}.${provider.verseNumber}";
-                                      int length = provider.verseDetails.translation.length;
-                                      String verseText = provider.verseDetails.translation;
-                                      if(provider.verseDetails.translation.length > 140) {
-                                        verseText.substring(0, 139);
-                                        verseText += " ...";
-                                        verseText += "\n\n\nFind the complete verse at $deepLink";
-                                      } else {
-                                        verseText += "\n\n\nCheckout the verse at $deepLink";
-                                      }
-                                      Share.share(verseText);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                            backgroundColor: TransparentHexColor(ColourConstants.primaryDarker, OpacityValue.highOpacity),
-                                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                                            textStyle: const TextStyle(
-                                                fontSize: 15,
-                                              color: Colors.white
-                                            ),
-                                    ),
-                                    child: Container(
-                                      width: 150,
-                                      child: const Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                            child: Icon(Icons.share, color: Colors.white,),
-                                          ),
-                                          Text("Share the verse", style: TextStyle(color: Colors.white),),
-                                        ],
+                                Visibility(
+                                  visible: !kIsWeb,
+                                  child: ElevatedButton(
+                                      onPressed: () {
+                                        String deepLink = "gitavedanta.in/share?book=${provider.verseDetails.bookHashName}&verse=${provider.chapterNumber}.${provider.verseNumber}";
+                                        int length = provider.verseDetails.translation.length;
+                                        String verseText = provider.verseDetails.translation;
+                                        if(provider.verseDetails.translation.length > 140) {
+                                          verseText.substring(0, 139);
+                                          verseText += " ...";
+                                          verseText += "\n\n\nFind the complete verse at $deepLink";
+                                        } else {
+                                          verseText += "\n\n\nCheckout the verse at $deepLink";
+                                        }
+                                        Share.share(verseText);
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                              backgroundColor: TransparentHexColor(ColourConstants.primaryDarker, OpacityValue.highOpacity),
+                                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                                              textStyle: const TextStyle(
+                                                  fontSize: 15,
+                                                color: Colors.white
+                                              ),
                                       ),
-                                    )
-                                )
-                                    : const SizedBox.shrink()
+                                      child: Container(
+                                        width: 150,
+                                        child: const Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                              child: Icon(Icons.share, color: Colors.white,),
+                                            ),
+                                            Text("Share the verse", style: TextStyle(color: Colors.white),),
+                                          ],
+                                        ),
+                                      )
+                                  ),
+                                ),
                               ],
                             ),
                             Divider(

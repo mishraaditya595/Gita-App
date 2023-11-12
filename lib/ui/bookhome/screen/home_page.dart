@@ -94,40 +94,42 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                !kIsWeb
-                    ? Center(
-                      child: ElevatedButton(
-                      onPressed: () {
-                        String deepLink = "gitavedanta.in/share/?book=${homePageProvider.bookHashWord}";
-                        String shareText = "Find ${widget.bookModel.bookName} at the GitaVedanta library.";
-                        shareText += "\nLink: $deepLink";
+                Visibility(
+                  visible: !kIsWeb,
+                  child: Center(
+                        child: ElevatedButton(
+                        onPressed: () {
+                          String deepLink = "gitavedanta.in/share/?book=${homePageProvider.bookHashWord}";
+                          String shareText = "Find ${widget.bookModel.bookName} at the GitaVedanta library.";
+                          shareText += "\nLink: $deepLink";
 
-                        Share.share(shareText);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: TransparentHexColor(ColourConstants.primaryDarker, OpacityValue.highOpacity),
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                        textStyle: const TextStyle(
-                            fontSize: 15,
-                            color: Colors.white
+                          Share.share(shareText);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: TransparentHexColor(ColourConstants.primaryDarker, OpacityValue.highOpacity),
+                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                          textStyle: const TextStyle(
+                              fontSize: 15,
+                              color: Colors.white
+                          ),
                         ),
+                        child: Container(
+                          width: 160,
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                child: Icon(Icons.share, color: Colors.white,),
+                              ),
+                              Text("Share the book", style: TextStyle(color: Colors.white),),
+                            ],
+                          ),
+                        )
+                  ),
                       ),
-                      child: Container(
-                        width: 160,
-                        child: const Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Icon(Icons.share, color: Colors.white,),
-                            ),
-                            Text("Share the book", style: TextStyle(color: Colors.white),),
-                          ],
-                        ),
-                      )
                 ),
-                    )
-                    : const SizedBox.shrink(),
+
                 Visibility(
                   visible: homePageProvider.isLastReadAvailable,
                   child: Column(

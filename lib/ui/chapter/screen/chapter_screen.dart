@@ -92,43 +92,44 @@ class _ChapterScreenState extends State<ChapterScreen> {
                             onTap: () => provider.inflateChapterSummary(),
                             child: Text(provider.expandSummaryText)),
                       ),
-                      !kIsWeb
-                          ? ElevatedButton(
-                          onPressed: () {
-                            String deepLink = "gitavedanta.in/share/?book=${provider.bookHashWord}&verse=${widget.chapterNumber}.32xze";
-                            String chapterSummary = widget.chapterSummary;
-                            if(chapterSummary.length > 80) {
-                            chapterSummary.substring(0, 79);
-                            chapterSummary += " ...";
-                            chapterSummary += "\n\n\nCheckout the chapter at $deepLink";
-                            } else {
-                            chapterSummary += "\n\n\nCheckout the chapter at $deepLink";
-                            }
-                            Share.share(chapterSummary);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: TransparentHexColor(ColourConstants.primaryDarker, OpacityValue.highOpacity),
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
-                            textStyle: const TextStyle(
-                                fontSize: 15,
-                                color: Colors.white
+                      Visibility(
+                        visible: !kIsWeb,
+                        child: ElevatedButton(
+                            onPressed: () {
+                              String deepLink = "gitavedanta.in/share/?book=${provider.bookHashWord}&verse=${widget.chapterNumber}.32xze";
+                              String chapterSummary = widget.chapterSummary;
+                              if(chapterSummary.length > 80) {
+                              chapterSummary.substring(0, 79);
+                              chapterSummary += " ...";
+                              chapterSummary += "\n\n\nCheckout the chapter at $deepLink";
+                              } else {
+                              chapterSummary += "\n\n\nCheckout the chapter at $deepLink";
+                              }
+                              Share.share(chapterSummary);
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: TransparentHexColor(ColourConstants.primaryDarker, OpacityValue.highOpacity),
+                              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                              textStyle: const TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.white
+                              ),
                             ),
-                          ),
-                          child: Container(
-                            width: 160,
-                            child: const Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 8.0),
-                                  child: Icon(Icons.share, color: Colors.white,),
-                                ),
-                                Text("Share the chapter", style: TextStyle(color: Colors.white),),
-                              ],
-                            ),
-                          )
-                      )
-                          : const SizedBox.shrink(),
+                            child: Container(
+                              width: 160,
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Icon(Icons.share, color: Colors.white,),
+                                  ),
+                                  Text("Share the chapter", style: TextStyle(color: Colors.white),),
+                                ],
+                              ),
+                            )
+                        ),
+                      ),
                       ListView.builder(
                           shrinkWrap: true,
                           itemCount: provider.chapterDetailedList.length,
