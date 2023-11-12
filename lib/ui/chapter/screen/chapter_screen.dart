@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sbg/models/books_model.dart';
@@ -6,6 +7,7 @@ import 'package:sbg/models/chapter_detailed_model.dart';
 import 'package:sbg/ui/widgets/default_app_bar.dart';
 import 'package:sbg/ui/widgets/verse_card_widget.dart';
 import 'package:sbg/utils/colour_constants.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../utils/hexcolor.dart';
 import '../provider/chapter_screen_provider.dart';
@@ -90,9 +92,43 @@ class _ChapterScreenState extends State<ChapterScreen> {
                             onTap: () => provider.inflateChapterSummary(),
                             child: Text(provider.expandSummaryText)),
                       ),
-                      const SizedBox(
-                        height: 30,
-                      ),
+                      !kIsWeb
+                          ? ElevatedButton(
+                          onPressed: () {
+                            String deepLink = "gitavedanta.in/share/?book=${provider.bookHashWord}&verse=${widget.chapterNumber}.32xze";
+                            String chapterSummary = widget.chapterSummary;
+                            if(chapterSummary.length > 80) {
+                            chapterSummary.substring(0, 79);
+                            chapterSummary += " ...";
+                            chapterSummary += "\n\n\nCheckout the chapter at $deepLink";
+                            } else {
+                            chapterSummary += "\n\n\nCheckout the chapter at $deepLink";
+                            }
+                            Share.share(chapterSummary);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: TransparentHexColor(ColourConstants.primaryDarker, OpacityValue.highOpacity),
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                            textStyle: const TextStyle(
+                                fontSize: 15,
+                                color: Colors.white
+                            ),
+                          ),
+                          child: Container(
+                            width: 160,
+                            child: const Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: Icon(Icons.share, color: Colors.white,),
+                                ),
+                                Text("Share the chapter", style: TextStyle(color: Colors.white),),
+                              ],
+                            ),
+                          )
+                      )
+                          : const SizedBox.shrink(),
                       ListView.builder(
                           shrinkWrap: true,
                           itemCount: provider.chapterDetailedList.length,
