@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -9,6 +10,7 @@ import 'package:sbg/ui/widgets/chapter_card_widget.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/global_variables.dart';
 import 'package:sbg/utils/hexcolor.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:upgrader/upgrader.dart';
 import '../../../models/chapter_detailed_model.dart';
 import 'package:device_information/device_information.dart';
@@ -92,9 +94,40 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
+                !kIsWeb
+                    ? Center(
+                      child: ElevatedButton(
+                      onPressed: () {
+                        String deepLink = "gitavedanta.in/share/?book=${homePageProvider.bookHashWord}";
+                        String shareText = "Find ${widget.bookModel.bookName} at the GitaVedanta library.";
+                        shareText += "\nLink: $deepLink";
+
+                        Share.share(shareText);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: TransparentHexColor(ColourConstants.primaryDarker, OpacityValue.highOpacity),
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                        textStyle: const TextStyle(
+                            fontSize: 15,
+                            color: Colors.white
+                        ),
+                      ),
+                      child: Container(
+                        width: 160,
+                        child: const Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Icon(Icons.share, color: Colors.white,),
+                            ),
+                            Text("Share the book", style: TextStyle(color: Colors.white),),
+                          ],
+                        ),
+                      )
                 ),
+                    )
+                    : const SizedBox.shrink(),
                 Visibility(
                   visible: homePageProvider.isLastReadAvailable,
                   child: Column(
