@@ -45,7 +45,7 @@
                 <data
                         android:scheme="https"
                         android:host="gitavedanta.in"
-                        android:pathPrefix="/share/" />
+                        android:pathPrefix="/share" />
             </intent-filter>
 
         </activity>

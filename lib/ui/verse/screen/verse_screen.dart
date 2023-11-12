@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 import 'package:flutter_tts/flutter_tts.dart';
@@ -9,6 +10,7 @@ import 'package:provider/provider.dart';
 import 'package:sbg/services/text-to-speech/text_to_speech_service.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../models/chapter_detailed_model.dart';
@@ -100,25 +102,64 @@ class _VerseScreenState extends State<VerseScreen> {
                         padding: const EdgeInsets.only(top: 12.0),
                         child: Column(
                           children: [
-                            Card(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(
-                                  provider.verseDetails.text ?? '',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    color: HexColor(ColourConstants.primaryDarker),
+                            Column(
+                              children: [
+                                Card(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.0),
                                   ),
-                                  textAlign: TextAlign.center,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      provider.verseDetails.text ?? '',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 20,
+                                        color: HexColor(ColourConstants.primaryDarker),
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
                                 ),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
+                                !kIsWeb
+                                    ? ElevatedButton(
+                                    onPressed: () {
+                                      String deepLink = "gitavedanta.in/share?book=${provider.verseDetails.bookHashName}&verse=${provider.chapterNumber}.${provider.verseNumber}";
+                                      int length = provider.verseDetails.translation.length;
+                                      String verseText = provider.verseDetails.translation;
+                                      if(provider.verseDetails.translation.length > 140) {
+                                        verseText.substring(0, 139);
+                                        verseText += " ...";
+                                        verseText += "\n\n\nFind the complete verse at $deepLink";
+                                      } else {
+                                        verseText += "\n\n\nCheckout the verse at $deepLink";
+                                      }
+                                      Share.share(verseText);
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                            backgroundColor: TransparentHexColor(ColourConstants.primaryDarker, OpacityValue.highOpacity),
+                                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                                            textStyle: const TextStyle(
+                                                fontSize: 15,
+                                              color: Colors.white
+                                            ),
+                                    ),
+                                    child: Container(
+                                      width: 150,
+                                      child: const Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Padding(
+                                            padding: EdgeInsets.symmetric(horizontal: 8.0),
+                                            child: Icon(Icons.share, color: Colors.white,),
+                                          ),
+                                          Text("Share the verse", style: TextStyle(color: Colors.white),),
+                                        ],
+                                      ),
+                                    )
+                                )
+                                    : const SizedBox.shrink()
+                              ],
                             ),
                             Divider(
                               color: HexColor(ColourConstants.primaryDarker),

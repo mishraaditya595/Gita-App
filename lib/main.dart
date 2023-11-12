@@ -47,7 +47,9 @@ Future<void> main() async {
   configureDependencies();
   DatabaseService databaseService = GetIt.instance.get<DatabaseService>();
   await databaseService.init();
-  await UniLinksService.init();
+  if(!kIsWeb) {
+    await UniLinksService.init();
+  }
 
   runApp(const MyApp());
 }
