@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:liquid_pull_to_refresh/liquid_pull_to_refresh.dart';
@@ -15,6 +16,7 @@ import 'package:sbg/ui/widgets/home_app_bar.dart';
 import 'package:sbg/utils/colour_constants.dart';
 import 'package:sbg/utils/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/books_model.dart';
 import '../../../services/navigation/unilink_service.dart';
@@ -36,6 +38,9 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       unawaited(handleMissedDeepLink());
+      if(defaultTargetPlatform == TargetPlatform.android && kIsWeb) {
+        showInstallAppAlert();
+      }
     });
   }
 
@@ -194,5 +199,45 @@ class _LibraryHomePageState extends State<LibraryHomePage> {
     } else {
       print("missed deep link null");
     }
+  }
+
+  showInstallAppAlert() {
+    Widget installButton = TextButton(
+      child: const Text("INSTALL"),
+      onPressed: () async {
+        String url = "https://play.google.com/store/apps/details?id=com.sbg";
+        if(await canLaunchUrl(Uri.parse(url))) {
+          launchUrl(Uri.parse(url), mode: LaunchMode.externalNonBrowserApplication);
+        } else {
+
+        }
+      },
+    );
+
+    Widget debugIgnoreButton = TextButton(
+      child: const Text("debugIgnore"),
+      onPressed: ()  {
+        Navigator.of(context).pop();
+      },
+    );
+
+    List<Widget> alertButtons = [installButton];
+    if(kDebugMode) {
+      alertButtons.add(debugIgnoreButton);
+    }
+
+    AlertDialog alert = AlertDialog(
+        title: const Text("Enhance your experience!"),
+        content: const Text("Install our dedicated Android app from the Play Store for a seamless and optimized experience on your device. Enjoy exclusive features and better performance by switching to the app"),
+        actions: alertButtons
+    );
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }
